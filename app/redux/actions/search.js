@@ -1,8 +1,9 @@
-export const searchItems = (query, genres) => ({
+export const searchItems = (query, page=1, genres) => ({
   mode: 'GET',
   type: 'SEARCH_ITEMS',
   url: `search/${query}`,
-  data: genres && {
+  data: {
+    page,
     genres,
   }
 })

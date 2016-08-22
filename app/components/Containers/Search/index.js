@@ -20,10 +20,17 @@ export class Search extends Component {
   constructor(props){
     super(props)
     this.handleSearch = this.handleSearch.bind(this)
+    this.handlePageChange = this.handlePageChange.bind(this)
   }
   handleSearch(){
     this.props.searchItems(
       this.refs.searchField.value
+    )
+  }
+  handlePageChange(newPage){
+    this.props.searchItems(
+      this.refs.searchField.value,
+      newPage,
     )
   }
 
@@ -35,7 +42,7 @@ export class Search extends Component {
         <Helmet
           title="search"
           />
-        <h1>Search page</h1>
+        <h1>Search</h1>
         <div>
           <input type="text" ref="searchField"/>
           <button onClick={this.handleSearch}>Search</button>
@@ -46,6 +53,31 @@ export class Search extends Component {
               <MangaItemCard key={item.mangaid} {...item}/>
             ))
           }
+        </div>
+        <div className={s.pagination}>
+          <button
+            onClick={() => this.handlePageChange(search.page - 1)}
+            disabled={search.page < 2}
+            >Previous</button>
+          {
+            ((search) => {
+              const buttons = []
+              for (let i = 1; i <= search.totalPages; i++) {
+                buttons.push(
+                  <button
+                    key={'page'+i}
+                    onClick={() => this.handlePageChange(i)}
+                    disabled={search.page == i}
+                    >{i}</button>
+                )
+              }
+              return buttons
+            })(search)
+          }
+          <button
+            onClick={() => this.handlePageChange(search.page + 1)}
+            disabled={search.page >= search.totalPages}
+            >Next</button>
         </div>
       </section>
     )
