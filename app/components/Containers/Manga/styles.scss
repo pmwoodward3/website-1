@@ -1,0 +1,11 @@
+.root {
+  position: relative;
+
+  padding: 15px 25px;
+}
+
+.list {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}

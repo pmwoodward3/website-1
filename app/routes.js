@@ -1,23 +1,18 @@
 import React from 'react'
-import { Route, IndexRoute } from 'react-router'
-
-import { asyncComponent } from './utils/asyncComponent' /* for async page, show loading component */
+import { Route, IndexRedirect } from 'react-router'
 
 import Root from './components/Root'
-import Posts from './components/Containers/Posts'
-import About from './components/Containers/About'
+import Releases from './components/Containers/Releases'
+import Search from './components/Containers/Search'
+import Manga from './components/Containers/Manga'
+import Chapter from './components/Containers/Chapter'
 
 export default (
   <Route path="/" component={Root}>
-    <IndexRoute component={Posts} />
-    {}
-    <Route path="/async-example" getComponent={(location, callback) =>
-      __CLIENT__
-        ? asyncComponent(require.ensure([], require => callback('', require('./components/Containers/AsyncExample').default), 'async-example'))
-        : callback('', require('./components/Containers/AsyncExample').default)
-    } />
-
-    <Route path="/posts" component={Posts} />
-    <Route path="/about" component={About} />
+    <IndexRedirect to="/releases" />
+    <Route path="/releases" component={Releases} />
+    <Route path="/search" component={Search} />
+    <Route path="/manga/:mangaid" component={Manga} />
+    <Route path="/manga/:mangaid/:chapternum" component={Chapter} />
   </Route>
 )

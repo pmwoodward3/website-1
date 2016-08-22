@@ -10,20 +10,14 @@ const Header = () => (
   <div className={s.root}>
     <ul className={s.menu}>
       <li>
-        <Link to="/posts">
-          Posts
+        <Link to="/releases">
+          Releases
         </Link>
       </li>
 
       <li>
-        <Link to="/about">
-          About
-        </Link>
-      </li>
-
-      <li>
-        <Link to="/async-example">
-          Async page example
+        <Link to="/search">
+          Search
         </Link>
       </li>
     </ul>

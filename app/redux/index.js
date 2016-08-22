@@ -1,11 +1,43 @@
-import { combineReducers } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import createLogger from 'redux-logger'
+import rootReducer from './reducers'
+import { promiseMiddleware } from './middleware/promise'
+import { apiMiddleware } from './middleware/api'
 
-import app from './modules/app/app'
-import posts from './modules/posts/posts'
+const __PRODUCTION__ = __PRODUCTION__ || process.env.NODE_ENV === 'production'; // eslint-disable-line
 
-const rootReducer = combineReducers({
-  app,
-  posts,
+const logger = createLogger({
+  collapsed: true,
+  predicate: () =>
+    process.env.NODE_ENV === 'development',
 })
 
-export default rootReducer
+const middlewares = [
+  apiMiddleware,
+  promiseMiddleware(),
+  thunkMiddleware,
+  !__PRODUCTION__ && __CLIENT__ && logger,
+].filter(Boolean)
+
+const createStoreWithMiddleware = applyMiddleware(
+  ...middlewares,
+)(createStore)
+
+export default function configureStore(initialState) {
+  const store = createStoreWithMiddleware(
+    rootReducer,
+    initialState,
+    !__PRODUCTION__ && window.devToolsExtension && window.devToolsExtension(),
+  )
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('../', () => {
+      const nextRootReducer = require('../index').default
+      store.replaceReducer(nextRootReducer)
+    })
+  }
+
+  return store
+}

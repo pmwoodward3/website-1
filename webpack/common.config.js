@@ -1,21 +1,21 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const development = require('./dev.config.js');
-const production = require('./prod.config.js');
-const path = require('path');
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const development = require('./dev.config.js')
+const production = require('./prod.config.js')
+const path = require('path')
 
-const TARGET = process.env.npm_lifecycle_event;
-process.env.BABEL_ENV = TARGET;
+const TARGET = process.env.npm_lifecycle_event
+process.env.BABEL_ENV = TARGET
 
-var devUrl;
+let devUrl
 
 // Location dist for dev and prod
 if (process.env.NODE_ENV === 'development') {
-  devUrl = 'http://localhost:3000/dist/';
+  devUrl = 'http://localhost:3000/dist/'
 }
 
 if (process.env.NODE_ENV === 'production') {
-  devUrl = '/dist/';
+  devUrl = '/dist/'
 }
 
 const common = {
@@ -32,9 +32,9 @@ const common = {
     // Webpack alias for beautiful import
     alias: {
       components: path.join(__dirname, '../app/components/'),
-      'redux/modules': path.join(__dirname, '../app/redux/modules/'),
+      'redux/actions': path.join(__dirname, '../app/redux/actions'),
+      'redux/selectors': path.join(__dirname, '../app/redux/selectors'),
       constants: path.join(__dirname, '../app/constants/'),
-      decorators: path.join(__dirname, '../app/decorators/'),
       utils: path.join(__dirname, '../app/utils/'),
       test: path.join(__dirname, '../app/test/'),
     },
@@ -112,12 +112,12 @@ const common = {
       remove: false,
     }),
   ],
-};
+}
 
 if (process.env.NODE_ENV === 'development') {
-  module.exports = merge(development, common);
+  module.exports = merge(development, common)
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = merge(production, common);
+  module.exports = merge(production, common)
 }
