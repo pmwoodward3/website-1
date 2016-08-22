@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme'
 import { Posts } from './'
 import { defaultState } from 'test/constants'
-import s from './styles.css'
+import s from './styles.scss'
 
 describe('Posts component', () => {
   const posts = [

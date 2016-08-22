@@ -7,7 +7,7 @@ import R from 'ramda'
 import * as actionCreators from 'redux/modules'
 
 /* component styles */
-import s from './styles.css'
+import s from './styles.scss'
 
 export class Posts extends Component {
   static propTypes = {

@@ -3,7 +3,7 @@
 import React from 'react'
 
 /* component styles */
-import s from './styles.css'
+import s from './styles.scss'
 
 const Loading = () => (
   <div className={s.root}>Loading...</div>

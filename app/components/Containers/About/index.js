@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Helmet from 'react-helmet'
 
 /* component styles */
-import s from './styles.css'
+import s from './styles.scss'
 
 class About extends Component {
   render() {

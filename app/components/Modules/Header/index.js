@@ -4,7 +4,7 @@ import React from 'react'
 import { Link } from 'react-router'
 
 /* component styles */
-import s from './styles.css'
+import s from './styles.scss'
 
 const Header = () => (
   <div className={s.root}>

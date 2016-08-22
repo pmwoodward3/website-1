@@ -10,7 +10,7 @@ import Header from 'components/Modules/Header'
 
 /* global styles for app */
 if (__CLIENT__) {
-  require('./styles/app.css')
+  require('./styles/app.scss')
 }
 
 @connect(

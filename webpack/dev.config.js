@@ -14,9 +14,13 @@ module.exports = {
   module: {
     // Loader fo css modules (https://github.com/gajus/react-css-modules)
     loaders: [{
-      test: /\.css$/,
-      loader: 'style!css?module&localIdentName=[path]__[name]__[local]!postcss',
+      test: /\.scss$/,
+      loader: 'style!css?module&localIdentName=[path]__[name]__[local]!postcss-loader!sass',
     }],
+  },
+
+  sassLoader: {
+    includePaths: [ 'app/styles' ],
   },
 
   plugins: [

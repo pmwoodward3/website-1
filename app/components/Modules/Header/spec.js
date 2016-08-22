@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme'
 import Header from './'
-import s from './styles.css'
+import s from './styles.scss'
 
 describe('Header component', () => {
   const element = shallow(<Header />)
