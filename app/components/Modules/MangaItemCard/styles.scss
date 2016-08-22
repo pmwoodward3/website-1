@@ -1,11 +1,14 @@
+$width: 170px;
+
 .root {
   display: flex;
   flex-direction: column;
-  width: 200px;
+  width: $width;
   margin: 10px;
+  overflow: hidden;
 }
 
 .cover {
-  height: 300px;
-  width: 200px;
+  height: 250px;
+  width: $width;
 }
