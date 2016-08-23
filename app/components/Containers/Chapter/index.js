@@ -28,9 +28,8 @@ export class Chapter extends Component {
     this.handlePreviousPage = props.previousChapterPage
   }
   componentDidMount(){
-    const { getChapter, params } = this.props
-    console.log(params)
-    getChapter(params.mangaid, params.chapternum)
+    const { getChapter, params, location } = this.props
+    getChapter(params.mangaid, params.chapternum, location.query.source)
   }
 
   render() {
@@ -49,7 +48,9 @@ export class Chapter extends Component {
               className={s.controlBtn}
               onClick={this.handlePreviousPage}
               >Previous</button>
-            <img src={url} className={s.viewer} referrerPolicy="no-referrer"/>
+            <div className={s.viewer}>
+              <img src={url} referrerPolicy="no-referrer"/>
+            </div>
             <button
               className={s.controlBtn}
               onClick={this.handleNextPage}

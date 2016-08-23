@@ -13,11 +13,11 @@
 }
 
 .viewer {
-  display: flex;
-  flex-direction: column;
-  max-width: 70%;
-  overflow: auto;
-  object-fit: contain;
+  width: 70%;
+  overflow-y: auto;
+  img {
+    width: 100%;
+  }
 }
 .controlBtn {
   flex: 1;
