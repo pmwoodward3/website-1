@@ -26,7 +26,7 @@ export default class Root extends Component {
           title="posts"
           />
 
-        <Header />
+        <Header/>
         {this.props.children &&
         React.cloneElement(this.props.children, this.props)}
       </section>

@@ -19,34 +19,37 @@ export class Search extends Component {
 
   constructor(props){
     super(props)
-    this.handleSearch = this.handleSearch.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
   }
-  handleSearch(){
-    this.props.searchItems(
-      this.refs.searchField.value
+  componentDidMount(){
+    this.handleSearch()
+  }
+  componentWillUpdate(newProps){
+    if(this.props.params.query != newProps.params.query){
+      this.handleSearch(newProps)
+    }
+  }
+  handleSearch(props=this.props){
+    props.searchItems(
+      props.params.query,
     )
   }
   handlePageChange(newPage){
     this.props.searchItems(
-      this.refs.searchField.value,
+      this.props.params.query,
       newPage,
     )
   }
 
   render() {
-    const { search } = this.props
+    const { search, params } = this.props
 
     return (
       <section className={s.root}>
         <Helmet
           title="search"
           />
-        <h1>Search</h1>
-        <div>
-          <input type="text" ref="searchField"/>
-          <button onClick={this.handleSearch}>Search</button>
-        </div>
+        <h1>Search Results for {`\"${params.query}\"`}</h1>
         <div className={s.list}>
           {
             search.items.map((item) => (

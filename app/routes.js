@@ -11,7 +11,7 @@ export default (
   <Route path="/" component={Root}>
     <IndexRedirect to="/releases" />
     <Route path="/releases" component={Releases} />
-    <Route path="/search" component={Search} />
+    <Route path="/search/:query" component={Search} />
     <Route path="/manga/:mangaid" component={Manga} />
     <Route path="/manga/:mangaid/:chapternum" component={Chapter} />
   </Route>
