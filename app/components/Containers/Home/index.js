@@ -14,6 +14,7 @@ import MangaItemCard from 'components/Modules/MangaItemCard'
 export class Home extends Component {
   static propTypes = {
     releases: PropTypes.object.isRequired,
+    myList: PropTypes.object.isRequired,
     getReleases: PropTypes.func.isRequired,
   };
 
@@ -23,7 +24,7 @@ export class Home extends Component {
   }
 
   render() {
-    const { releases } = this.props
+    const { releases, myList } = this.props
 
     return (
       <section className={s.root}>
@@ -34,6 +35,16 @@ export class Home extends Component {
           <p>
             SausageBrain is the premier manga reading platform. We combine the best sources to give you the biggest library available.
           </p>
+        </section>
+        <section>
+          <h2>My Reading List</h2>
+          <div className={s.myList}>
+            {
+              myList.items.map((item) =>
+              <MangaItemCard key={'readingHistory'+item.mangaid} {...item}/>
+            )
+          }
+          </div>
         </section>
         <section>
           <h2>New Releases</h2>
@@ -53,6 +64,7 @@ export class Home extends Component {
 export default connect(
   state => ({
     releases: state.releases,
+    myList: state.myList,
   }),
   {
     getReleases,

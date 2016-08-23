@@ -7,6 +7,7 @@ import hashit from 'hash-it'
 import R from 'ramda'
 
 import { getManga } from 'redux/actions/manga'
+import { addMyListItem } from 'redux/actions/myList'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
@@ -15,19 +16,38 @@ export class Manga extends Component {
   static propTypes = {
     manga: PropTypes.object.isRequired,
     getManga: PropTypes.func.isRequired,
+    addMyListItem: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleSourceChange = this.handleSourceChange.bind(this)
+    this.handleMangaChange = this.handleMangaChange.bind(this)
+    this.handleAddToMyList = this.handleAddToMyList.bind(this)
   }
   componentDidMount(){
-    const { getManga, params, manga } = this.props
-    getManga(params.mangaid, manga.source)
+    this.handleMangaChange()
+  }
+  componentWillUpdate(newProps){
+    if(this.props.params.mangaid != newProps.params.mangaid){
+      this.handleMangaChange(newProps)
+    }
   }
   handleSourceChange({target}){
     const { getManga, params } = this.props
     getManga(params.mangaid, target.value)
+  }
+  handleMangaChange(props=this.props){
+    const { getManga, params, manga } = props
+    getManga(params.mangaid, manga.source)
+  }
+  handleAddToMyList(){
+    const {mangaid, title, cover} = this.props.manga.details
+    this.props.addMyListItem({
+      mangaid,
+      title,
+      cover,
+    })
   }
 
   render() {
@@ -40,7 +60,10 @@ export class Manga extends Component {
           <Helmet
             title={details.title}
             />
-          <h1>{details.title}</h1>
+          <h1>
+            {details.title}
+            <button onClick={this.handleAddToMyList}>Add To My List</button>
+          </h1>
           <img src={details.cover} referrerPolicy="no-referrer"/>
           <p>
             <strong>Author: </strong>
@@ -79,7 +102,7 @@ export class Manga extends Component {
                 {chapters.map(({chapternum, title}) => (
                   <li key={chapternum}>
                     <strong>{chapternum}: </strong>
-                    <Link to={`/manga/${details.mangaid}/${chapternum}`}>
+                    <Link to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}>
                       {title}
                     </Link>
                   </li>
@@ -111,5 +134,6 @@ export default connect(
   }),
   {
     getManga,
+    addMyListItem,
   }
 )(Manga)

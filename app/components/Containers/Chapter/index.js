@@ -11,7 +11,6 @@ import {
   nextChapterPage,
   previousChapterPage,
 } from 'redux/actions/chapter'
-import { addReadingHistory } from 'redux/actions/readingHistory'
 
 import s from './styles.scss'
 
@@ -21,7 +20,6 @@ export class Chapter extends Component {
     getChapter: PropTypes.func.isRequired,
     nextChapterPage: PropTypes.func.isRequired,
     previousChapterPage: PropTypes.func.isRequired,
-    addReadingHistory: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -86,6 +84,5 @@ export default connect(
     getChapter,
     nextChapterPage,
     previousChapterPage,
-    addReadingHistory,
   }
 )(Chapter)

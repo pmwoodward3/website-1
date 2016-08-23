@@ -3,6 +3,12 @@
   padding: 15px 25px;
 }
 
+.myList {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+}
+
 .list {
   display: flex;
   justify-content: center;

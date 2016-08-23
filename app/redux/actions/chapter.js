@@ -1,7 +1,10 @@
-export const getChapter = (mangaid, chapternum) => ({
+export const getChapter = (mangaid, chapternum, source="mangaeden") => ({
   mode: 'GET',
   type: 'GET_CHAPTER',
   url: `manga/${mangaid}/${chapternum}`,
+  data: {
+    source,
+  }
 })
 
 export const nextChapterPage = () => ({

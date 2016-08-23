@@ -6,13 +6,13 @@ const initialState = {
 }
 
 export default createReducer({
+  ['GET_CHAPTER_REQUEST']: (state, { payload }) => initialState,
   ['GET_CHAPTER_SUCCESS']: (state, { payload }) => ({
     pagenum: 1,
     items: payload.pages,
   }),
 
-  ['GET_CHAPTER_FAILURE']: (state, { payload, error }) =>
-  console.error('error', error),
+  ['GET_CHAPTER_FAILURE']: (state, { payload, error }) => initialState,
 
   ['NEXT_CHAPTER_PAGE']: (state) => {
     let pagenum = state.pagenum + 1

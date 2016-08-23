@@ -3,6 +3,7 @@ $width: 150px;
 .root {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   width: $width;
   margin: 10px;
   overflow: hidden;
