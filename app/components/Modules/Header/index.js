@@ -1,7 +1,7 @@
 // Simple header component
 
 import React from 'react'
-import { browserHistory, Link } from 'react-router'
+import { browserHistory, Link, IndexLink } from 'react-router'
 
 /* component styles */
 import s from './styles.scss'
@@ -22,12 +22,18 @@ export default class Header extends React.Component {
       <div className={s.root}>
         <ul className={s.menu}>
           <li>
-            <Link to="/releases">
+            <IndexLink to="/" activeClassName={s.active}>
+              Home
+            </IndexLink>
+          </li>
+
+          <li>
+            <Link to="/releases" activeClassName={s.active}>
               Releases
             </Link>
           </li>
 
-          <li>
+          <li className={s.search}>
             <input type="text" ref="searchField"/>
             <button onClick={this.handleSearch}>Search</button>
           </li>
