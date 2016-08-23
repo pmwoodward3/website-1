@@ -31,6 +31,11 @@ export class Home extends Component {
           title="Home"
           />
         <section>
+          <p>
+            SausageBrain is the premier manga reading platform. We combine the best sources to give you the biggest library available.
+          </p>
+        </section>
+        <section>
           <h2>New Releases</h2>
           <div className={s.list}>
             {

@@ -19,10 +19,15 @@ export class Manga extends Component {
 
   constructor(props){
     super(props)
+    this.handleSourceChange = this.handleSourceChange.bind(this)
   }
   componentDidMount(){
+    const { getManga, params, manga } = this.props
+    getManga(params.mangaid, manga.source)
+  }
+  handleSourceChange({target}){
     const { getManga, params } = this.props
-    getManga(params.mangaid)
+    getManga(params.mangaid, target.value)
   }
 
   render() {
@@ -63,9 +68,13 @@ export class Manga extends Component {
           <p>{details.summary}</p>
           {chapters && (
             <div>
-              <p>
-                <strong>Chapters: </strong>
-              </p>
+              <p><strong>Chapters: </strong></p>
+              <p><strong>Source: </strong></p>
+              <select onChange={this.handleSourceChange} value={manga.source}>
+                {sources.map(({sourceslug, aliasid}) => (
+                  <option key={sourceslug} value={sourceslug}>{sourceslug}</option>
+                ))}
+              </select>
               <ul>
                 {chapters.map(({chapternum, title}) => (
                   <li key={chapternum}>
