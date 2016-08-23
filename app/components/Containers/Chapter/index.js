@@ -11,6 +11,7 @@ import {
   nextChapterPage,
   previousChapterPage,
 } from 'redux/actions/chapter'
+import { addReadingHistory } from 'redux/actions/readingHistory'
 
 import s from './styles.scss'
 
@@ -20,15 +21,28 @@ export class Chapter extends Component {
     getChapter: PropTypes.func.isRequired,
     nextChapterPage: PropTypes.func.isRequired,
     previousChapterPage: PropTypes.func.isRequired,
+    addReadingHistory: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleNextPage = props.nextChapterPage
     this.handlePreviousPage = props.previousChapterPage
+    this.handleChapterChange = this.handleChapterChange.bind(this)
   }
   componentDidMount(){
-    const { getChapter, params, location } = this.props
+    this.handleChapterChange()
+  }
+  componentWillUpdate(newProps){
+    const isNewManga = this.props.params.mangaid != newProps.params.mangaid
+    const isNewChapter = this.props.params.chapternum != newProps.params.chapternum
+    const isNewSource = this.props.location.query.source != newProps.location.query.source
+    if(isNewChapter || isNewManga || isNewSource){
+      this.handleChapterChange(newProps)
+    }
+  }
+  handleChapterChange(props=this.props){
+    const { getChapter, params, location } = props
     getChapter(params.mangaid, params.chapternum, location.query.source)
   }
 
@@ -72,5 +86,6 @@ export default connect(
     getChapter,
     nextChapterPage,
     previousChapterPage,
+    addReadingHistory,
   }
 )(Chapter)
