@@ -4,7 +4,7 @@ const initialState = {
   details: {},
   sources: {},
   chapters: [],
-  source: 'mangafox',
+  source: 'mangaeden',
 }
 
 export default createReducer({
