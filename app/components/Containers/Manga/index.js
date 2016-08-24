@@ -104,7 +104,7 @@ export class Manga extends Component {
               <ul>
                 {chapters.map(({chapternum, title}) => (
                   <li key={chapternum}>
-                    <strong>{chapternum}: </strong>
+                    <strong>{Math.round(chapternum * 100) / 100}: </strong>
                     <Link to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}>
                       {title}
                     </Link>
