@@ -5,6 +5,6 @@ export const searchItems = (query, page=1, genres) => ({
   data: {
     page,
     genres,
-    length: 15,
+    length: 25,
   }
 })
