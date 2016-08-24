@@ -3,15 +3,8 @@
   padding: 15px 25px;
 }
 
-.myList {
+.list {
   display: flex;
   flex-direction: row;
   overflow: auto;
-}
-
-.list {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
 }

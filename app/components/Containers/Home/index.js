@@ -24,7 +24,7 @@ export class Home extends Component {
   }
 
   render() {
-    const { releases, myList } = this.props
+    const { releases, myList, readingHistory } = this.props
 
     return (
       <section className={s.root}>
@@ -32,39 +32,60 @@ export class Home extends Component {
           title="Home"
           />
         <section>
-          <p>
-            SausageBrain is the premier manga reading platform. We combine the best sources to give you the biggest library available.
-          </p>
-        </section>
-        <section>
-          <h2>My Reading List</h2>
-          <div className={s.myList}>
-            {
-              myList.items.map((item) =>
-              <MangaItemCard key={'readingHistory'+item.mangaid} {...item}/>
-            )
-          }
+          <h3>Continue Reading</h3>
+          <div className={s.list}>
+            {readingHistory.items.map(({chapternum, pagenum, mangaid}) =>
+              <MangaItemCard
+                key={'readingHistory'+mangaid}
+                title="test"
+                mangaid={mangaid}
+                chapternum={chapternum}
+                pagenum={pagenum + 1}/>
+            )}
           </div>
         </section>
         <section>
-          <h2>New Releases</h2>
+          <h3>My List</h3>
           <div className={s.list}>
-            {
-              releases.items.map((item) =>
-              <MangaItemCard key={hashit(item)} {...item}/>
-            )
-          }
-        </div>
+            {myList.items.map((item) =>
+              <MangaItemCard key={'myList'+item.mangaid} {...item}/>
+            )}
+          </div>
+        </section>
+        <section>
+          <h3>New Releases</h3>
+          <div className={s.list}>
+            {releases.items.map((item) =>
+              <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
+            )}
+          </div>
+        </section>
+        <section>
+          <h3>Recomended For You</h3>
+          <div className={s.list}>
+            {releases.items.map((item) =>
+              <MangaItemCard key={'recomended'+hashit(item)} {...item}/>
+            )}
+          </div>
+        </section>
+        <section>
+          <h3>Popular Right Now</h3>
+          <div className={s.list}>
+            {releases.items.map((item) =>
+              <MangaItemCard key={'popular'+hashit(item)} {...item}/>
+            )}
+          </div>
+        </section>
       </section>
-    </section>
-  )
-}
+    )
+  }
 }
 
 export default connect(
   state => ({
     releases: state.releases,
     myList: state.myList,
+    readingHistory: state.readingHistory,
   }),
   {
     getReleases,

@@ -2,4 +2,9 @@
 :global {
   @import 'normalize';
   @import 'typography';
+
+  //Trick to use hwacceleration on some browsers
+  .hwaccel {
+    -webkit-transform: translateZ(0);
+  }
 }

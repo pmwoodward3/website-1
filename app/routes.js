@@ -12,6 +12,6 @@ export default (
     <IndexRoute component={Home} />
     <Route path="/search/:query" component={Search} />
     <Route path="/manga/:mangaid" component={Manga} />
-    <Route path="/manga/:mangaid/:chapternum" component={Chapter} />
+    <Route path="/manga/:mangaid/:chapternum(/:pagenum)" component={Chapter} />
   </Route>
 )

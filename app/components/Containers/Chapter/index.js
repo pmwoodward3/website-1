@@ -1,16 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import hashit from 'hash-it'
 import R from 'ramda'
 
 import {
   getChapter,
-  nextChapterPage,
-  previousChapterPage,
 } from 'redux/actions/chapter'
+import { addReadingHistory } from 'redux/actions/readingHistory'
 
 import BreadCrumbs from 'components/Modules/BreadCrumbs'
 import s from './styles.scss'
@@ -19,25 +18,31 @@ export class Chapter extends Component {
   static propTypes = {
     chapter: PropTypes.object.isRequired,
     getChapter: PropTypes.func.isRequired,
-    nextChapterPage: PropTypes.func.isRequired,
-    previousChapterPage: PropTypes.func.isRequired,
+    addReadingHistory: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
-    this.handleNextPage = props.nextChapterPage
-    this.handlePreviousPage = props.previousChapterPage
+    this.handleNextPage = this.handleNextPage.bind(this)
+    this.handlePreviousPage = this.handlePreviousPage.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.handleImgLoad = this.handleImgLoad.bind(this)
+    this.changePage = this.changePage.bind(this)
   }
   componentDidMount(){
-    this.handleChapterChange()
+    const { params } = this.props
+    if(params.pagenum){
+      this.handleChapterChange()
+    }else{
+      this.changePage(1)
+    }
   }
   componentWillUpdate(newProps){
     const isNewManga = this.props.params.mangaid != newProps.params.mangaid
     const isNewChapter = this.props.params.chapternum != newProps.params.chapternum
     const isNewSource = this.props.location.query.source != newProps.location.query.source
-    if(isNewChapter || isNewManga || isNewSource){
+    const hasPagenumNow = !this.props.params.pagenum && newProps.params.pagenum
+    if(isNewChapter || isNewManga || isNewSource || hasPagenumNow){
       this.handleChapterChange(newProps)
     }
   }
@@ -46,7 +51,28 @@ export class Chapter extends Component {
     getChapter(params.mangaid, params.chapternum, location.query.source)
   }
   handleImgLoad(){
+    const { addReadingHistory, params, chapter } = this.props
     this.refs.viewer.scrollTop = 0
+
+    if(chapter.items.length > 0){
+      addReadingHistory({
+        mangaid: parseInt(params.mangaid),
+        chapternum: parseInt(params.chapternum),
+        pagenum: parseInt(params.pagenum),
+      })
+    }
+  }
+  changePage(newPage){
+    const { params, location } = this.props
+    browserHistory.push(`/manga/${params.mangaid}/${params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
+  }
+  handleNextPage(){
+    const { params, location } = this.props
+    this.changePage(parseInt(params.pagenum) + 1)
+  }
+  handlePreviousPage(){
+    const { params } = this.props
+    this.changePage(parseInt(params.pagenum) - 1)
   }
 
   render() {
@@ -56,20 +82,26 @@ export class Chapter extends Component {
       {title: `Chapter ${params.chapternum}`, url: ''},
     ]
 
-    if(chapter.items.length > 0){
-      const {url} = chapter.items[chapter.pagenum - 1]
+    const pagenum = parseInt(params.pagenum)
+
+    const isChapterLoaded = chapter.items.length > 0
+    const hasPagenum = pagenum
+    const isPagenumValid = pagenum > 0 && pagenum <= chapter.items.length
+
+    if(isChapterLoaded && hasPagenum && isPagenumValid){
+      const {url} = chapter.items[pagenum - 1]
       return (
         <section className={s.section}>
           <Helmet
             title="Chapter"
             />
           <BreadCrumbs items={hierarchy}/>
-          <h1>Page: {chapter.pagenum}</h1>
+          <h1>Page: {pagenum}</h1>
           <div className={s.container}>
             <button
               className={s.controlBtn}
               onClick={this.handlePreviousPage}
-              disabled={chapter.pagenum < 2}
+              disabled={pagenum < 2}
               >Previous</button>
             <div className={s.viewer} ref="viewer">
               <img src={url} referrerPolicy="no-referrer" onLoad={this.handleImgLoad}/>
@@ -77,7 +109,7 @@ export class Chapter extends Component {
             <button
               className={s.controlBtn}
               onClick={this.handleNextPage}
-              disabled={chapter.pagenum >= chapter.items.length}
+              disabled={pagenum >= chapter.items.length}
               >Next</button>
           </div>
         </section>
@@ -94,7 +126,6 @@ export default connect(
   }),
   {
     getChapter,
-    nextChapterPage,
-    previousChapterPage,
+    addReadingHistory,
   }
 )(Chapter)

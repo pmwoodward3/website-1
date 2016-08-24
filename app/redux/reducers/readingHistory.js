@@ -5,7 +5,7 @@ const initialState = {
 }
 
 export default createReducer({
-  ['ADD_MY_LIST_ITEM']: (state, { payload }) => {
+  ['ADD_READING_HISTORY']: (state, { payload }) => {
     return {
       ...state,
       items: [
