@@ -62,7 +62,10 @@ export class Manga extends Component {
             />
           <h1>
             {details.title}
-            <button onClick={this.handleAddToMyList}>Add To My List</button>
+            <button
+              className={s.myListBtn}
+              onClick={this.handleAddToMyList}
+              >Add To My List</button>
           </h1>
           <img src={details.cover} referrerPolicy="no-referrer"/>
           <p>
