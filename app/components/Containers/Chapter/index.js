@@ -27,6 +27,8 @@ export class Chapter extends Component {
     this.handleNextPage = props.nextChapterPage
     this.handlePreviousPage = props.previousChapterPage
     this.handleChapterChange = this.handleChapterChange.bind(this)
+    this.handleImgLoad = this.handleImgLoad.bind(this)
+    this.addImgEventListener = this.addImgEventListener.bind(this)
   }
   componentDidMount(){
     this.handleChapterChange()
@@ -59,13 +61,15 @@ export class Chapter extends Component {
             <button
               className={s.controlBtn}
               onClick={this.handlePreviousPage}
+              disabled={chapter.pagenum < 2}
               >Previous</button>
             <div className={s.viewer}>
-              <img src={url} referrerPolicy="no-referrer"/>
+              <img src={url} referrerPolicy="no-referrer" ref="img"/>
             </div>
             <button
               className={s.controlBtn}
               onClick={this.handleNextPage}
+              disabled={chapter.pagenum >= chapter.items.length}
               >Next</button>
           </div>
         </section>
