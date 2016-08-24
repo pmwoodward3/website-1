@@ -89,7 +89,7 @@ export class Manga extends Component {
             <strong>Summary: </strong>
           </p>
           <p>{details.summary}</p>
-          {chapters && (
+          {(sources && chapters) ? (
             <div>
               <p><strong>Chapters: </strong></p>
               <p><strong>Source: </strong></p>
@@ -109,6 +109,10 @@ export class Manga extends Component {
                 ))}
               </ul>
             </div>
+          ) : (
+            <strong>
+              No chapters available. This manga was not found in any source.
+            </strong>
           )}
           {details.recommendations && (
             <div>
