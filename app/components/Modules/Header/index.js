@@ -27,12 +27,6 @@ export default class Header extends React.Component {
             </IndexLink>
           </li>
 
-          <li>
-            <Link to="/releases" activeClassName={s.active}>
-              Releases
-            </Link>
-          </li>
-
           <li className={s.search}>
             <input type="text" ref="searchField"/>
             <button onClick={this.handleSearch}>Search</button>
