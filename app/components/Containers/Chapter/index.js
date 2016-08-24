@@ -12,6 +12,7 @@ import {
   previousChapterPage,
 } from 'redux/actions/chapter'
 
+import BreadCrumbs from 'components/Modules/BreadCrumbs'
 import s from './styles.scss'
 
 export class Chapter extends Component {
@@ -28,7 +29,6 @@ export class Chapter extends Component {
     this.handlePreviousPage = props.previousChapterPage
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.handleImgLoad = this.handleImgLoad.bind(this)
-    this.addImgEventListener = this.addImgEventListener.bind(this)
   }
   componentDidMount(){
     this.handleChapterChange()
@@ -45,9 +45,16 @@ export class Chapter extends Component {
     const { getChapter, params, location } = props
     getChapter(params.mangaid, params.chapternum, location.query.source)
   }
+  handleImgLoad(){
+    this.refs.viewer.scrollTop = 0
+  }
 
   render() {
     const { chapter, params } = this.props
+    const hierarchy = [
+      {title: 'Berserk', url: ``},
+      {title: `Chapter ${params.chapternum}`, url: ''},
+    ]
 
     if(chapter.items.length > 0){
       const {url} = chapter.items[chapter.pagenum - 1]
@@ -56,15 +63,16 @@ export class Chapter extends Component {
           <Helmet
             title="Chapter"
             />
-          <h1>Chapter: {params.chapternum}, Page: {chapter.pagenum}</h1>
+          <BreadCrumbs items={hierarchy}/>
+          <h1>Page: {chapter.pagenum}</h1>
           <div className={s.container}>
             <button
               className={s.controlBtn}
               onClick={this.handlePreviousPage}
               disabled={chapter.pagenum < 2}
               >Previous</button>
-            <div className={s.viewer}>
-              <img src={url} referrerPolicy="no-referrer" ref="img"/>
+            <div className={s.viewer} ref="viewer">
+              <img src={url} referrerPolicy="no-referrer" onLoad={this.handleImgLoad}/>
             </div>
             <button
               className={s.controlBtn}
