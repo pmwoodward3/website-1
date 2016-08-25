@@ -5,8 +5,6 @@ import rootReducer from './reducers'
 import { promiseMiddleware } from './middleware/promise'
 import { apiMiddleware } from './middleware/api'
 
-const __PRODUCTION__ = __PRODUCTION__ || process.env.NODE_ENV === 'production'; // eslint-disable-line
-
 const logger = createLogger({
   collapsed: true,
   predicate: () =>
@@ -17,7 +15,7 @@ const middlewares = [
   apiMiddleware,
   promiseMiddleware(),
   thunkMiddleware,
-  !__PRODUCTION__ && __CLIENT__ && logger,
+  !__PRODUCTION__ && logger,
 ].filter(Boolean)
 
 const createStoreWithMiddleware = applyMiddleware(
@@ -28,7 +26,7 @@ export default function configureStore(initialState) {
   const store = createStoreWithMiddleware(
     rootReducer,
     initialState,
-    !__PRODUCTION__ && window.devToolsExtension && window.devToolsExtension(),
+    (!__PRODUCTION__ && window.devToolsExtension) ? window.devToolsExtension() : undefined,
   )
 
   if (module.hot) {

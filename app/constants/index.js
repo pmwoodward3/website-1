@@ -19,5 +19,5 @@ if (__PRODUCTION__) {
 export const DEV_URL = devUrl
 
 export const API_URL = __PRODUCTION__
-  ? '/api/'
+  ? 'http://localhost:8080/api/'
   : 'http://localhost:8080/api/'

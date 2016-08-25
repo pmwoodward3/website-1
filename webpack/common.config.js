@@ -27,7 +27,7 @@ const common = {
   },
 
   resolve: {
-    extensions: ['', '.jsx', '.js', '.json', '.css'],
+    extensions: ['', '.jsx', '.js', '.json', '.scss'],
     modulesDirectories: ['node_modules'],
     // Webpack alias for beautiful import
     alias: {
