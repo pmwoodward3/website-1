@@ -20,6 +20,10 @@ localforage.config({
   name: 'sausageBrainWebsite',
   description: 'Storage for improving user expierience',
   storeName: 'state',
+  driver: [
+    localforage.WEBSQL,
+    localforage.LOCALSTORAGE,
+  ]
 })
 
 export const history = browserHistory
@@ -63,14 +67,28 @@ localforage.getItem('myList')
     payload: storageState,
   })
 
-  let items = [
-    ...storageState.myList.items,
-    ...storageState.readingHistory.items,
-  ]
-  items = items.filter(x => x)
-  items = items.map(({mangaid}) => mangaid)
-  items = R.uniq(items)
-  store.dispatch(getList(items))
+  let items = []
+
+  if(storageState.myList){
+    items = [
+      ...items,
+      ...storageState.myList.items,
+    ]
+  }
+
+  if(storageState.readingHistory){
+    items = [
+      ...items,
+      ...storageState.readingHistory.items,
+    ]
+  }
+
+  if(items.length > 0){
+    items = items.filter(x => !!x)
+    items = items.map(({mangaid}) => mangaid)
+    items = R.uniq(items)
+    store.dispatch(getList(items))
+  }
 })
 .catch((error) => {
   store.dispatch({

@@ -23,7 +23,9 @@ export class Home extends Component {
 
   componentDidMount() {
     const { releases, getReleases } = this.props
-    getReleases()
+    if(releases.items.length < 1){
+      getReleases()
+    }
   }
 
   render() {
