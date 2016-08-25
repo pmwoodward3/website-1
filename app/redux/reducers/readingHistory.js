@@ -5,13 +5,12 @@ const initialState = {
 }
 
 export default createReducer({
-  ['ADD_READING_HISTORY']: (state, { payload }) => {
-    return {
-      ...state,
-      items: [
-        payload,
-        ...state.items.filter(({mangaid}) => mangaid !== payload.mangaid),
-      ],
-    }
-  },
+  ['ADD_READING_HISTORY']: (state, { payload }) => ({
+    ...state,
+    items: [
+      payload,
+      ...state.items.filter(({mangaid}) => mangaid !== payload.mangaid),
+    ],
+  }),
+  ['LOAD_STORAGE_SUCCESS']: (state, { payload }) => payload.readingHistory ? payload.readingHistory : state,
 }, initialState)
