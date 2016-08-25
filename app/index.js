@@ -6,6 +6,8 @@ import configureStore from './redux'
 import routes from './routes'
 import localforage from 'localforage'
 import throttle from 'throttle-function'
+import { getList } from './redux/actions/list'
+import R from 'ramda'
 
 if (__DEVELOPMENT__) {
   // https://facebook.github.io/react/docs/advanced-performance.html
@@ -60,6 +62,15 @@ localforage.getItem('myList')
     type: 'LOAD_STORAGE_SUCCESS',
     payload: storageState,
   })
+
+  let items = [
+    ...storageState.myList.items,
+    ...storageState.readingHistory.items,
+  ]
+  items = items.filter(x => x)
+  items = items.map(({mangaid}) => mangaid)
+  items = R.uniq(items)
+  store.dispatch(getList(items))
 })
 .catch((error) => {
   store.dispatch({

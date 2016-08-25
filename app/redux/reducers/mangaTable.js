@@ -31,4 +31,5 @@ export default createReducer({
   ['GET_ITEMS_SUCCESS']: reducer(),
   ['GET_RELEASES_SUCCESS']: reducer('releases'),
   ['SEARCH_ITEMS_SUCCESS']: reducer('hits'),
+  ['GET_LIST_SUCCESS']: reducer('items'),
 }, initialState)
