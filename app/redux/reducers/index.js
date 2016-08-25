@@ -6,6 +6,7 @@ import manga from './manga'
 import chapter from './chapter'
 import myList from './myList'
 import readingHistory from './readingHistory'
+import mangaTable from './mangaTable'
 
 const rootReducer = combineReducers({
   releases,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   chapter,
   readingHistory,
   myList,
+  mangaTable,
 })
 
 export default rootReducer

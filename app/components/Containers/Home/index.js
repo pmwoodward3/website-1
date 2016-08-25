@@ -7,6 +7,9 @@ import R from 'ramda'
 import { Link } from 'react-router'
 
 import { getReleases } from 'redux/actions/releases'
+import myListSelector from 'redux/selectors/myList'
+import releasesSelector from 'redux/selectors/releases'
+import readingHistorySelector from 'redux/selectors/readingHistory'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
@@ -31,27 +34,25 @@ export class Home extends Component {
         <Helmet
           title="Home"
           />
-        <section>
+        {readingHistory.items.length > 0 && <section>
           <h3>Continue Reading</h3>
           <div className={s.list}>
-            {readingHistory.items.map(({chapternum, pagenum, mangaid}) =>
+            {readingHistory.items.map(({pagenum, ...item}) =>
               <MangaItemCard
-                key={'readingHistory'+mangaid}
-                title="test"
-                mangaid={mangaid}
-                chapternum={chapternum}
-                pagenum={pagenum + 1}/>
+                key={'readingHistory'+item.mangaid}
+                pagenum={pagenum + 1}
+                {...item}/>
             )}
           </div>
-        </section>
-        <section>
+        </section>}
+        {myList.items.length > 0 && <section>
           <h3>My List</h3>
           <div className={s.list}>
             {myList.items.map((item) =>
-              <MangaItemCard key={'myList'+item.mangaid} {...item}/>
+              item && <MangaItemCard key={'myList'+item.mangaid} {...item}/>
             )}
           </div>
-        </section>
+        </section>}
         <section>
           <h3>New Releases</h3>
           <div className={s.list}>
@@ -83,9 +84,9 @@ export class Home extends Component {
 
 export default connect(
   state => ({
-    releases: state.releases,
-    myList: state.myList,
-    readingHistory: state.readingHistory,
+    releases: releasesSelector(state),
+    myList: myListSelector(state),
+    readingHistory: readingHistorySelector(state),
   }),
   {
     getReleases,

@@ -42,11 +42,9 @@ export class Manga extends Component {
     getManga(params.mangaid, manga.source)
   }
   handleAddToMyList(){
-    const {mangaid, title, cover} = this.props.manga.details
-    this.props.addMyListItem({
-      mangaid,
-      title,
-      cover,
+    const { addMyListItem, manga } = this.props
+    addMyListItem({
+      mangaid: manga.details.mangaid,
     })
   }
 

@@ -7,6 +7,7 @@ import hashit from 'hash-it'
 import R from 'ramda'
 
 import { searchItems } from 'redux/actions/search'
+import searchSelector from 'redux/selectors/search'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
@@ -89,7 +90,7 @@ export class Search extends Component {
 
 export default connect(
   state => ({
-    search: state.search,
+    search: searchSelector(state),
   }),
   {
     searchItems,

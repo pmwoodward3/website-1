@@ -9,7 +9,7 @@ export default createReducer({
     ...state,
     items: [
       payload,
-      ...state.items.filter(({mangaid}) => mangaid !== payload.mangaid),
+      ...state.items.filter((mangaid) => mangaid !== payload),
     ],
   }),
   ['LOAD_STORAGE_SUCCESS']: (state, { payload }) => payload.myList ? payload.myList : state,

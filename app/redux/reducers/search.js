@@ -7,9 +7,15 @@ const initialState = {
   items: [],
 }
 
+const toFormat = (payload) =>
+payload.hits.map(({mangaid, score}) => ({
+  mangaid,
+  score,
+}))
+
 export default createReducer({
   ['SEARCH_ITEMS_SUCCESS']: (state, { payload }) => ({
-    items: payload.hits,
+    items: toFormat(payload),
     totalPages: payload.totalPages,
     page: payload.page,
     length: payload.length,
