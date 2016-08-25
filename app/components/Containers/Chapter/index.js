@@ -45,6 +45,16 @@ export class Chapter extends Component {
     if(isNewChapter || isNewManga || isNewSource || hasPagenumNow){
       this.handleChapterChange(newProps)
     }
+
+
+    const isChapterLoaded = newProps.chapter.items.length > 0
+
+    const pagenum = parseInt(newProps.params.pagenum)
+    const chapternum = parseInt(newProps.params.chapternum)
+
+    if(pagenum && chapternum && isChapterLoaded && pagenum > newProps.chapter.items.length){
+      this.changePage(1, chapternum + 1)
+    }
   }
   handleChapterChange(props=this.props){
     const { getChapter, params, location } = props
@@ -62,9 +72,9 @@ export class Chapter extends Component {
       })
     }
   }
-  changePage(newPage){
+  changePage(newPage, chapter){
     const { params, location } = this.props
-    browserHistory.push(`/manga/${params.mangaid}/${params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
+    browserHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
   }
   handleNextPage(){
     const { params, location } = this.props
@@ -109,7 +119,6 @@ export class Chapter extends Component {
             <button
               className={s.controlBtn}
               onClick={this.handleNextPage}
-              disabled={pagenum >= chapter.items.length}
               >Next</button>
           </div>
         </section>
