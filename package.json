@@ -92,7 +92,6 @@
     "mocha": "3.0.1",
     "morgan": "1.7.0",
     "node-sass": "3.8.0",
-    "nuka-carousel": "^2.0.3",
     "path-chunk-webpack-plugin": "1.2.0",
     "postcss-loader": "^0.10.1",
     "postcss-nested": "1.0.0",

@@ -62,7 +62,7 @@ export class Home extends Component {
         <div className={s.list}>
           <List>
             {releases.items.map((item) =>
-              <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
+              item && <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
             )}
           </List>
         </div>
@@ -70,16 +70,16 @@ export class Home extends Component {
       <section>
         <h3>Recomended For You</h3>
         <List>
-          {releases.items.map((item) =>
-            <MangaItemCard key={'recomended'+hashit(item)} {...item}/>
+          {myList.items.map((item) =>
+            item && <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
           )}
         </List>
       </section>
       <section>
         <h3>Popular Right Now</h3>
         <List>
-          {releases.items.map((item) =>
-            <MangaItemCard key={'popular'+hashit(item)} {...item}/>
+          {myList.items.map((item) =>
+            item && <MangaItemCard key={'popular'+item.mangaid} {...item}/>
           )}
         </List>
       </section>

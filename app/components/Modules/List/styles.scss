@@ -1,4 +1,7 @@
 $width: 120px;
 
 .root {
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
 }

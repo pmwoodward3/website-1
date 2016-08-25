@@ -16,7 +16,7 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum}) =>
   }
 
   return (
-    <div className={s.root}>
+    <Link className={s.root} to={url}>
       <LazyLoad height={170} offset={50}>
         <img
           src={cover}
@@ -24,11 +24,11 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum}) =>
           referrerPolicy="no-referrer"
           />
       </LazyLoad>
-      <Link to={url}>{title}</Link>
+      <strong to={url} className={s.title}>{title}</strong>
       {chapter && <p>Chapter: {chapter}</p>}
       {chapternum && <p>Chapter: {chapternum}</p>}
       {pagenum && <p>Page: {pagenum}</p>}
-    </div>
+    </Link>
   )
 }
 

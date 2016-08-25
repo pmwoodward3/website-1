@@ -1,15 +1,23 @@
 $width: 120px;
+$height: 170px;
 
 .root {
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
+  display: block;
   width: $width;
   margin: 10px;
   overflow: hidden;
+  flex-shrink: 0;
+}
+
+.title {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .cover {
-  height: 170px;
+  height: $height;
   width: $width;
 }
