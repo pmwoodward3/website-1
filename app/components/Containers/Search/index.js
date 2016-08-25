@@ -54,7 +54,7 @@ export class Search extends Component {
         <div className={s.list}>
           {
             search.items.map((item) => (
-              <MangaItemCard key={item.mangaid} {...item}/>
+              <MangaItemCard key={item.mangaid} lazyload={true} {...item}/>
             ))
           }
         </div>

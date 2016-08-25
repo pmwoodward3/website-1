@@ -13,6 +13,7 @@ import readingHistorySelector from 'redux/selectors/readingHistory'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
+import List from 'components/Modules/List'
 
 export class Home extends Component {
   static propTypes = {
@@ -38,50 +39,53 @@ export class Home extends Component {
           />
         {readingHistory.items.length > 0 && <section>
           <h3>Continue Reading</h3>
-          <div className={s.list}>
-            {readingHistory.items.map(({pagenum, ...item}) =>
+          <List>
+            {readingHistory.items.map(({pagenum, ...item}) => (
               <MangaItemCard
                 key={'readingHistory'+item.mangaid}
                 pagenum={pagenum + 1}
-                {...item}/>
-            )}
-          </div>
+                {...item}
+                />
+            ))}
+          </List>
         </section>}
         {myList.items.length > 0 && <section>
           <h3>My List</h3>
-          <div className={s.list}>
-            {myList.items.map((item) =>
+          <List>
+            {myList.items.map((item) => (
               item && <MangaItemCard key={'myList'+item.mangaid} {...item}/>
-            )}
-          </div>
-        </section>}
-        <section>
-          <h3>New Releases</h3>
-          <div className={s.list}>
+          ))}
+        </List>
+      </section>}
+      <section>
+        <h3>New Releases</h3>
+        <div className={s.list}>
+          <List>
             {releases.items.map((item) =>
               <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
             )}
-          </div>
-        </section>
-        <section>
-          <h3>Recomended For You</h3>
-          <div className={s.list}>
-            {releases.items.map((item) =>
-              <MangaItemCard key={'recomended'+hashit(item)} {...item}/>
-            )}
-          </div>
-        </section>
-        <section>
-          <h3>Popular Right Now</h3>
-          <div className={s.list}>
-            {releases.items.map((item) =>
-              <MangaItemCard key={'popular'+hashit(item)} {...item}/>
-            )}
-          </div>
-        </section>
+          </List>
+        </div>
       </section>
-    )
-  }
+      <section>
+        <h3>Recomended For You</h3>
+        <List>
+          {releases.items.map((item) =>
+            <MangaItemCard key={'recomended'+hashit(item)} {...item}/>
+          )}
+        </List>
+      </section>
+      <section>
+        <h3>Popular Right Now</h3>
+        <List>
+          {releases.items.map((item) =>
+            <MangaItemCard key={'popular'+hashit(item)} {...item}/>
+          )}
+        </List>
+      </section>
+    </section>
+  )
+}
 }
 
 export default connect(

@@ -7,4 +7,16 @@
   .hwaccel {
     -webkit-transform: translateZ(0);
   }
+
+  .slider button {
+    height: 100% !important;
+  }
+  .slider-decorator-0, .slider-decorator-1 {
+    height: 100% !important;
+    transform: none !important;
+    top: 0 !important;
+  }
+  .slider-decorator-2 ul {
+    display: none !important;
+  }
 }
