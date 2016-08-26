@@ -71,9 +71,17 @@ export class Chapter extends Component {
         pagenum: parseInt(params.pagenum),
       })
     }
+
+    if(this.refs.img){
+      this.refs.img.style.opacity = 1
+    }
   }
   changePage(newPage, chapter){
     const { params, location } = this.props
+    if(this.refs.img){
+      this.refs.img.style.opacity = 0
+    }
+
     browserHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
   }
   handleNextPage(){
@@ -88,8 +96,9 @@ export class Chapter extends Component {
   render() {
     const { chapter, params } = this.props
     const hierarchy = [
-      {title: 'Berserk', url: ``},
-      {title: `Chapter ${params.chapternum}`, url: ''},
+      {title: 'Berserk', url: `/manga/${params.mangaid}`},
+      {title: `Chapter ${params.chapternum}`, url: `/manga/${params.mangaid}/${params.chapternum}`},
+      {title: `Page ${params.pagenum}`, disabled: true},
     ]
 
     const pagenum = parseInt(params.pagenum)
@@ -106,7 +115,6 @@ export class Chapter extends Component {
             title="Chapter"
             />
           <BreadCrumbs items={hierarchy}/>
-          <h1>Page: {pagenum}</h1>
           <div className={s.container}>
             <button
               className={s.controlBtn}
@@ -114,7 +122,7 @@ export class Chapter extends Component {
               disabled={pagenum < 2}
               >Previous</button>
             <div className={s.viewer} ref="viewer">
-              <img src={url} referrerPolicy="no-referrer" onLoad={this.handleImgLoad}/>
+              <img src={url} referrerPolicy="no-referrer" onLoad={this.handleImgLoad} ref="img"/>
             </div>
             <button
               className={s.controlBtn}
