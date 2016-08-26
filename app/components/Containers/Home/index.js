@@ -10,6 +10,7 @@ import { getReleases } from 'redux/actions/releases'
 import myListSelector from 'redux/selectors/myList'
 import releasesSelector from 'redux/selectors/releases'
 import readingHistorySelector from 'redux/selectors/readingHistory'
+import recommendationsSelector from 'redux/selectors/recommendations'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
@@ -23,14 +24,14 @@ export class Home extends Component {
   };
 
   componentDidMount() {
-    const { releases, getReleases } = this.props
+    const { releases, getReleases, recommendations, getRecommendations } = this.props
     if(releases.items.length < 1){
       getReleases()
     }
   }
 
   render() {
-    const { releases, myList, readingHistory } = this.props
+    const { releases, myList, readingHistory, recommendations } = this.props
 
     return (
       <section className={s.root}>
@@ -71,25 +72,13 @@ export class Home extends Component {
             </div>
           </section>
         )}
-        {myList.items.length > 0 && (
+        {recommendations.items.length > 0 && (
           <section>
             <h3>Recomended For You</h3>
             <div className={s.list}>
               <List>
-                {myList.items.map((item) => item && (
+                {recommendations.items.map((item) => item && (
                   <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
-                ))}
-              </List>
-            </div>
-          </section>
-        )}
-        {myList.items.length > 0 && (
-          <section>
-            <h3>Popular Right Now</h3>
-            <div className={s.list}>
-              <List>
-                {myList.items.map((item) => item && (
-                  <MangaItemCard key={'popular'+item.mangaid} {...item}/>
                 ))}
               </List>
             </div>
@@ -105,6 +94,7 @@ export default connect(
     releases: releasesSelector(state),
     myList: myListSelector(state),
     readingHistory: readingHistorySelector(state),
+    recommendations: recommendationsSelector(state),
   }),
   {
     getReleases,
