@@ -46,9 +46,8 @@ export class Chapter extends Component {
       this.handleChapterChange(newProps)
     }
 
-
     const isChapterLoaded = newProps.chapter.items.length > 0
-
+    
     const pagenum = parseInt(newProps.params.pagenum)
     const chapternum = parseInt(newProps.params.chapternum)
 
