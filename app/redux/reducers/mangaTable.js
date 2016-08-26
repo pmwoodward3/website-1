@@ -32,4 +32,5 @@ export default createReducer({
   ['GET_RELEASES_SUCCESS']: reducer('releases'),
   ['SEARCH_ITEMS_SUCCESS']: reducer('hits'),
   ['GET_LIST_SUCCESS']: reducer('items'),
+  ['GET_MANGA_SUCCESS']: reducer('details'),
 }, initialState)
