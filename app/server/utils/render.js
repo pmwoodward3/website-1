@@ -12,6 +12,7 @@ export const renderFullPage = (html, devPort, domain, initialState = null, head)
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1.0, minimum-scale=1.0, maximum-scale=1.0">
         <meta property="og:type" content="website" />
         <meta property="og:url" content=${head || ''} />
+        <meta name="mobile-web-app-capable" content="yes">
         ${head ? head.title.toString() : ''}
         ${head ? head.meta.toString() : ''}
         ${bundleCSS}

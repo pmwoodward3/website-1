@@ -118,6 +118,7 @@
     "reselect": "^2.5.3",
     "sass": "0.5.0",
     "sass-loader": "^4.0.0",
+    "screenfull": "^3.0.2",
     "sinon": "1.17.5",
     "sinon-chai": "2.8.0",
     "style-loader": "0.13.1",

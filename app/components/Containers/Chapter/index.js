@@ -5,11 +5,19 @@ import { Link, browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import hashit from 'hash-it'
 import R from 'ramda'
+import Paper from 'material-ui/Paper'
 import SwipeableViews from 'react-swipeable-views'
 import isTouchAvailable from 'utils/isTouchAvailable'
+import IconButton from 'material-ui/IconButton'
+import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
+import NavigationExitFullScreen from 'material-ui/svg-icons/navigation/fullscreen-exit'
+import screenfull from 'screenfull'
+import Loading from 'components/Modules/Loading'
 
 import {
   getChapter,
+  enterFullscreen,
+  exitFullscreen,
 } from 'redux/actions/chapter'
 import { addReadingHistory } from 'redux/actions/readingHistory'
 
@@ -20,6 +28,8 @@ export class Chapter extends Component {
   static propTypes = {
     chapter: PropTypes.object.isRequired,
     getChapter: PropTypes.func.isRequired,
+    enterFullscreen: PropTypes.func.isRequired,
+    exitFullscreen: PropTypes.func.isRequired,
     addReadingHistory: PropTypes.func.isRequired,
   };
 
@@ -29,6 +39,9 @@ export class Chapter extends Component {
     this.handlePreviousPage = this.handlePreviousPage.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.changePage = this.changePage.bind(this)
+    this.onChangeIndex = this.onChangeIndex.bind(this)
+    this.handleFullScreen = this.handleFullScreen.bind(this)
+    this.handleFullScreenChange = this.handleFullScreenChange.bind(this)
   }
   componentDidMount(){
     const { params } = this.props
@@ -36,6 +49,10 @@ export class Chapter extends Component {
       this.handleChapterChange()
     }else{
       this.changePage(1)
+    }
+
+    if (screenfull.enabled) {
+      document.addEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
   }
   componentWillUpdate(newProps){
@@ -54,6 +71,16 @@ export class Chapter extends Component {
 
     if(pagenum && chapternum && isChapterLoaded && pagenum > newProps.chapter.items.length){
       this.changePage(1, chapternum + 1)
+    }
+  }
+  componentWillUnmount(){
+    document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
+  }
+  handleFullScreenChange(){
+    if(screenfull.isFullscreen){
+      this.props.enterFullscreen()
+    }else{
+      this.props.exitFullscreen()
     }
   }
   handleChapterChange(props=this.props){
@@ -81,6 +108,14 @@ export class Chapter extends Component {
     const { params } = this.props
     this.changePage(parseInt(params.pagenum) - 1)
   }
+  onChangeIndex(index){
+    this.changePage(index + 1)
+  }
+  handleFullScreen(){
+    if (screenfull.enabled) {
+      screenfull.toggle(this.refs.container)
+    }
+  }
 
   render() {
     const { chapter, params } = this.props
@@ -103,8 +138,19 @@ export class Chapter extends Component {
           <Helmet
             title="Chapter"
             />
-          <BreadCrumbs items={hierarchy}/>
-          <div className={s.container}>
+          <div className={s.header}>
+            <BreadCrumbs items={hierarchy}/>
+            {isTouchAvailable && (
+              <IconButton onClick={this.handleFullScreen}>
+                {chapter.fullscreen ? (
+                  <NavigationExitFullScreen/>
+                ) : (
+                  <NavigationFullScreen/>
+                )}
+              </IconButton>
+            )}
+          </div>
+          <div className={s.container} ref="container">
             {!isTouchAvailable && <button
               className={s.controlBtn}
               onClick={this.handlePreviousPage}
@@ -112,18 +158,21 @@ export class Chapter extends Component {
               >Previous</button>}
             <SwipeableViews
               resistance={true}
-              className={s.swiper}
+              className={isTouchAvailable ? s.touchSwiper : s.swiper}
               index={index}
+              onChangeIndex={this.onChangeIndex}
+              ref="swiper"
               >
               {chapter.items.map(({url}) => (
-                <img
-                  draggable={false}
-                  className={s.img}
-                  src={url}
-                  key={url}
-                  referrerPolicy="no-referrer"
-                  ref="img"
-                  />
+                <Paper className={s.paper} zDepth={3} key={url}>
+                  <img
+                    draggable={false}
+                    className={s.img}
+                    src={url}
+                    referrerPolicy="no-referrer"
+                    ref="img"
+                    />
+                </Paper>
               ))}
             </SwipeableViews>
             {!isTouchAvailable && <button
@@ -134,7 +183,7 @@ export class Chapter extends Component {
         </section>
       )
     }else{
-      return <h1>Loading</h1>
+      return <Loading/>
     }
   }
 }
@@ -162,6 +211,8 @@ export default connect(
   }),
   {
     getChapter,
+    enterFullscreen,
+    exitFullscreen,
     addReadingHistory,
   }
 )(Chapter)

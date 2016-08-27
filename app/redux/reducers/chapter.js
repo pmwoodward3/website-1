@@ -1,34 +1,27 @@
 import { createReducer } from '../utils/createReducer';
 
 const initialState = {
-  pagenum: 1,
+  fullscreen: false,
   items: [],
 }
 
 export default createReducer({
-  ['GET_CHAPTER_REQUEST']: (state, { payload }) => initialState,
+  ['GET_CHAPTER_REQUEST']: (state, { payload }) => ({
+    ...state,
+    items: [],
+  }),
   ['GET_CHAPTER_SUCCESS']: (state, { payload }) => ({
-    pagenum: 1,
+    ...state,
     items: payload.pages,
   }),
-
   ['GET_CHAPTER_FAILURE']: (state, { payload, error }) => initialState,
+  ['ENTER_FULLSCREEN_CHAPTER']: (state, { payload, error }) => ({
+    ...state,
+    fullscreen: true,
+  }),
+  ['EXIT_FULLSCREEN_CHAPTER']: (state, { payload, error }) => ({
+    ...state,
+    fullscreen: false,
+  }),
 
-  ['NEXT_CHAPTER_PAGE']: (state) => {
-    let pagenum = state.pagenum + 1
-    pagenum = pagenum > state.items.length ? state.items.length : pagenum
-    return {
-      ...state,
-      pagenum,
-    }
-  },
-
-  ['PREVIOUS_CHAPTER_PAGE']: (state) => {
-    let pagenum = state.pagenum - 1
-    pagenum = pagenum < 1 ? 1 : pagenum
-    return {
-      ...state,
-      pagenum,
-    }
-  },
 }, initialState);

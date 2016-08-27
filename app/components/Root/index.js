@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Helmet from 'react-helmet'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import isTouchAvailable from 'utils/isTouchAvailable'
 
 import Loading from 'components/Modules/Loading'
 import Header from 'components/Modules/Header'
@@ -12,6 +13,20 @@ if (__CLIENT__) {
 }
 
 injectTapEventPlugin()
+
+const s = {
+  root: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  childrenContainer: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'auto',
+  }
+}
 
 export default class Root extends Component {
 
@@ -25,15 +40,20 @@ export default class Root extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <section>
+        <section
+          className={isTouchAvailable ? 'touch' : 'no-touch'}
+          style={s.root}
+          >
           {}
           <Helmet
             title="posts"
             />
 
           <Header/>
-          {this.props.children &&
-            React.cloneElement(this.props.children, this.props)}
+          <section style={s.childrenContainer}>
+            {this.props.children &&
+              React.cloneElement(this.props.children, this.props)}
+          </section>
           </section>
         </MuiThemeProvider>
       )

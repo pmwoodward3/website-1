@@ -14,3 +14,11 @@ export const nextChapterPage = () => ({
 export const previousChapterPage = () => ({
   type: 'PREVIOUS_CHAPTER_PAGE',
 })
+
+export const enterFullscreen = () => ({
+  type: 'ENTER_FULLSCREEN_CHAPTER'
+})
+
+export const exitFullscreen = () => ({
+  type: 'EXIT_FULLSCREEN_CHAPTER'
+})

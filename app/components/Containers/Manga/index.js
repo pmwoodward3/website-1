@@ -11,6 +11,7 @@ import { addMyListItem } from 'redux/actions/myList'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
+import Loading from 'components/Modules/Loading'
 
 export class Manga extends Component {
   static propTypes = {
@@ -128,7 +129,7 @@ export class Manga extends Component {
         </section>
       )
     }else{
-      return <h1>Loading</h1>
+      return <Loading/>
     }
   }
 }
