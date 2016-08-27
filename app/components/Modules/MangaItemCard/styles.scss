@@ -1,23 +1,35 @@
-$width: 120px;
-$height: 170px;
+$width: 150px;
+$height: 180px;
 
 .root {
-  display: block;
   width: $width;
   margin: 10px;
   overflow: hidden;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .title {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  padding: 10px !important;
+  span {
+    display: inline;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+
+    &:first-child{
+      font-size: 20px !important;
+    }
+  }
 }
 
 .cover {
   height: $height;
-  width: $width;
+  width: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  user-drag: none;
+  text-align: center;
+  text-transform: uppercase;
+  color: grey;
 }

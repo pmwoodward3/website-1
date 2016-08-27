@@ -1,13 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import Helmet from 'react-helmet'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import Loading from 'components/Modules/Loading'
 import Header from 'components/Modules/Header'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 /* global styles for app */
 if (__CLIENT__) {
   require('./styles/app.scss')
 }
+
+injectTapEventPlugin()
 
 export default class Root extends Component {
 
@@ -20,16 +24,18 @@ export default class Root extends Component {
 
   render() {
     return (
-      <section>
-        {}
-        <Helmet
-          title="posts"
-          />
+      <MuiThemeProvider>
+        <section>
+          {}
+          <Helmet
+            title="posts"
+            />
 
-        <Header/>
-        {this.props.children &&
-        React.cloneElement(this.props.children, this.props)}
-      </section>
-    )
+          <Header/>
+          {this.props.children &&
+            React.cloneElement(this.props.children, this.props)}
+          </section>
+        </MuiThemeProvider>
+      )
+    }
   }
-}
