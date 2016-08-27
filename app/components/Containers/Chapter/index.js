@@ -5,6 +5,8 @@ import { Link, browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import hashit from 'hash-it'
 import R from 'ramda'
+import SwipeableViews from 'react-swipeable-views'
+import isTouchAvailable from 'utils/isTouchAvailable'
 
 import {
   getChapter,
@@ -26,7 +28,6 @@ export class Chapter extends Component {
     this.handleNextPage = this.handleNextPage.bind(this)
     this.handlePreviousPage = this.handlePreviousPage.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
-    this.handleImgLoad = this.handleImgLoad.bind(this)
     this.changePage = this.changePage.bind(this)
   }
   componentDidMount(){
@@ -47,7 +48,7 @@ export class Chapter extends Component {
     }
 
     const isChapterLoaded = newProps.chapter.items.length > 0
-    
+
     const pagenum = parseInt(newProps.params.pagenum)
     const chapternum = parseInt(newProps.params.chapternum)
 
@@ -59,26 +60,15 @@ export class Chapter extends Component {
     const { getChapter, params, location } = props
     getChapter(params.mangaid, params.chapternum, location.query.source)
   }
-  handleImgLoad(){
-    const { addReadingHistory, params, chapter } = this.props
-    this.refs.viewer.scrollTop = 0
+  changePage(newPage, chapter){
+    const { params, location, addReadingHistory } = this.props
 
-    if(chapter.items.length > 0){
+    if(params.pagenum && params.pagenum > 0 && this.props.chapter.items.length > 0){
       addReadingHistory({
         mangaid: parseInt(params.mangaid),
         chapternum: parseInt(params.chapternum),
         pagenum: parseInt(params.pagenum),
       })
-    }
-
-    if(this.refs.img){
-      this.refs.img.style.opacity = 1
-    }
-  }
-  changePage(newPage, chapter){
-    const { params, location } = this.props
-    if(this.refs.img){
-      this.refs.img.style.opacity = 0
     }
 
     browserHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
@@ -107,7 +97,7 @@ export class Chapter extends Component {
     const isPagenumValid = pagenum > 0 && pagenum <= chapter.items.length
 
     if(isChapterLoaded && hasPagenum && isPagenumValid){
-      const {url} = chapter.items[pagenum - 1]
+      const index = pagenum - 1
       return (
         <section className={s.section}>
           <Helmet
@@ -115,18 +105,31 @@ export class Chapter extends Component {
             />
           <BreadCrumbs items={hierarchy}/>
           <div className={s.container}>
-            <button
+            {!isTouchAvailable && <button
               className={s.controlBtn}
               onClick={this.handlePreviousPage}
               disabled={pagenum < 2}
-              >Previous</button>
-            <div className={s.viewer} ref="viewer">
-              <img src={url} referrerPolicy="no-referrer" onLoad={this.handleImgLoad} ref="img"/>
-            </div>
-            <button
+              >Previous</button>}
+            <SwipeableViews
+              resistance={true}
+              className={s.swiper}
+              index={index}
+              >
+              {chapter.items.map(({url}) => (
+                <img
+                  draggable={false}
+                  className={s.img}
+                  src={url}
+                  key={url}
+                  referrerPolicy="no-referrer"
+                  ref="img"
+                  />
+              ))}
+            </SwipeableViews>
+            {!isTouchAvailable && <button
               className={s.controlBtn}
               onClick={this.handleNextPage}
-              >Next</button>
+              >Next</button>}
           </div>
         </section>
       )
@@ -135,6 +138,23 @@ export class Chapter extends Component {
     }
   }
 }
+
+const styles = {
+  slide: {
+    padding: 15,
+    minHeight: 100,
+    color: '#fff',
+  },
+  slide1: {
+    background: '#FEA900',
+  },
+  slide2: {
+    background: '#B3DC4A',
+  },
+  slide3: {
+    background: '#6AC0FF',
+  },
+};
 
 export default connect(
   state => ({

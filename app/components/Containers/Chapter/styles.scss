@@ -12,14 +12,15 @@
   flex: 1;
 }
 
-.viewer {
+.swiper {
   width: 70%;
-  overflow-y: auto;
-  img {
-    width: 100%;
-    transition: opacity 0.2s ease;
-  }
+  height: 100%;
 }
+
+.img {
+  width: 100%;
+}
+
 .controlBtn {
   flex: 1;
 }
