@@ -4,19 +4,17 @@
   @import 'typography';
 
   //Trick to use hwacceleration on some browsers
-  .hwaccel {
+  body {
     -webkit-transform: translateZ(0);
   }
 
-  .slider button {
-    height: 100% !important;
+  html {
+    overflow: hidden;
+    height: 100%;
   }
-  .slider-decorator-0, .slider-decorator-1 {
-    height: 100% !important;
-    transform: none !important;
-    top: 0 !important;
-  }
-  .slider-decorator-2 ul {
-    display: none !important;
+
+  body {
+    height: 100%;
+    overflow: auto;
   }
 }
