@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import hashit from 'hash-it'
 import R from 'ramda'
+import Infinite from 'react-infinite'
 
 import { getManga } from 'redux/actions/manga'
 import { addMyListItem } from 'redux/actions/myList'
@@ -12,6 +13,22 @@ import { addMyListItem } from 'redux/actions/myList'
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import Loading from 'components/Modules/Loading'
+import MangaList from 'components/Modules/List'
+import Avatar from 'material-ui/Avatar'
+import { List, ListItem } from 'material-ui/List'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
+import RaisedButton from 'material-ui/RaisedButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
+import {
+  Card,
+  CardActions,
+  CardHeader,
+  CardText,
+  CardMedia,
+  CardTitle,
+} from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
 
 export class Manga extends Component {
   static propTypes = {
@@ -34,9 +51,9 @@ export class Manga extends Component {
       this.handleMangaChange(newProps)
     }
   }
-  handleSourceChange({target}){
+  handleSourceChange(e, i, value){
     const { getManga, params } = this.props
-    getManga(params.mangaid, target.value)
+    getManga(params.mangaid, value)
   }
   handleMangaChange(props=this.props){
     const { getManga, params, manga } = props
@@ -59,57 +76,82 @@ export class Manga extends Component {
           <Helmet
             title={details.title}
             />
-          <h1>
-            {details.title}
-            <button
-              className={s.myListBtn}
-              onClick={this.handleAddToMyList}
-              >Add To My List</button>
-          </h1>
-          <img src={details.cover} referrerPolicy="no-referrer"/>
-          <p>
-            <strong>Author: </strong>
-            {details.author}
-          </p>
-          <p>
-            <strong>Artist: </strong>
-            {details.artist}
-          </p>
-          <p>
-            <strong>Year: </strong>
-            {details.year}
-          </p>
-          <p>
-            <strong>Rating: </strong>
-            {Math.round(details.rating * 100) / 100}/10
-          </p>
-          <p>
-            <strong>Genres: </strong>
-            {details.genres.join(', ')}
-          </p>
-          <p>
-            <strong>Summary: </strong>
-          </p>
-          <p>{details.summary}</p>
+          <Card>
+            <CardMedia>
+              <img
+                src={details.cover}
+                referrerPolicy="no-referrer"
+                className={s.cover}
+                />
+            </CardMedia>
+            <CardHeader
+              actAsExpander={true}
+              showExpandableButton={true}
+              >
+              <CardTitle
+                title={details.title}
+                subtitle={`${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
+                />
+            </CardHeader>
+            <CardActions expandable={true}>
+              <FlatButton
+                icon={<ContentAdd/>}
+                onClick={this.handleAddToMyList}
+                label="Add To My List"
+                />
+            </CardActions>
+            <CardText expandable={true}>
+              <strong>Author </strong>
+              <p>{details.author}</p>
+              <strong>Artist </strong>
+              <p>{details.artist}</p>
+              <strong>Genres </strong>
+              <p>{details.genres.join(', ')}</p>
+              <strong>Summary </strong>
+              <p>{details.summary}</p>
+            </CardText>
+          </Card>
           {(sources && chapters) ? (
-            <div>
-              <p><strong>Chapters: </strong></p>
-              <p><strong>Source: </strong></p>
-              <select onChange={this.handleSourceChange} value={manga.source}>
-                {sources.map(({sourceslug, aliasid}) => (
-                  <option key={sourceslug} value={sourceslug}>{sourceslug}</option>
-                ))}
-              </select>
-              <ul>
-                {chapters.map(({chapternum, title}) => (
-                  <li key={chapternum}>
-                    <strong>{Math.round(chapternum * 100) / 100}: </strong>
-                    <Link to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}>
-                      {title}
+            <div className={s.chapters}>
+              <div className={s.chapterHeader}>
+                <h3>Chapters</h3>
+                <SelectField
+                  value={manga.source}
+                  onChange={this.handleSourceChange}
+                  floatingLabelText="Source"
+                  >
+                  {sources.map(({sourceslug, aliasid}) => (
+                    <MenuItem
+                      key={sourceslug}
+                      value={sourceslug}
+                      primaryText={sourceslug}
+                      />
+                  ))}
+                </SelectField>
+              </div>
+              <List>
+                <Infinite containerHeight={300} elementHeight={56}>
+                  {chapters.map(({chapternum, title}) => (
+                    <Link
+                      to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}
+                      key={chapternum}
+                      className={s.chapterItem}
+                      >
+                      <ListItem
+                        primaryText={title}
+                        leftAvatar={
+                          <Avatar
+                            style={{left: 8}}
+                            >
+                            {Math.round(chapternum * 100) / 100}
+                          </Avatar>
+                        }
+                        >
+                      </ListItem>
                     </Link>
-                  </li>
-                ))}
-              </ul>
+                  ))}
+                </Infinite>
+              </List>
             </div>
           ) : (
             <strong>
@@ -117,13 +159,13 @@ export class Manga extends Component {
             </strong>
           )}
           {details.recommendations && (
-            <div>
-              <p><strong>Recommendations:</strong></p>
-              <div className={s.list}>
+            <div className={s.recommendations}>
+              <h3>Recommendations</h3>
+              <MangaList>
                 {details.recommendations.map((item) => (
                   <MangaItemCard key={item.mangaid} {...item}/>
                 ))}
-              </div>
+              </MangaList>
             </div>
           )}
         </section>

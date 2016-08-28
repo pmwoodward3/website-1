@@ -38,52 +38,62 @@ export class Home extends Component {
         <Helmet
           title="Home"
           />
-        {readingHistory.items.length > 0 && <section>
-          <h3>Continue Reading</h3>
-          <List>
-            {readingHistory.items.map(({pagenum, ...item}) => (
-              <MangaItemCard
-                key={'readingHistory'+item.mangaid}
-                pagenum={pagenum + 1}
-                {...item}
-                />
-            ))}
-          </List>
-        </section>}
-        {myList.items.length > 0 && (
-          <section>
-            <h3>My List</h3>
-            <List>
-              {myList.items.map((item) => item && (
-                <MangaItemCard key={'myList'+item.mangaid} {...item}/>
-              ))}
-            </List>
-          </section>
-        )}
-        {releases.items.length > 0 && (
-          <section>
-            <h3>New Releases</h3>
-            <div className={s.list}>
+        {
+          readingHistory.items.length > 0 && (
+            <section>
+              <h3>Continue Reading</h3>
               <List>
-                {releases.items.map((item) => item && (
-                  <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
+                {readingHistory.items.map(({pagenum, ...item}) => item.mangaid && (
+                  <MangaItemCard
+                    key={'readingHistory'+item.mangaid}
+                    pagenum={pagenum + 1}
+                    {...item}
+                    />
                 ))}
               </List>
-            </div>
-          </section>
-        )}
-        {recommendations.items.length > 0 && (
-          <section>
-            <h3>Recomended For You</h3>
-            <div className={s.list}>
+            </section>
+          )
+        }
+        {
+          myList.items.length > 0 && (
+            <section>
+              <h3>My List</h3>
               <List>
-                {recommendations.items.map((item) => item && (
-                  <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
+                {myList.items.map((item) => item && (
+                  <MangaItemCard key={'myList'+item.mangaid} {...item}/>
                 ))}
               </List>
-            </div>
-          </section>
-        )}
+            </section>
+          )
+        }
+        {
+          releases.items.length > 0 && (
+            <section>
+              <h3>New Releases</h3>
+              <div className={s.list}>
+                <List>
+                  {releases.items.map((item) => item && (
+                    <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
+                  ))}
+                </List>
+              </div>
+            </section>
+          )
+        }
+        {
+          recommendations.items.length > 0 && (
+            <section>
+              <h3>Recomended For You</h3>
+              <div className={s.list}>
+                <List>
+                  {recommendations.items.map((item) => item && (
+                    <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
+                  ))}
+                </List>
+              </div>
+            </section>
+          )
+        }
       </section>
     )
   }

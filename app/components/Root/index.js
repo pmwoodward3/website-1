@@ -5,7 +5,7 @@ import isTouchAvailable from 'utils/isTouchAvailable'
 
 import Loading from 'components/Modules/Loading'
 import Header from 'components/Modules/Header'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 /* global styles for app */
 if (__CLIENT__) {

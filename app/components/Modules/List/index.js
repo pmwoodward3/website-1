@@ -7,12 +7,17 @@ import s from './styles.scss'
 export default class List extends Component {
   render(){
     const { children } = this.props
+    // return (
+    //   <LazyLoad height={220} offset={100}>
+    //     <div className={s.root}>
+    //       {children}
+    //     </div>
+    //   </LazyLoad>
+    // )
     return (
-      <LazyLoad height={220} offset={100}>
-        <div className={s.root}>
-          {children}
-        </div>
-      </LazyLoad>
+      <div className={s.root}>
+        {children}
+      </div>
     )
   }
 }
