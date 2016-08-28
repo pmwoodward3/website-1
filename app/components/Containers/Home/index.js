@@ -7,7 +7,7 @@ import R from 'ramda'
 import { Link } from 'react-router'
 
 import { getReleases } from 'redux/actions/releases'
-import myListSelector from 'redux/selectors/myList'
+import { myList as myListSelector } from 'redux/selectors/myList'
 import releasesSelector from 'redux/selectors/releases'
 import readingHistorySelector from 'redux/selectors/readingHistory'
 import recommendationsSelector from 'redux/selectors/recommendations'
@@ -25,9 +25,7 @@ export class Home extends Component {
 
   componentDidMount() {
     const { releases, getReleases, recommendations, getRecommendations } = this.props
-    if(releases.items.length < 1){
-      getReleases()
-    }
+    getReleases()
   }
 
   render() {

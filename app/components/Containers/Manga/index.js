@@ -8,7 +8,8 @@ import R from 'ramda'
 import Infinite from 'react-infinite'
 
 import { getManga } from 'redux/actions/manga'
-import { addMyListItem } from 'redux/actions/myList'
+import { addMyListItem, removeMyListItem } from 'redux/actions/myList'
+import { isMyListItem as isMyListItemSelector } from 'redux/selectors/myList'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
@@ -20,6 +21,7 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 import ContentAdd from 'material-ui/svg-icons/content/add'
+import ContentRemove from 'material-ui/svg-icons/content/remove'
 import {
   Card,
   CardActions,
@@ -35,13 +37,14 @@ export class Manga extends Component {
     manga: PropTypes.object.isRequired,
     getManga: PropTypes.func.isRequired,
     addMyListItem: PropTypes.func.isRequired,
+    removeMyListItem: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleSourceChange = this.handleSourceChange.bind(this)
     this.handleMangaChange = this.handleMangaChange.bind(this)
-    this.handleAddToMyList = this.handleAddToMyList.bind(this)
+    this.handleToMyListAction = this.handleToMyListAction.bind(this)
   }
   componentDidMount(){
     this.handleMangaChange()
@@ -59,15 +62,21 @@ export class Manga extends Component {
     const { getManga, params, manga } = props
     getManga(params.mangaid, manga.source)
   }
-  handleAddToMyList(){
-    const { addMyListItem, manga } = this.props
-    addMyListItem({
-      mangaid: manga.details.mangaid,
-    })
+  handleToMyListAction(){
+    const { addMyListItem, removeMyListItem, manga, isMyListItem } = this.props
+    if(isMyListItem){
+      removeMyListItem({
+        mangaid: manga.details.mangaid,
+      })
+    }else{
+      addMyListItem({
+        mangaid: manga.details.mangaid,
+      })
+    }
   }
 
   render() {
-    const { manga } = this.props
+    const { manga, isMyListItem } = this.props
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
@@ -94,11 +103,19 @@ export class Manga extends Component {
                 />
             </CardHeader>
             <CardActions expandable={true}>
-              <FlatButton
-                icon={<ContentAdd/>}
-                onClick={this.handleAddToMyList}
-                label="Add To My List"
-                />
+              {isMyListItem ? (
+                <FlatButton
+                  icon={<ContentRemove/>}
+                  onClick={this.handleToMyListAction}
+                  label="Remove from my list"
+                  />
+              ) : (
+                <FlatButton
+                  icon={<ContentAdd/>}
+                  onClick={this.handleToMyListAction}
+                  label="Add to my list"
+                  />
+              )}
             </CardActions>
             <CardText expandable={true}>
               <strong>Author </strong>
@@ -177,11 +194,13 @@ export class Manga extends Component {
 }
 
 export default connect(
-  state => ({
+  (state, {params}) => ({
     manga: state.manga,
+    isMyListItem: isMyListItemSelector(state, params.mangaid),
   }),
   {
     getManga,
     addMyListItem,
+    removeMyListItem,
   }
 )(Manga)
