@@ -13,6 +13,9 @@ import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
 import NavigationExitFullScreen from 'material-ui/svg-icons/navigation/fullscreen-exit'
 import screenfull from 'screenfull'
 import Loading from 'components/Modules/Loading'
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
+import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 import {
   getChapter,
@@ -151,11 +154,15 @@ export class Chapter extends Component {
             )}
           </div>
           <div className={s.container} ref="container">
-            {!isTouchAvailable && <button
-              className={s.controlBtn}
-              onClick={this.handlePreviousPage}
-              disabled={pagenum < 2}
-              >Previous</button>}
+            {!isTouchAvailable && (
+              <div className={s.controlBtn}>
+                <FloatingActionButton
+                  onClick={this.handlePreviousPage}
+                  >
+                  <ArrowBack/>
+                </FloatingActionButton>
+              </div>
+            )}
             <SwipeableViews
               resistance={true}
               className={isTouchAvailable ? s.touchSwiper : s.swiper}
@@ -175,10 +182,15 @@ export class Chapter extends Component {
                 </Paper>
               ))}
             </SwipeableViews>
-            {!isTouchAvailable && <button
-              className={s.controlBtn}
-              onClick={this.handleNextPage}
-              >Next</button>}
+            {!isTouchAvailable && (
+              <div className={s.controlBtn}>
+                <FloatingActionButton
+                  onClick={this.handleNextPage}
+                  >
+                  <ArrowForward/>
+                </FloatingActionButton>
+              </div>
+            )}
           </div>
         </section>
       )
