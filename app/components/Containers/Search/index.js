@@ -6,6 +6,10 @@ import Helmet from 'react-helmet'
 import hashit from 'hash-it'
 import R from 'ramda'
 import debounce from 'debounce'
+import {
+  MANGA_ITEM_CARD_HEIGHT,
+  MANGA_ITEM_CARD_WIDTH,
+} from 'constants'
 
 import * as searchActions from 'redux/actions/search'
 import searchSelector from 'redux/selectors/search'
@@ -32,12 +36,22 @@ export class Search extends Component {
     this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
   }
   componentDidMount(){
-    const query = this.props.location.query.q
+    const {
+      location,
+      changeSearchQuery,
+      changeContainerHeight,
+    } = this.props
+
+    //Amount of manga items to display in a row
+    this.rowColums = Math.floor(this.refs.container.clientWidth / MANGA_ITEM_CARD_WIDTH)
+
+    changeContainerHeight(this.refs.container.clientHeight)
+
+    const query = location.query.q
     if(query && query.length > 0){
-      this.props.changeSearchQuery(query)
+      changeSearchQuery(query)
     }
     this.handleSearch()
-    this.props.changeContainerHeight(this.refs.container.clientHeight)
   }
   componentWillUpdate(newProps){
     if(this.props.location.query.q != newProps.location.query.q){
@@ -47,7 +61,11 @@ export class Search extends Component {
   handleSearch(props=this.props){
     const query = props.location.query.q
     if(query && query.length > 0){
-      props.searchItems(query)
+      props.searchItems(
+        query,
+        1,
+        this.rowColums
+      )
     }
   }
   handleInfiniteLoad(){
@@ -58,6 +76,7 @@ export class Search extends Component {
       searchItems(
         location.query.q,
         newPage,
+        this.rowColums
       )
     }
   }
@@ -91,7 +110,7 @@ export class Search extends Component {
         <div className={s.container} ref="container">
           <Infinite
             containerHeight={search.containerHeight}
-            elementHeight={264}
+            elementHeight={MANGA_ITEM_CARD_HEIGHT}
             infiniteLoadBeginEdgeOffset={search.containerHeight}
             onInfiniteLoad={this.handleInfiniteLoad}
             preloadAdditionalHeight={search.containerHeight * 2}

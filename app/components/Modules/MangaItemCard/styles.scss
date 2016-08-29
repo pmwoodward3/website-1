@@ -7,6 +7,10 @@ $height: 180px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
+
+  & > div {
+    padding-bottom: 0 !important;
+  }
 }
 
 .title {

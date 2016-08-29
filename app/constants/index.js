@@ -19,3 +19,9 @@ if (__PRODUCTION__) {
 export const DEV_URL = devUrl
 
 export const API_URL = `http://${window.location.hostname}:8080/api/`
+
+const margin = 10
+
+export const MANGA_ITEM_CARD_HEIGHT = 236 + (margin * 2)
+
+export const MANGA_ITEM_CARD_WIDTH = 130 + (margin * 2)
