@@ -8,47 +8,20 @@ import ActionHome from 'material-ui/svg-icons/action/home'
 /* component styles */
 import s from './styles.scss'
 
-export default class Header extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      searchQuery: '',
-    }
-    this.handleSearch = this.handleSearch.bind(this)
-    this.handleSearchFieldChange = this.handleSearchFieldChange.bind(this)
-  }
-  handleSearchFieldChange(e){
-    this.setState({
-      searchQuery: e.target.value,
-    })
-  }
-  handleSearch(){
-    const searchQuery = this.state.searchQuery
-    if(searchQuery.length > 0){
-      browserHistory.push(`/search/${searchQuery}`)
-    }
-  }
-  render(){
-    return (
-      <div className={s.root}>
-        <IndexLink to="/" activeClassName={s.active}>
-          <IconButton>
-            <ActionHome />
-          </IconButton>
-        </IndexLink>
+const Header = () => (
+  <div className={s.root}>
+    <IndexLink to="/" activeClassName={s.active}>
+      <IconButton>
+        <ActionHome />
+      </IconButton>
+    </IndexLink>
 
-        <div className={s.search}>
-          <TextField
-            hintText="Search"
-            ref="searchField"
-            value={this.state.searchQuery}
-            onChange={this.handleSearchFieldChange}
-            />
-          <IconButton onClick={this.handleSearch}>
-            <ActionSearch/>
-          </IconButton>
-        </div>
-      </div>
-    )
-  }
-}
+    <Link to="/search" activeClassName={s.active}>
+      <IconButton>
+        <ActionSearch/>
+      </IconButton>
+    </Link>
+  </div>
+)
+
+export default Header

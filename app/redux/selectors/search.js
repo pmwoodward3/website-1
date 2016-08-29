@@ -1,16 +1,20 @@
 import { createSelector } from 'reselect'
 
 const mangaTableSelector = state => state.mangaTable.items
-const searchSelector = state => state.search.items
+const searchSelector = state => state.search
 
 const search = createSelector(
   mangaTableSelector,
   searchSelector,
   (table, search) => ({
-    items: search.map(({mangaid, score}) => ({
+    ...search,
+    rows: search.rows
+    .map((column) =>
+    column
+    .map(({mangaid, score}) => ({
       ...table[mangaid],
       score,
-    })),
+    }))),
   })
 )
 

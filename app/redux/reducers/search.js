@@ -1,10 +1,10 @@
 import { createReducer } from '../utils/createReducer';
 
 const initialState = {
+  query: '',
   totalPages: 0,
-  page: 0,
-  length: 0,
-  items: [],
+  rows: [],
+  containerHeight: 10,
 }
 
 const toFormat = (payload) =>
@@ -14,13 +14,26 @@ payload.hits.map(({mangaid, score}) => ({
 }))
 
 export default createReducer({
-  ['SEARCH_ITEMS_SUCCESS']: (state, { payload }) => ({
-    items: toFormat(payload),
-    totalPages: payload.totalPages,
-    page: payload.page,
-    length: payload.length,
-  }),
+  ['SEARCH_ITEMS_SUCCESS']: (state, { payload }) => {
+    const rows = state.rows.slice(0)
+    rows[payload.page - 1] = toFormat(payload)
 
-  ['SEARCH_ITEMS_FAILURE']: (state, { payload, error }) =>
-  console.error('error', error),
-}, initialState);
+    return {
+      ...state,
+      rows,
+      totalPages: payload.totalPages,
+    }
+  },
+
+  ['SEARCH_ITEMS_FAILURE']: (state, { payload, error }) => initialState,
+
+  ['CHANGE_SEARCH_QUERY']: (state, { payload, error }) => ({
+    ...initialState,
+    containerHeight: state.containerHeight,
+    query: payload,
+  }),
+  ['CHANGE_CONTAINER_HEIGHT']: (state, { payload, error }) => ({
+    ...state,
+    containerHeight: payload,
+  }),
+}, initialState)

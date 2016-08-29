@@ -6,6 +6,7 @@ import isTouchAvailable from 'utils/isTouchAvailable'
 import Loading from 'components/Modules/Loading'
 import Header from 'components/Modules/Header'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import LinearProgress from 'material-ui/LinearProgress'
 
 /* global styles for app */
 if (__CLIENT__) {
@@ -26,7 +27,7 @@ const s = {
     flexDirection: 'column',
     overflow: 'scroll',
     WebkitOverflowScrolling: 'touch',
-  }
+  },
 }
 
 export default class Root extends Component {
@@ -45,11 +46,11 @@ export default class Root extends Component {
           className={isTouchAvailable ? 'touch' : 'no-touch'}
           style={s.root}
           >
-          {}
           <Helmet
             title="posts"
             />
 
+          <LinearProgress mode="indeterminate" />
           <Header/>
           <section style={s.childrenContainer}>
             {this.props.children &&

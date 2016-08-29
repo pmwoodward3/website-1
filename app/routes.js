@@ -10,7 +10,7 @@ import Chapter from './components/Containers/Chapter'
 export default (
   <Route path="/" component={Root}>
     <IndexRoute component={Home} />
-    <Route path="/search/:query" component={Search} />
+    <Route path="/search" component={Search} />
     <Route path="/manga/:mangaid" component={Manga} />
     <Route path="/manga/:mangaid/:chapternum(/:pagenum)" component={Chapter} />
   </Route>

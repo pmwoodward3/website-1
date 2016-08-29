@@ -1,87 +1,111 @@
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import hashit from 'hash-it'
 import R from 'ramda'
+import debounce from 'debounce'
 
-import { searchItems } from 'redux/actions/search'
+import * as searchActions from 'redux/actions/search'
 import searchSelector from 'redux/selectors/search'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
+import List from 'components/Modules/List'
+import TextField from 'material-ui/TextField'
+import Paper from 'material-ui/Paper'
+import RaisedButton from 'material-ui/RaisedButton'
 
 export class Search extends Component {
   static propTypes = {
     search: PropTypes.object.isRequired,
     searchItems: PropTypes.func.isRequired,
+    changeSearchQuery: PropTypes.func.isRequired,
+    changeContainerHeight: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
-    this.handlePageChange = this.handlePageChange.bind(this)
+    this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this)
+    this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this)
+    this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
   }
   componentDidMount(){
+    const query = this.props.location.query.q
+    if(query && query.length > 0){
+      this.props.changeSearchQuery(query)
+    }
     this.handleSearch()
+    this.props.changeContainerHeight(this.refs.container.clientHeight)
   }
   componentWillUpdate(newProps){
-    if(this.props.params.query != newProps.params.query){
+    if(this.props.location.query.q != newProps.location.query.q){
       this.handleSearch(newProps)
     }
   }
   handleSearch(props=this.props){
-    props.searchItems(
-      props.params.query,
-    )
+    const query = props.location.query.q
+    if(query && query.length > 0){
+      props.searchItems(query)
+    }
   }
-  handlePageChange(newPage){
-    this.props.searchItems(
-      this.props.params.query,
-      newPage,
-    )
+  handleInfiniteLoad(){
+    const { searchItems, location, search } = this.props
+    const newPage = search.rows.length + 1
+
+    if(newPage <= search.totalPages){
+      searchItems(
+        location.query.q,
+        newPage,
+      )
+    }
+  }
+  handleSearchQueryChange(e, val){
+    this.props.changeSearchQuery(val)
+    this.updateQueryLocation(val)
+  }
+  updateQueryLocation(query){
+    browserHistory.push(`/search?q=${query}`)
   }
 
   render() {
-    const { search, params } = this.props
+    const { search, location } = this.props
 
     return (
       <section className={s.root}>
         <Helmet
-          title="search"
+          title="Search"
           />
-        <h1>Search Results for {`\"${params.query}\"`}</h1>
-        <div className={s.list}>
-          {
-            search.items.map((item) => (
-              <MangaItemCard key={item.mangaid} lazyload={true} {...item}/>
-            ))
-          }
+        <div className={s.header}>
+          <Paper zDepth={1} className={s.searchField}>
+            <TextField
+              id="searchField"
+              placeholder="Type something..."
+              value={search.query}
+              onChange={this.handleSearchQueryChange}
+              fullWidth={true}
+              />
+          </Paper>
         </div>
-        <div className={s.pagination}>
-          <button
-            onClick={() => this.handlePageChange(search.page - 1)}
-            disabled={search.page < 2}
-            >Previous</button>
-          {
-            ((search) => {
-              const buttons = []
-              for (let i = 1; i <= search.totalPages; i++) {
-                buttons.push(
-                  <button
-                    key={'page'+i}
-                    onClick={() => this.handlePageChange(i)}
-                    disabled={search.page == i}
-                    >{i}</button>
-                )
-              }
-              return buttons
-            })(search)
-          }
-          <button
-            onClick={() => this.handlePageChange(search.page + 1)}
-            disabled={search.page >= search.totalPages}
-            >Next</button>
+        <div className={s.container} ref="container">
+          <Infinite
+            containerHeight={search.containerHeight}
+            elementHeight={264}
+            infiniteLoadBeginEdgeOffset={search.containerHeight}
+            onInfiniteLoad={this.handleInfiniteLoad}
+            preloadAdditionalHeight={search.containerHeight * 2}
+            >
+            {
+              search.rows.map((colums, index) => (
+                <List key={'row'+index}>
+                  {colums.map((item) => (
+                    <MangaItemCard key={item.mangaid} {...item}/>
+                  ))}
+                </List>
+              ))
+            }
+          </Infinite>
         </div>
       </section>
     )
@@ -93,6 +117,6 @@ export default connect(
     search: searchSelector(state),
   }),
   {
-    searchItems,
+    ...searchActions,
   }
 )(Search)

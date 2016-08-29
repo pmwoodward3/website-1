@@ -68,6 +68,7 @@
     "cors": "2.7.1",
     "css-loader": "0.23.1",
     "css-modules-require-hook": "4.0.1",
+    "debounce": "^1.0.0",
     "enzyme": "2.4.1",
     "es6-promise": "3.2.1",
     "eslint": "^3.3.1",

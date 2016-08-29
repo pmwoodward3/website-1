@@ -1,15 +1,43 @@
 .root {
   position: relative;
-
-  padding: 15px 10px;
   display: flex;
-  align-items: center;
+  flex: 1;
   flex-direction: column;
+  background: #eee;
 }
 
-.list {
+.header {
   display: flex;
-  justify-content: center;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+.searchSection {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.searchField {
+  width: 100%;
+  padding: 0 10px;
+  margin: 20px 15px;
+}
+
+.container {
+  flex: 1;
+  flex-shrink: 0;
+
+  //Infinite List
+  & > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+  }
 }
