@@ -124,7 +124,7 @@ export class Chapter extends Component {
     const { chapter, params } = this.props
     const hierarchy = [
       {title: 'Berserk', url: `/manga/${params.mangaid}`},
-      {title: `Chapter ${params.chapternum}`, url: `/manga/${params.mangaid}/${params.chapternum}`},
+      {title: `Chapter ${params.chapternum}`, disabled: true},
       {title: `Page ${params.pagenum}`, disabled: true},
     ]
 
