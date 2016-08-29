@@ -35,6 +35,7 @@ import {
   CardTitle,
 } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
+import Chip from 'material-ui/Chip'
 
 export class Manga extends Component {
   static propTypes = {
@@ -114,6 +115,7 @@ export class Manga extends Component {
             <CardHeader
               actAsExpander={true}
               showExpandableButton={true}
+              className={s.cardHeader}
               >
               <CardTitle
                 title={details.title}
@@ -137,7 +139,11 @@ export class Manga extends Component {
             </CardActions>
             <CardText expandable={true}>
               <strong>Genres </strong>
-              <p>{details.genres.join(', ')}</p>
+              <div className={s.genreSection}>
+                {details.genres.map((genre) => (
+                  <Chip key={genre} className={s.genreChip}>{genre}</Chip>
+                ))}
+              </div>
               <strong>Summary </strong>
               <p>{details.summary}</p>
             </CardText>

@@ -13,7 +13,11 @@
   object-fit: contain;
 }
 
-.chapters, .recommendations {
+.cardHeader {
+  box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.recommendations {
   padding: 10px;
 }
 
@@ -25,4 +29,16 @@
 
 .chapterItem {
   text-decoration: none;
+}
+
+.genreSection {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.genreChip {
+  margin: 4px !important;
+  text-transform: capitalize;
 }
