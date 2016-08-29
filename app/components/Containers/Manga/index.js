@@ -24,8 +24,9 @@ import { List, ListItem } from 'material-ui/List'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
-import ContentAdd from 'material-ui/svg-icons/content/add'
+import AvLibraryAdd from 'material-ui/svg-icons/av/library-add'
 import ContentRemove from 'material-ui/svg-icons/content/remove'
+import FloatingActionButton from 'material-ui/FloatingActionButton';
 import {
   Card,
   CardActions,
@@ -95,6 +96,7 @@ export class Manga extends Component {
           <Card>
             <CardMedia>
               <img
+                draggable={false}
                 src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
                 referrerPolicy="no-referrer"
                 className={s.fullCover}
@@ -106,12 +108,21 @@ export class Manga extends Component {
             {!manga.fullCoverAvailable && details.cover && (
               <CardMedia>
                 <img
+                  draggable={false}
                   src={details.cover}
                   referrerPolicy="no-referrer"
                   className={s.cover}
                   />
               </CardMedia>
             )}
+            <FloatingActionButton
+              secondary={true}
+              className={s.actionButton}
+              onTouchTap={this.handleToMyListAction}
+              disabled={isMyListItem}
+              >
+              <AvLibraryAdd />
+            </FloatingActionButton>
             <CardHeader
               actAsExpander={true}
               showExpandableButton={true}
@@ -122,21 +133,15 @@ export class Manga extends Component {
                 subtitle={`${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
                 />
             </CardHeader>
-            <CardActions expandable={true}>
-              {isMyListItem ? (
+            {isMyListItem && (
+              <CardActions className={s.cardActions}>
                 <FlatButton
                   icon={<ContentRemove/>}
                   onClick={this.handleToMyListAction}
                   label="Remove from my list"
                   />
-              ) : (
-                <FlatButton
-                  icon={<ContentAdd/>}
-                  onClick={this.handleToMyListAction}
-                  label="Add to my list"
-                  />
-              )}
-            </CardActions>
+              </CardActions>
+            )}
             <CardText expandable={true}>
               <strong>Genres </strong>
               <div className={s.genreSection}>
