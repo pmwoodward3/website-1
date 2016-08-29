@@ -169,7 +169,11 @@ export class Manga extends Component {
                 </SelectField>
               </div>
               <List>
-                <Infinite containerHeight={300} elementHeight={56}>
+                <Infinite
+                  containerHeight={300}
+                  elementHeight={56}
+                  preloadAdditionalHeight={300 * 3}
+                  >
                   {chapters.map(({chapternum, title}) => (
                     <Link
                       to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}
