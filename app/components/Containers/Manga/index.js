@@ -124,8 +124,6 @@ export class Manga extends Component {
               <AvLibraryAdd />
             </FloatingActionButton>
             <CardHeader
-              actAsExpander={true}
-              showExpandableButton={true}
               className={s.cardHeader}
               >
               <CardTitle
@@ -142,7 +140,7 @@ export class Manga extends Component {
                   />
               </CardActions>
             )}
-            <CardText expandable={true}>
+            <CardText>
               <strong>Genres </strong>
               <div className={s.genreSection}>
                 {details.genres.map((genre) => (
