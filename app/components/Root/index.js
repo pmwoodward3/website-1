@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import Helmet from 'react-helmet'
+import { connect } from 'react-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import isTouchAvailable from 'utils/isTouchAvailable'
 
@@ -30,34 +31,32 @@ const s = {
   },
 }
 
-export default class Root extends Component {
+const Root = ({loading, children, ...props}) => (
+  <MuiThemeProvider>
+    <section
+      className={isTouchAvailable ? 'touch' : 'no-touch'}
+      style={s.root}
+      >
+      <Helmet
+        title="posts"
+        />
 
-  static propTypes = {
-    location: PropTypes.object,
-    children: PropTypes.object,
-    params: PropTypes.object,
-    history: PropTypes.object,
-  };
+      <LinearProgress
+        mode="indeterminate"
+        style={{
+          display: loading > 0 ? 'block' : 'none',
+        }}
+        />
+      <Header/>
+      <section style={s.childrenContainer}>
+        {children && React.cloneElement(children, props)}
+      </section>
+    </section>
+  </MuiThemeProvider>
+)
 
-  render() {
-    return (
-      <MuiThemeProvider>
-        <section
-          className={isTouchAvailable ? 'touch' : 'no-touch'}
-          style={s.root}
-          >
-          <Helmet
-            title="posts"
-            />
-
-          <LinearProgress mode="indeterminate" />
-          <Header/>
-          <section style={s.childrenContainer}>
-            {this.props.children &&
-              React.cloneElement(this.props.children, this.props)}
-          </section>
-          </section>
-        </MuiThemeProvider>
-      )
-    }
-  }
+export default connect(
+  (state) => ({
+    loading: state.loading,
+  }),
+)(Root)

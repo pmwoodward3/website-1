@@ -7,12 +7,8 @@ import hashit from 'hash-it'
 import R from 'ramda'
 import Infinite from 'react-infinite'
 
-import {
-  getManga,
-  fullCoverLoadSuccess,
-  fullCoverLoadFailure,
-} from 'redux/actions/manga'
-import { addMyListItem, removeMyListItem } from 'redux/actions/myList'
+import * as mangaActions from 'redux/actions/manga'
+import * as myListActions from 'redux/actions/myList'
 import { isMyListItem as isMyListItemSelector } from 'redux/selectors/myList'
 
 import s from './styles.scss'
@@ -44,6 +40,7 @@ export class Manga extends Component {
     getManga: PropTypes.func.isRequired,
     fullCoverLoadFailure: PropTypes.func.isRequired,
     fullCoverLoadSuccess: PropTypes.func.isRequired,
+    fullCoverLoadRequest: PropTypes.func.isRequired,
     addMyListItem: PropTypes.func.isRequired,
     removeMyListItem: PropTypes.func.isRequired,
   };
@@ -67,8 +64,9 @@ export class Manga extends Component {
     getManga(params.mangaid, value)
   }
   handleMangaChange(props=this.props){
-    const { getManga, params, manga } = props
+    const { getManga, params, manga, fullCoverLoadRequest } = props
     getManga(params.mangaid, manga.source)
+    fullCoverLoadRequest()
   }
   handleToMyListAction(){
     const { addMyListItem, removeMyListItem, manga, isMyListItem } = this.props
@@ -226,10 +224,7 @@ export default connect(
     isMyListItem: isMyListItemSelector(state, params.mangaid),
   }),
   {
-    getManga,
-    fullCoverLoadSuccess,
-    fullCoverLoadFailure,
-    addMyListItem,
-    removeMyListItem,
+    ...mangaActions,
+    ...myListActions,
   }
 )(Manga)

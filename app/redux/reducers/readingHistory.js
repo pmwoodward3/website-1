@@ -12,5 +12,5 @@ export default createReducer({
       ...state.items.filter(({mangaid}) => mangaid !== payload.mangaid),
     ],
   }),
-  ['LOAD_STORAGE_SUCCESS']: (state, { payload }) => payload.readingHistory ? payload.readingHistory : state,
+  ['LOAD_STORAGE']: (state, { payload }) => payload.readingHistory ? payload.readingHistory : state,
 }, initialState)

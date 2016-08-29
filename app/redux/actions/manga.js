@@ -20,3 +20,7 @@ export const fullCoverLoadSuccess = (mangaid) => ({
     mangaid,
   },
 })
+
+export const fullCoverLoadRequest = () => ({
+  type: 'FULL_COVER_LOAD_REQUEST',
+})

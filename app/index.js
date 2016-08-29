@@ -63,7 +63,7 @@ localforage.getItem('myList')
 })
 .then(() => {
   store.dispatch({
-    type: 'LOAD_STORAGE_SUCCESS',
+    type: 'LOAD_STORAGE',
     payload: storageState,
   })
 
