@@ -7,7 +7,11 @@ import hashit from 'hash-it'
 import R from 'ramda'
 import Infinite from 'react-infinite'
 
-import { getManga } from 'redux/actions/manga'
+import {
+  getManga,
+  fullCoverLoadSuccess,
+  fullCoverLoadFailure,
+} from 'redux/actions/manga'
 import { addMyListItem, removeMyListItem } from 'redux/actions/myList'
 import { isMyListItem as isMyListItemSelector } from 'redux/selectors/myList'
 
@@ -36,6 +40,8 @@ export class Manga extends Component {
   static propTypes = {
     manga: PropTypes.object.isRequired,
     getManga: PropTypes.func.isRequired,
+    fullCoverLoadFailure: PropTypes.func.isRequired,
+    fullCoverLoadSuccess: PropTypes.func.isRequired,
     addMyListItem: PropTypes.func.isRequired,
     removeMyListItem: PropTypes.func.isRequired,
   };
@@ -76,7 +82,7 @@ export class Manga extends Component {
   }
 
   render() {
-    const { manga, isMyListItem } = this.props
+    const { manga, isMyListItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
@@ -88,11 +94,23 @@ export class Manga extends Component {
           <Card>
             <CardMedia>
               <img
-                src={details.cover}
+                src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
                 referrerPolicy="no-referrer"
-                className={s.cover}
+                className={s.fullCover}
+                style={{display: manga.fullCoverAvailable ? 'block' : 'none'}}
+                onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
+                onError={fullCoverLoadFailure.bind({}, details.mangaid)}
                 />
             </CardMedia>
+            {!manga.fullCoverAvailable && details.cover && (
+              <CardMedia>
+                <img
+                  src={details.cover}
+                  referrerPolicy="no-referrer"
+                  className={s.cover}
+                  />
+              </CardMedia>
+            )}
             <CardHeader
               actAsExpander={true}
               showExpandableButton={true}
@@ -128,7 +146,7 @@ export class Manga extends Component {
               <p>{details.summary}</p>
             </CardText>
           </Card>
-          {(sources && chapters) ? (
+          {(sources && chapters && sources.length > 0 && chapters.length > 0) ? (
             <div className={s.chapters}>
               <div className={s.chapterHeader}>
                 <h3>Chapters</h3>
@@ -200,6 +218,8 @@ export default connect(
   }),
   {
     getManga,
+    fullCoverLoadSuccess,
+    fullCoverLoadFailure,
     addMyListItem,
     removeMyListItem,
   }
