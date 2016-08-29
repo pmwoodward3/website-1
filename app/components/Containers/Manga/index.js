@@ -136,18 +136,13 @@ export class Manga extends Component {
               )}
             </CardActions>
             <CardText expandable={true}>
-              <strong>Author </strong>
-              <p>{details.author}</p>
-              <strong>Artist </strong>
-              <p>{details.artist}</p>
               <strong>Genres </strong>
               <p>{details.genres.join(', ')}</p>
               <strong>Summary </strong>
               <p>{details.summary}</p>
             </CardText>
-          </Card>
           {(sources && chapters && sources.length > 0 && chapters.length > 0) ? (
-            <div className={s.chapters}>
+            <CardText className={s.chapters}>
               <div className={s.chapterHeader}>
                 <h3>Chapters</h3>
                 <SelectField
@@ -187,12 +182,13 @@ export class Manga extends Component {
                   ))}
                 </Infinite>
               </List>
-            </div>
+            </CardText>
           ) : (
             <strong>
               No chapters available. This manga was not found in any source.
             </strong>
           )}
+          </Card>
           {details.recommendations && (
             <div className={s.recommendations}>
               <h3>Recommendations</h3>
