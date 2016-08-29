@@ -29,18 +29,12 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum}) =>
   return (
     <Card className={s.root} onClick={() => browserHistory.push(url)}>
       <CardMedia>
-        {cover ? (
-          <img
-            draggable={false}
-            src={cover}
-            referrerPolicy="no-referrer"
-            className={s.cover}
-            />
-        ) : (
-          <div className={s.cover}>
-            Cover not available
-          </div>
-        )}
+        <img
+          draggable={false}
+          src={cover || `http://mcd.iosphe.re/t/${mangaid}/1/front/a/`}
+          referrerPolicy="no-referrer"
+          className={s.cover}
+          />
       </CardMedia>
       <CardTitle
         title={title}
