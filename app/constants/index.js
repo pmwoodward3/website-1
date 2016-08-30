@@ -1,24 +1,14 @@
-const __PRODUCTION__ = __PRODUCTION__ || process.env.NODE_ENV === 'production'; // eslint-disable-line
+const __PRODUCTION__ = __PRODUCTION__ || process.env.NODE_ENV === 'production' // eslint-disable-line
 
 // set location dist folder and api url for 4 differents run modes
 
-let devUrl
+export const DEV_URL = __PRODUCTION__
+? '/dist/'
+: 'http://localhost:3000/dist/'
 
-if (__CLIENT__ && !__PRODUCTION__) {
-  devUrl = 'http://localhost:3000/dist/'
-}
-
-if (!__CLIENT__ && !__PRODUCTION__) {
-  devUrl = 'http://localhost:3001/dist/'
-}
-
-if (__PRODUCTION__) {
-  devUrl = '/dist/'
-}
-
-export const DEV_URL = devUrl
-
-export const API_URL = `http://${window.location.hostname}:8080/api/`
+export const API_URL = __PRODUCTION__
+? 'http://192.168.1.151:4202/api/'
+: 'http://beam.noip.me:4202/api/'
 
 const margin = 10
 
