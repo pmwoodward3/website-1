@@ -104,6 +104,7 @@ export class Search extends Component {
               value={search.query}
               onChange={this.handleSearchQueryChange}
               fullWidth={true}
+              autoFocus={true}
               />
           </Paper>
         </div>
