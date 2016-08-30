@@ -15,6 +15,7 @@ import recommendationsSelector from 'redux/selectors/recommendations'
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
+import Paper from 'material-ui/Paper'
 
 export class Home extends Component {
   static propTypes = {
@@ -38,8 +39,8 @@ export class Home extends Component {
           />
         {
           readingHistory.items.length > 0 && (
-            <section>
-              <h3>Continue Reading</h3>
+            <Paper zDepth={1} className={s.section}>
+              <h3 className={s.sectionTitle}>Continue Reading</h3>
               <List>
                 {readingHistory.items.map(({pagenum, ...item}) => item.mangaid && (
                   <MangaItemCard
@@ -49,25 +50,25 @@ export class Home extends Component {
                     />
                 ))}
               </List>
-            </section>
+            </Paper>
           )
         }
         {
           myList.items.length > 0 && (
-            <section>
-              <h3>My List</h3>
+            <Paper zDepth={1} className={s.section}>
+              <h3 className={s.sectionTitle}>My List</h3>
               <List>
                 {myList.items.map((item) => item && (
                   <MangaItemCard key={'myList'+item.mangaid} {...item}/>
                 ))}
               </List>
-            </section>
+            </Paper>
           )
         }
         {
           releases.items.length > 0 && (
-            <section>
-              <h3>New Releases</h3>
+            <Paper zDepth={1} className={s.section}>
+              <h3 className={s.sectionTitle}>New Releases</h3>
               <div className={s.list}>
                 <List>
                   {releases.items.map((item) => item && (
@@ -75,13 +76,13 @@ export class Home extends Component {
                   ))}
                 </List>
               </div>
-            </section>
+            </Paper>
           )
         }
         {
           recommendations.items.length > 0 && (
-            <section>
-              <h3>Recomended For You</h3>
+            <Paper zDepth={1} className={s.section}>
+              <h3 className={s.sectionTitle}>Recomended For You</h3>
               <div className={s.list}>
                 <List>
                   {recommendations.items.map((item) => item && (
@@ -89,7 +90,7 @@ export class Home extends Component {
                   ))}
                 </List>
               </div>
-            </section>
+            </Paper>
           )
         }
       </section>

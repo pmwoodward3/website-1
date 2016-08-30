@@ -1,9 +1,14 @@
 .root {
   position: relative;
+}
 
-  padding: 5px;
-  
-  h3{
-    padding: 0 10px;
-  }
+.section {
+  margin: 1em;
+  padding: 0.7em;
+}
+
+.sectionTitle {
+  padding: 0 0.5em;
+  margin: 0.5em 0;
+  font-size: 1em;
 }
