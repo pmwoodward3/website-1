@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import ActionHome from 'material-ui/svg-icons/action/home'
+import Paper from 'material-ui/Paper'
 
 /* component styles */
 import s from './styles.scss'
@@ -19,7 +20,11 @@ export default class Header extends Component {
     }
 
     return (
-      <div className={s.root} style={headerStyle}>
+      <Paper
+        zDepth={2}
+        className={s.root}
+        style={headerStyle}
+        >
         <IndexLink to="/" activeClassName={s.active}>
           <IconButton>
             <ActionHome />
@@ -31,7 +36,7 @@ export default class Header extends Component {
             <ActionSearch/>
           </IconButton>
         </Link>
-      </div>
+      </Paper>
     )
   }
 }
