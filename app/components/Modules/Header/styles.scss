@@ -4,9 +4,11 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: #fff;
   box-shadow: 0 0 10px #bbb;
   z-index: 1000;
+  svg {
+    color: #fff !important;
+  }
 }
 
 .search {
