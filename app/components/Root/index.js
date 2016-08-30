@@ -45,6 +45,10 @@ const Root = ({loading, children, ...props}) => (
         mode="indeterminate"
         style={{
           display: loading > 0 ? 'block' : 'none',
+          position: 'absolute',
+          top: 0,
+          width: '100%',
+          zIndex: 10000,
         }}
         />
       <Header/>
