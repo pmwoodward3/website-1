@@ -15,10 +15,16 @@
 
 .cardHeader {
   box-shadow: 0 -10px 18px rgba(0, 0, 0, 0.25);
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .recommendations {
   padding: 10px;
+}
+
+.chapterSection {
+  padding-top: 0 !important;
 }
 
 .chapterHeader {
@@ -32,7 +38,8 @@
 }
 
 .genreSection {
-  margin: 10px 0;
+  margin-top: 10px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
