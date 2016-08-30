@@ -19,24 +19,19 @@
   padding-bottom: 0 !important;
 }
 
-.recommendations {
-  padding: 10px;
+.actionButton {
+  position: relative;
+  z-index: 1000;
+  float: right;
+  top: -27px;
+  right: 30px;
 }
 
-.chapterSection {
-  padding-top: 0 !important;
-}
-
-.chapterHeader {
+.cardActions {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
 }
-
-.chapterItem {
-  text-decoration: none;
-}
-
 .genreSection {
   margin-top: 10px;
   margin-bottom: 20px;
@@ -50,16 +45,21 @@
   text-transform: capitalize;
 }
 
-.actionButton {
-  position: relative;
-  z-index: 1000;
-  float: right;
-  top: -27px;
-  right: 30px;
+.chapterSection {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
-.cardActions {
+.chapterHeader {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+.chapterItem {
+  text-decoration: none;
+}
+
+.recommendations {
+  padding: 10px;
 }

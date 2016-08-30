@@ -91,7 +91,7 @@ export class Manga extends Component {
           <Helmet
             title={details.title}
             />
-          <Card>
+          <Card className={s.card}>
             <CardMedia>
               <img
                 draggable={false}
@@ -149,7 +149,7 @@ export class Manga extends Component {
               <p>{details.summary}</p>
             </CardText>
           {(sources && chapters && sources.length > 0 && chapters.length > 0) ? (
-            <CardText className={s.chapters}>
+            <CardText className={s.chapterSection}>
               <div className={s.chapterHeader}>
                 <h3>Chapters</h3>
                 <SelectField
