@@ -1,4 +1,6 @@
-export const getChapter = (mangaid, chapternum, source="mangaeden") => ({
+import { MAIN_SOURCE } from 'constants'
+
+export const getChapter = (mangaid, chapternum, source=MAIN_SOURCE) => ({
   mode: 'GET',
   type: 'GET_CHAPTER',
   url: `manga/${mangaid}/${chapternum}`,

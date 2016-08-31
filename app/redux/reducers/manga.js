@@ -1,11 +1,12 @@
-import { createReducer } from '../utils/createReducer';
+import { MAIN_SOURCE } from 'constants'
+import { createReducer } from '../utils/createReducer'
 
 const initialState = {
   details: {},
-  sources: {},
+  sources: [],
   chapters: [],
   fullCoverAvailable: false,
-  source: 'mangaeden',
+  source: MAIN_SOURCE,
 }
 
 export default createReducer({
