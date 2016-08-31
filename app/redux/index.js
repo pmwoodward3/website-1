@@ -4,6 +4,7 @@ import createLogger from 'redux-logger'
 import rootReducer from './reducers'
 import { promiseMiddleware } from './middleware/promise'
 import { apiMiddleware } from './middleware/api'
+import { localforage } from './middleware/localforage'
 
 const logger = createLogger({
   collapsed: true,
@@ -15,6 +16,7 @@ const middlewares = [
   apiMiddleware,
   promiseMiddleware(),
   thunkMiddleware,
+  localforage,
   !__PRODUCTION__ && logger,
 ].filter(Boolean)
 

@@ -5,7 +5,6 @@ import { Router, browserHistory } from 'react-router'
 import configureStore from './redux'
 import routes from './routes'
 import localforage from 'localforage'
-import throttle from 'throttle-function'
 import { getList } from './redux/actions/list'
 import { getRecommendations } from './redux/actions/recommendations'
 import R from 'ramda'
@@ -26,21 +25,6 @@ export const history = browserHistory
 const initialState = {}
 
 export const store = configureStore(initialState)
-
-store.subscribe(throttle(() => {
-  const state = store.getState()
-  if(state.myList.isLoaded){
-    localforage.setItem('myList', state.myList.items)
-    .then(() => {
-      return localforage.setItem('readingHistory', state.readingHistory.items)
-    })
-    .then()
-    .catch()
-  }
-}), {
-  window: 1000,
-  limit: 1,
-})
 
 //Load state from storage
 const storageState = {}
@@ -67,17 +51,11 @@ localforage.getItem('myList')
   let items = []
 
   if(storageState.myList){
-    items = [
-      ...items,
-      ...storageState.myList.items,
-    ]
+    items = items.concat(storageState.myList)
   }
 
   if(storageState.readingHistory){
-    items = [
-      ...items,
-      ...storageState.readingHistory.items,
-    ]
+    items = items.concat(storageState.readingHistory)
   }
 
   if(items.length > 0){
