@@ -91,7 +91,7 @@ export class Manga extends Component {
           <Helmet
             title={details.title}
             />
-          <Card className={s.card}>
+          <Card className={s.card} zDepth={2}>
             <CardMedia>
               <img
                 draggable={false}

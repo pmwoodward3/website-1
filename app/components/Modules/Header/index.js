@@ -21,7 +21,7 @@ export default class Header extends Component {
 
     return (
       <Paper
-        zDepth={2}
+        zDepth={3}
         className={s.root}
         style={headerStyle}
         >

@@ -39,7 +39,7 @@ export class Home extends Component {
           />
         {
           readingHistory.items.length > 0 && (
-            <Paper zDepth={1} className={s.section}>
+            <Paper zDepth={2} className={s.section}>
               <h3 className={s.sectionTitle}>Continue Reading</h3>
               <List>
                 {readingHistory.items.map(({pagenum, ...item}) => item.mangaid && (
@@ -55,7 +55,7 @@ export class Home extends Component {
         }
         {
           myList.items.length > 0 && (
-            <Paper zDepth={1} className={s.section}>
+            <Paper zDepth={2} className={s.section}>
               <h3 className={s.sectionTitle}>My List</h3>
               <List>
                 {myList.items.map((item) => item && (
@@ -67,7 +67,7 @@ export class Home extends Component {
         }
         {
           releases.items.length > 0 && (
-            <Paper zDepth={1} className={s.section}>
+            <Paper zDepth={2} className={s.section}>
               <h3 className={s.sectionTitle}>New Releases</h3>
               <div className={s.list}>
                 <List>
@@ -81,7 +81,7 @@ export class Home extends Component {
         }
         {
           recommendations.items.length > 0 && (
-            <Paper zDepth={1} className={s.section}>
+            <Paper zDepth={2} className={s.section}>
               <h3 className={s.sectionTitle}>Recomended For You</h3>
               <div className={s.list}>
                 <List>
