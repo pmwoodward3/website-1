@@ -34,12 +34,14 @@ export const store = configureStore(initialState)
 
 store.subscribe(throttle(() => {
   const state = store.getState()
-  localforage.setItem('myList', state.myList)
-  .then(() => {
-    return localforage.setItem('readingHistory', state.readingHistory)
-  })
-  .then()
-  .catch()
+  if(state.myList.isLoaded){
+    localforage.setItem('myList', state.myList.items)
+    .then(() => {
+      return localforage.setItem('readingHistory', state.readingHistory.items)
+    })
+    .then()
+    .catch()
+  }
 }), {
   window: 1000,
   limit: 1,

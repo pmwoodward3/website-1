@@ -1,6 +1,7 @@
 import { createReducer } from '../utils/createReducer';
 
 const initialState = {
+  isLoaded: false,
   items: [],
 }
 
@@ -16,5 +17,8 @@ export default createReducer({
     ...state,
     items: state.items.filter(({mangaid}) => mangaid !== payload.mangaid),
   }),
-  ['LOAD_STORAGE']: (state, { payload }) => payload.myList ? payload.myList : state,
+  ['LOAD_STORAGE']: (state, { payload }) => payload.myList ? ({
+    isLoaded: true,
+    items: payload.myList,
+  }) : state,
 }, initialState)
