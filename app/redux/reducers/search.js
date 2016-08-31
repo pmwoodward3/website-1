@@ -27,11 +27,11 @@ export default createReducer({
 
   ['SEARCH_ITEMS_FAILURE']: (state, { payload, error }) => initialState,
 
-  ['CHANGE_SEARCH_QUERY']: (state, { payload, error }) => ({
+  ['CHANGE_SEARCH_QUERY']: (state, { payload, error }) => payload !== state.query ? ({
     ...initialState,
     containerHeight: state.containerHeight,
     query: payload,
-  }),
+  }) : state,
   ['CHANGE_CONTAINER_HEIGHT']: (state, { payload, error }) => ({
     ...state,
     containerHeight: payload,
