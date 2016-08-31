@@ -140,7 +140,7 @@ export class Chapter extends Component {
       return (
         <section className={s.section}>
           <Helmet
-            title="Chapter"
+            title={`SB - Ch. ${params.chapternum} - P. ${pagenum}`}
             />
           <div className={s.header}>
             <BreadCrumbs items={hierarchy}/>

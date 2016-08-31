@@ -35,7 +35,7 @@ export class Home extends Component {
     return (
       <section className={s.root}>
         <Helmet
-          title="Home"
+          title="SB - Home"
           />
         {
           readingHistory.items.length > 0 && (

@@ -89,7 +89,7 @@ export class Manga extends Component {
       return (
         <section className={s.root}>
           <Helmet
-            title={details.title}
+            title={`SB - ${details.title}`}
             />
           <Card className={s.card} zDepth={2}>
             <CardMedia>

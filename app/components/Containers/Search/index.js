@@ -94,7 +94,7 @@ export class Search extends Component {
     return (
       <section className={s.root}>
         <Helmet
-          title="Search"
+          title={`SB - Search ${location.query.q}`}
           />
         <div className={s.header}>
           <Paper zDepth={1} className={s.searchField}>
