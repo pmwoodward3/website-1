@@ -56,6 +56,7 @@ const Root = ({children, ...props}) => (
       >
       <Helmet
         title="SausageBrain"
+        description="Premier manga reading platform."
         meta={meta}
         />
 
