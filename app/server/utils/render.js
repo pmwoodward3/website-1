@@ -7,15 +7,8 @@ export const renderFullPage = (html, devPort, domain, initialState = null, head)
   return `
   <!doctype html>
   <meta charset="utf-8">
-  <html>
-    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content=${head || ''} />
-      <meta name="apple-mobile-web-app-capable" content="yes">
-      <meta name="mobile-web-app-capable" content="yes">
+    <html>
+      <head>
         ${head ? head.title.toString() : ''}
         ${head ? head.meta.toString() : ''}
         ${bundleCSS}
