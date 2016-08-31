@@ -65,7 +65,7 @@ export class Manga extends Component {
   }
   handleMangaChange(props=this.props){
     const { getManga, params, manga, fullCoverLoadRequest } = props
-    getManga(params.mangaid, manga.source)
+    getManga(params.mangaid)
     fullCoverLoadRequest()
   }
   handleToMyListAction(){
@@ -157,7 +157,7 @@ export class Manga extends Component {
                   onChange={this.handleSourceChange}
                   floatingLabelText="Source"
                   >
-                  {sources.map(({sourceslug, aliasid}) => (
+                  {sources.map(({sourceslug}) => (
                     <MenuItem
                       key={sourceslug}
                       value={sourceslug}
