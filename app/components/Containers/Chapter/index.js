@@ -158,6 +158,7 @@ export class Chapter extends Component {
             {!isTouchAvailable && (
               <div className={s.controlBtn}>
                 <FloatingActionButton
+                  secondary={true}
                   onClick={this.handlePreviousPage}
                   >
                   <ArrowBack/>
@@ -186,6 +187,7 @@ export class Chapter extends Component {
             {!isTouchAvailable && (
               <div className={s.controlBtn}>
                 <FloatingActionButton
+                  secondary={true}
                   onClick={this.handleNextPage}
                   >
                   <ArrowForward/>
