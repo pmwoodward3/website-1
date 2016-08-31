@@ -33,13 +33,15 @@ const s = {
 const themeColor = theme.palette.primary1Color
 
 const meta = [
+  //Viewport
+  {name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui'},
+
+  //The follwing meta tags are just a backup for the web manifest
+
   //Navigation and status bar color
   {name: 'theme-color', content: themeColor},
   {name: 'msapplication-navbutton-color', content: themeColor},
   {name: 'apple-mobile-web-app-status-bar-style', content: themeColor},
-
-  //Viewport
-  {name: 'viewport', content: 'width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui'},
 
   //Allow 'add to homescreen' functinality
   {name: 'apple-mobile-web-app-capable', content: 'yes'},
