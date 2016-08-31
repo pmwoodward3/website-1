@@ -30,15 +30,17 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, sou
     subtitle = undefined
   }
 
+  const overlay = (
+    <CardTitle
+      title={title}
+      subtitle={subtitle}
+      className={s.title}
+      />
+  )
+
   return (
-    <Card className={s.root} onClick={() => browserHistory.push(url)}>
-      <CardMedia
-        overlay={<CardTitle
-        title={title}
-        subtitle={subtitle}
-        className={s.title}
-        />}
-        >
+    <Card className={s.root} onTouchTap={() => browserHistory.push(url)}>
+      <CardMedia overlay={overlay}>
         <img
           draggable={false}
           src={cover || `http://mcd.iosphe.re/t/${mangaid}/1/front/a/`}
