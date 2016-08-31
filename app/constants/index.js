@@ -8,7 +8,7 @@ export const API_URL = __PRODUCTION__
 ? 'http://beam.noip.me:4202/api/'
 : 'http://192.168.1.151:4202/api/'
 
-const margin = 10
+const margin = 8
 
 export const MANGA_ITEM_CARD_HEIGHT = 180 + (margin * 2)
 
