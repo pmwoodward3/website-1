@@ -10,11 +10,6 @@ import { getList } from './redux/actions/list'
 import { getRecommendations } from './redux/actions/recommendations'
 import R from 'ramda'
 
-if (__DEVELOPMENT__) {
-  // https://facebook.github.io/react/docs/advanced-performance.html
-  window.Perf = require('react-addons-perf')
-}
-
 //Setup up browser storage
 localforage.config({
   name: 'sausageBrainWebsite',
