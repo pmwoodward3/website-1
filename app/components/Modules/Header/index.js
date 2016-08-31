@@ -43,9 +43,9 @@ class Header extends Component {
         <LinearProgress
           mode="indeterminate"
           className={s.progress}
+          color={this.context.muiTheme.flatButton.secondaryTextColor}
           style={{
             display: loading ? 'block' : 'none',
-            backgroundColor: this.context.muiTheme.flatButton.secondaryTextColor,
           }}
           />
       </div>
