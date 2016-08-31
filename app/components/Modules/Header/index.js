@@ -24,6 +24,7 @@ class Header extends Component {
       <Paper
         zDepth={3}
         className={s.root}
+        rounded={false}
         style={{
           backgroundColor: this.context.muiTheme.appBar.color,
         }}
