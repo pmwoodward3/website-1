@@ -10,10 +10,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import theme from './theme'
 
-/* global styles for app */
-if (__CLIENT__) {
-  require('./styles/app.scss')
-}
+import '../../manifest.json'
+import './styles/app.scss'
 
 injectTapEventPlugin()
 
@@ -32,7 +30,7 @@ const s = {
   },
 }
 
-const themeColor = theme.palette.primary2Color
+const themeColor = theme.palette.primary1Color
 
 const meta = [
   //Navigation and status bar color

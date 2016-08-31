@@ -82,6 +82,9 @@ const common = {
       // Loader for images (gif)
       test: /\.gif$/,
       loader: 'file?name=[name].[ext]',
+    }, {
+      test: /manifest\.json$/,
+      loader: 'w3c-manifest?icon=icons/[name].[hash].[ext]&legacyAppleSupport=true'
     }],
   },
 

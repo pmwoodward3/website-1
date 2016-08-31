@@ -14,7 +14,4 @@ export default createReducer({
   ['GET_RELEASES_SUCCESS']: (state, { payload }) => ({
     items: toFormat(payload),
   }),
-
-  ['GET_RELEASES_FAILURE']: (state, { payload, error }) =>
-    console.error('error', error),
 }, initialState);
