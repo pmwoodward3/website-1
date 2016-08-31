@@ -148,7 +148,7 @@ export class Manga extends Component {
               <strong>Summary </strong>
               <p>{details.summary}</p>
             </CardText>
-          {(sources && chapters && sources.length > 0 && chapters.length > 0) ? (
+          {(sources && sources.length > 0) ? (
             <CardText className={s.chapterSection}>
               <div className={s.chapterHeader}>
                 <h3>Chapters</h3>
@@ -195,14 +195,16 @@ export class Manga extends Component {
               </List>
             </CardText>
           ) : (
-            <strong>
-              No chapters available. This manga was not found in any source.
-            </strong>
+            <CardText>
+              <strong>
+                No chapters available. This manga was not found in any source.
+              </strong>
+            </CardText>
           )}
           </Card>
           {details.recommendations && (
-            <div className={s.recommendations}>
-              <h3>Recommendations</h3>
+            <div className={s.recommendationsSection}>
+              <h3 className={s.recommendationsTitle}>Recommendations</h3>
               <MangaList>
                 {details.recommendations.map((item) => (
                   <MangaItemCard key={item.mangaid} {...item}/>
