@@ -12,6 +12,6 @@ export const API_URL = __PRODUCTION__
 
 const margin = 10
 
-export const MANGA_ITEM_CARD_HEIGHT = 236 + (margin * 2)
+export const MANGA_ITEM_CARD_HEIGHT = 180 + (margin * 2)
 
 export const MANGA_ITEM_CARD_WIDTH = 130 + (margin * 2)

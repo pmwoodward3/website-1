@@ -3,18 +3,15 @@ $height: 180px;
 
 .root {
   width: $width;
+  height: $height;
   margin: 10px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
-
-  & > div {
-    padding-bottom: 0 !important;
-  }
 }
 
 .title {
-  padding: 10px !important;
+  // padding: 10px !important;
   span {
     display: inline;
     overflow: hidden !important;
@@ -22,7 +19,11 @@ $height: 180px;
     text-overflow: ellipsis !important;
 
     &:first-child{
-      font-size: 20px !important;
+      font-size: 1.2em !important;
+    }
+    &:last-child{
+      font-size: 1em !important;
+      color: rgba(255, 255, 255, 0.6) !important;
     }
   }
 }
