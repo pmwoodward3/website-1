@@ -1,14 +1,7 @@
-.root {
-  padding: 5px 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
+$color: rgba(255, 255, 255, 0.8) !important;
 
-  svg {
-    color: #eee !important;
-  }
+.root svg {
+  color: $color;
 }
 
 .search {
