@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton'
 /* component styles */
 import s from './styles.scss'
 
-const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum}) => {
+const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, source}) => {
   let url = `/manga/${mangaid}`
   let subtitle = ''
 
@@ -22,6 +22,10 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum}) =>
     url = `${url}/${pagenum}`
     subtitle = subtitle + `, p. ${pagenum}`
   }
+  if(source){
+    url = `${url}?source=${source}`
+  }
+
   if(subtitle.length < 1){
     subtitle = undefined
   }

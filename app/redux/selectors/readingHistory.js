@@ -7,10 +7,9 @@ const readingHistory = createSelector(
   mangaTableSelector,
   readingHistorySelector,
   (table, readingHistory) => ({
-    items: readingHistory.map(({mangaid, chapternum, pagenum}) => ({
-      ...table[mangaid],
-      chapternum,
-      pagenum,
+    items: readingHistory.map((item) => ({
+      ...table[item.mangaid],
+      ...item,
     })),
   })
 )

@@ -98,6 +98,7 @@ export class Chapter extends Component {
         mangaid: parseInt(params.mangaid),
         chapternum: parseInt(params.chapternum),
         pagenum: parseInt(params.pagenum),
+        source: location.query.source,
       })
     }
 
