@@ -10,6 +10,7 @@ import Infinite from 'react-infinite'
 import * as mangaActions from 'redux/actions/manga'
 import * as myListActions from 'redux/actions/myList'
 import { isMyListItem as isMyListItemSelector } from 'redux/selectors/myList'
+import mangaSelector from 'redux/selectors/manga'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
@@ -126,7 +127,7 @@ export class Manga extends Component {
               >
               <CardTitle
                 title={details.title}
-                subtitle={`${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
+                subtitle={details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
                 />
             </CardHeader>
             {isMyListItem && (
@@ -138,16 +139,18 @@ export class Manga extends Component {
                   />
               </CardActions>
             )}
-            <CardText>
-              <strong>Genres </strong>
-              <div className={s.genreSection}>
-                {details.genres.map((genre) => (
-                  <Chip key={genre} className={s.genreChip}>{genre}</Chip>
-                ))}
-              </div>
-              <strong>Summary </strong>
-              <p>{details.summary}</p>
-            </CardText>
+            {details.genres && details.summary && (
+              <CardText>
+                <strong>Genres </strong>
+                <div className={s.genreSection}>
+                  {details.genres.map((genre) => (
+                    <Chip key={genre} className={s.genreChip}>{genre}</Chip>
+                  ))}
+                </div>
+                <strong>Summary </strong>
+                <p>{details.summary}</p>
+              </CardText>
+            )}
           {(sources && sources.length > 0) ? (
             <CardText className={s.chapterSection}>
               <div className={s.chapterHeader}>
@@ -202,7 +205,7 @@ export class Manga extends Component {
             </CardText>
           )}
           </Card>
-          {details.recommendations && (
+          {details.recommendations && details.recommendations.length > 0 && (
             <div className={s.recommendationsSection}>
               <h3 className={s.recommendationsTitle}>Recommendations</h3>
               <MangaList>
@@ -222,7 +225,7 @@ export class Manga extends Component {
 
 export default connect(
   (state, {params}) => ({
-    manga: state.manga,
+    manga: mangaSelector(state, params.mangaid),
     isMyListItem: isMyListItemSelector(state, params.mangaid),
   }),
   {
