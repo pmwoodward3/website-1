@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import hashit from 'hash-it'
 import R from 'ramda'
-import Infinite from 'react-infinite'
+import { VirtualScroll, AutoSizer } from 'react-virtualized'
 
 import * as mangaActions from 'redux/actions/manga'
 import * as myListActions from 'redux/actions/myList'
@@ -152,85 +152,95 @@ export class Manga extends Component {
                 <p>{details.summary}</p>
               </CardText>
             )}
-          {(sources && sources.length > 0) ? (
-            <CardText className={s.chapterSection}>
-              <div className={s.chapterHeader}>
-                <h3>Chapters</h3>
-                <SelectField
-                  value={manga.source}
-                  onChange={this.handleSourceChange}
-                  floatingLabelText="Source"
-                  >
-                  {sources.map(({sourceslug}) => (
-                    <MenuItem
-                      key={sourceslug}
-                      value={sourceslug}
-                      primaryText={sourceslug}
-                      />
-                  ))}
-                </SelectField>
-              </div>
-              <List>
-                <Infinite
-                  containerHeight={300}
-                  elementHeight={56}
-                  preloadAdditionalHeight={300 * 3}
-                  >
-                  {chapters.map(({chapternum, title}) => (
-                    <Link
-                      to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}
-                      key={chapternum}
-                      className={s.chapterItem}
-                      >
-                      <ListItem
-                        primaryText={title}
-                        leftAvatar={
-                          <Avatar
-                            style={{left: 8}}
-                            >
-                            {Math.round(chapternum * 100) / 100}
-                          </Avatar>
+            {(sources && sources.length > 0) ? (
+              <CardText className={s.chapterSection}>
+                <div className={s.chapterHeader}>
+                  <h3>Chapters</h3>
+                  <SelectField
+                    value={manga.source}
+                    onChange={this.handleSourceChange}
+                    floatingLabelText="Source"
+                    >
+                    {sources.map(({sourceslug}) => (
+                      <MenuItem
+                        key={sourceslug}
+                        value={sourceslug}
+                        primaryText={sourceslug}
+                        />
+                    ))}
+                  </SelectField>
+                </div>
+
+                <div className={s.chapterList}>
+                  <AutoSizer>
+                    {({ height, width }) => (
+                      <VirtualScroll
+                        height={height}
+                        width={width}
+                        rowCount={chapters.length}
+                        rowHeight={56}
+                        rowRenderer={
+                          ({ index, isScrolling }) => {
+                            const { chapternum, title } = chapters[index]
+                            return (
+                              <Link
+                                to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}
+                                key={chapternum}
+                                className={s.chapterItem}
+                                >
+                                <ListItem
+                                  primaryText={title}
+                                  leftAvatar={
+                                    <Avatar
+                                      style={{left: 8}}
+                                      >
+                                      {Math.round(chapternum * 100) / 100}
+                                    </Avatar>
+                                  }
+                                  >
+                                </ListItem>
+                              </Link>
+                            )
+                          }
                         }
-                        >
-                      </ListItem>
-                    </Link>
+                        />
+                    )}
+                  </AutoSizer>
+                </div>
+                </CardText>
+              ) : (
+                <CardText>
+                  <strong>
+                    No chapters available. This manga was not found in any source.
+                  </strong>
+                </CardText>
+              )}
+            </Card>
+            {details.recommendations && details.recommendations.length > 0 && (
+              <div className={s.recommendationsSection}>
+                <h3 className={s.recommendationsTitle}>Recommendations</h3>
+                <MangaList>
+                  {details.recommendations.map((item) => (
+                    <MangaItemCard key={item.mangaid} {...item}/>
                   ))}
-                </Infinite>
-              </List>
-            </CardText>
-          ) : (
-            <CardText>
-              <strong>
-                No chapters available. This manga was not found in any source.
-              </strong>
-            </CardText>
-          )}
-          </Card>
-          {details.recommendations && details.recommendations.length > 0 && (
-            <div className={s.recommendationsSection}>
-              <h3 className={s.recommendationsTitle}>Recommendations</h3>
-              <MangaList>
-                {details.recommendations.map((item) => (
-                  <MangaItemCard key={item.mangaid} {...item}/>
-                ))}
-              </MangaList>
-            </div>
-          )}
-        </section>
-      )
-    }else{
-      return <Loading/>
+                </MangaList>
+              </div>
+            )}
+          </section>
+        )
+      }else{
+        return <Loading/>
+      }
     }
   }
-}
 
-export default connect(
-  (state, {params}) => ({
-    manga: mangaSelector(state, params.mangaid),
-    isMyListItem: isMyListItemSelector(state, params.mangaid),
-  }),
-  {
-    ...mangaActions,
-    ...myListActions,
-  }
-)(Manga)
+  export default connect(
+    (state, {params}) => ({
+      manga: mangaSelector(state, params.mangaid),
+      isMyListItem: isMyListItemSelector(state, params.mangaid),
+    }),
+    {
+      ...mangaActions,
+      ...myListActions,
+    }
+  )(Manga)

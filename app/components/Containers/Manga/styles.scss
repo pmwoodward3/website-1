@@ -46,6 +46,12 @@
   padding-bottom: 0 !important;
 }
 
+.chapterList {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+}
+
 .chapterHeader {
   display: flex;
   flex-direction: row;
