@@ -37,6 +37,7 @@ const common = {
       constants: path.join(__dirname, '../app/constants/'),
       utils: path.join(__dirname, '../app/utils/'),
       test: path.join(__dirname, '../app/test/'),
+      statics: path.join(__dirname, '../app/statics/'),
     },
   },
 
