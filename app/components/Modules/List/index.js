@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import LazyLoad from 'react-lazyload'
+import { MANGA_ITEM_CARD_HEIGHT } from 'constants'
 
 import s from './styles.scss'
+
+const style = {
+  height: MANGA_ITEM_CARD_HEIGHT,
+}
 
 export default class List extends Component {
   render(){
@@ -15,7 +20,10 @@ export default class List extends Component {
     //   </LazyLoad>
     // )
     return (
-      <div className={s.root}>
+      <div
+        className={s.root}
+        style={style}
+        >
         {children}
       </div>
     )

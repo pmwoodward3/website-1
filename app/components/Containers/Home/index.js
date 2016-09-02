@@ -53,46 +53,34 @@ export class Home extends Component {
             </Paper>
           )
         }
-        {
-          myList.items.length > 0 && (
-            <Paper zDepth={2} className={s.section}>
-              <h3 className={s.sectionTitle}>My List</h3>
-              <List>
-                {myList.items.map((item) => item && (
-                  <MangaItemCard key={'myList'+item.mangaid} {...item}/>
-                ))}
-              </List>
-            </Paper>
-          )
-        }
-        {
-          releases.items.length > 0 && (
-            <Paper zDepth={2} className={s.section}>
-              <h3 className={s.sectionTitle}>New Releases</h3>
-              <div className={s.list}>
-                <List>
-                  {releases.items.map((item) => item && (
-                    <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
-                  ))}
-                </List>
-              </div>
-            </Paper>
-          )
-        }
-        {
-          recommendations.items.length > 0 && (
-            <Paper zDepth={2} className={s.section}>
-              <h3 className={s.sectionTitle}>Recomended For You</h3>
-              <div className={s.list}>
-                <List>
-                  {recommendations.items.map((item) => item && (
-                    <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
-                  ))}
-                </List>
-              </div>
-            </Paper>
-          )
-        }
+        <Paper zDepth={2} className={s.section}>
+          <h3 className={s.sectionTitle}>My List</h3>
+          <List>
+            {myList.items.map((item) => item && (
+              <MangaItemCard key={'myList'+item.mangaid} {...item}/>
+            ))}
+          </List>
+        </Paper>
+        <Paper zDepth={2} className={s.section}>
+          <h3 className={s.sectionTitle}>New Releases</h3>
+          <div className={s.list}>
+            <List>
+              {releases.items.map((item) => item && (
+                <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
+              ))}
+            </List>
+          </div>
+        </Paper>
+        <Paper zDepth={2} className={s.section}>
+          <h3 className={s.sectionTitle}>Recomended For You</h3>
+          <div className={s.list}>
+            <List>
+              {recommendations.items.map((item) => item && (
+                <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
+              ))}
+            </List>
+          </div>
+        </Paper>
       </section>
     )
   }
