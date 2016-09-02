@@ -5,6 +5,7 @@ import rootReducer from './reducers'
 import { promiseMiddleware } from './middleware/promise'
 import { apiMiddleware } from './middleware/api'
 import { localforage } from './middleware/localforage'
+import immutableMiddleware from 'redux-immutable-state-invariant'
 
 const logger = createLogger({
   collapsed: true,
@@ -13,6 +14,7 @@ const logger = createLogger({
 })
 
 const middlewares = [
+  !__PRODUCTION__ && immutableMiddleware(),
   apiMiddleware,
   promiseMiddleware(),
   thunkMiddleware,
