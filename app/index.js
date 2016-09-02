@@ -4,21 +4,10 @@ import { Provider } from 'react-redux'
 import { Router, browserHistory } from 'react-router'
 import configureStore from './redux'
 import routes from './routes'
-import localforage from 'localforage'
 import { getList } from './redux/actions/list'
 import { getRecommendations } from './redux/actions/recommendations'
 import R from 'ramda'
-
-//Setup up browser storage
-localforage.config({
-  name: 'sausageBrainWebsite',
-  description: 'Storage for improving user expierience',
-  storeName: 'state',
-  driver: [
-    localforage.WEBSQL,
-    localforage.LOCALSTORAGE,
-  ]
-})
+import * as lf from 'utils/localforage'
 
 export const history = browserHistory
 
@@ -29,13 +18,13 @@ export const store = configureStore(initialState)
 //Load state from storage
 const storageState = {}
 
-localforage.getItem('myList')
+lf.getItem('myList')
 .then((myList) => {
   if(myList){
     storageState.myList = myList
   }
 
-  return localforage.getItem('readingHistory')
+  return lf.getItem('readingHistory')
 })
 .then((readingHistory) => {
   if(readingHistory){

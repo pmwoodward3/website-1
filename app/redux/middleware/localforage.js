@@ -1,4 +1,4 @@
-import lf from 'localforage'
+import * as lf from 'utils/localforage'
 import debounce from 'debounce'
 
 export const localforage = store => next => action => {
