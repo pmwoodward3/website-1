@@ -84,7 +84,6 @@ export class Manga extends Component {
 
   render() {
     const { manga, isMyListItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
-    console.log(manga)
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga

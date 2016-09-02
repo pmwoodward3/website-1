@@ -14,10 +14,9 @@ export default createReducer({
   ['GET_MANGA_SUCCESS']: (state, { payload }) => ({
     ...state,
     ...payload,
-    fullCoverAvailable: false,
   }),
   ['GET_MANGA_FAILURE']: (state, { payload }) => initialState,
-  ['FULL_COVER_LOAD_SUCCESS']: (state, { payload }) => payload.mangaid == state.details.mangaid ? ({
+  ['FULL_COVER_LOAD_SUCCESS']: (state, { payload }) => (payload.mangaid == state.details.mangaid || state == initialState) ? ({
     ...state,
     fullCoverAvailable: true,
   }) : state,
