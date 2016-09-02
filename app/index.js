@@ -9,6 +9,8 @@ import { getRecommendations } from './redux/actions/recommendations'
 import R from 'ramda'
 import * as lf from 'utils/localforage'
 
+import './utils/service-worker-registration'
+
 export const history = browserHistory
 
 const initialState = {}

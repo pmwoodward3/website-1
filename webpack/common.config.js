@@ -3,6 +3,7 @@ const merge = require('webpack-merge')
 const development = require('./dev.config.js')
 const production = require('./prod.config.js')
 const path = require('path')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 const TARGET = process.env.npm_lifecycle_event
 process.env.BABEL_ENV = TARGET
@@ -104,6 +105,12 @@ const common = {
     new webpack.optimize.CommonsChunkPlugin({
       minChunks: 2,
       name: 'vendor',
+    }),
+
+    //Cache shell files & covers
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'SausageBrain',
+      filename: 'precache-worker.js',
     }),
   ],
 
