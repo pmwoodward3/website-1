@@ -13,6 +13,7 @@ import { isMyListItem as isMyListItemSelector } from 'redux/selectors/myList'
 import mangaSelector from 'redux/selectors/manga'
 
 import s from './styles.scss'
+
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import Loading from 'components/Modules/Loading'
 import MangaList from 'components/Modules/List'
@@ -98,7 +99,7 @@ export class Manga extends Component {
                 draggable={false}
                 src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
                 referrerPolicy="no-referrer"
-                className={s.fullCover}
+                className={s.cover}
                 style={{display: manga.fullCoverAvailable ? 'block' : 'none'}}
                 onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
                 onError={fullCoverLoadFailure.bind({}, details.mangaid)}
