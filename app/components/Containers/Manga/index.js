@@ -84,6 +84,7 @@ export class Manga extends Component {
 
   render() {
     const { manga, isMyListItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
+    console.log(manga)
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
@@ -104,7 +105,7 @@ export class Manga extends Component {
                 onError={fullCoverLoadFailure.bind({}, details.mangaid)}
                 />
             </CardMedia>
-            {!manga.fullCoverAvailable && details.cover && (
+            {!manga.fullCoverAvailable && (
               <CardMedia>
                 <img
                   draggable={false}
