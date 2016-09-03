@@ -35,7 +35,7 @@ const themeColor = theme.palette.primary1Color
 const link = [
   //Favicon and Icon
   {rel: 'icon', type: 'image/png', sizes: '192x192', href: require('statics/icon-192x192.png')},
-  {rel: 'icon', type: 'image/png', sizes: '32x32', href: require('statics/icon-96x96.png')},
+  {rel: 'icon', type: 'image/png', sizes: '32x32', href: require('statics/icon-48x48.png')},
   {rel: 'icon', type: 'image/png', sizes: '96x96', href: require('statics/icon-96x96.png')},
   {rel: 'icon', type: 'image/png', sizes: '16x16', href: require('statics/icon-16x16.png')},
 ]
