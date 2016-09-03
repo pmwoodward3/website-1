@@ -20,6 +20,7 @@ import List from 'components/Modules/List'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
 import RaisedButton from 'material-ui/RaisedButton'
+import Infinite from 'react-infinite'
 
 export class Search extends Component {
   static propTypes = {

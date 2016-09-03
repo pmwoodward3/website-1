@@ -25,7 +25,7 @@ const s = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'scroll',
+    overflow: 'auto',
     WebkitOverflowScrolling: 'touch',
   },
 }

@@ -171,6 +171,7 @@ export class Manga extends Component {
                   </SelectField>
                 </div>
 
+                {chapters && chapters.length > 0 && (
                 <div className={s.chapterList}>
                   <AutoSizer>
                     {({ height, width }) => (
@@ -207,6 +208,7 @@ export class Manga extends Component {
                     )}
                   </AutoSizer>
                 </div>
+                )}
                 </CardText>
               ) : (
                 <CardText>
