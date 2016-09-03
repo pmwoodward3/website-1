@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link, browserHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
-import hashit from 'hash-it'
-import R from 'ramda'
 import Paper from 'material-ui/Paper'
 import SwipeableViews from 'react-swipeable-views'
 import isTouchAvailable from 'utils/isTouchAvailable'
@@ -30,6 +27,8 @@ import s from './styles.scss'
 export class Chapter extends Component {
   static propTypes = {
     chapter: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     getChapter: PropTypes.func.isRequired,
     enterFullscreen: PropTypes.func.isRequired,
     exitFullscreen: PropTypes.func.isRequired,
@@ -105,7 +104,7 @@ export class Chapter extends Component {
     browserHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
   }
   handleNextPage(){
-    const { params, location } = this.props
+    const { params } = this.props
     this.changePage(parseInt(params.pagenum) + 1)
   }
   handlePreviousPage(){
@@ -158,19 +157,19 @@ export class Chapter extends Component {
             {!isTouchAvailable && (
               <div className={s.controlBtn}>
                 <FloatingActionButton
-                  secondary={true}
                   onClick={this.handlePreviousPage}
+                  secondary
                   >
                   <ArrowBack/>
                 </FloatingActionButton>
               </div>
             )}
             <SwipeableViews
-              resistance={true}
               className={isTouchAvailable ? s.touchSwiper : s.swiper}
               index={index}
               onChangeIndex={this.onChangeIndex}
               ref="swiper"
+              resistance
               >
               {chapter.items.map(({url}) => (
                 <Paper className={s.paper} zDepth={3} key={url}>
@@ -187,8 +186,8 @@ export class Chapter extends Component {
             {!isTouchAvailable && (
               <div className={s.controlBtn}>
                 <FloatingActionButton
-                  secondary={true}
                   onClick={this.handleNextPage}
+                  secondary
                   >
                   <ArrowForward/>
                 </FloatingActionButton>
@@ -202,23 +201,6 @@ export class Chapter extends Component {
     }
   }
 }
-
-const styles = {
-  slide: {
-    padding: 15,
-    minHeight: 100,
-    color: '#fff',
-  },
-  slide1: {
-    background: '#FEA900',
-  },
-  slide2: {
-    background: '#B3DC4A',
-  },
-  slide3: {
-    background: '#6AC0FF',
-  },
-};
 
 export default connect(
   state => ({

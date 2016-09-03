@@ -15,7 +15,11 @@ import s from './styles.scss'
 
 class Header extends Component {
   static contextTypes = {
-    muiTheme: PropTypes.object.isRequired
+    muiTheme: PropTypes.object.isRequired,
+  };
+
+  static propTypes = {
+    loading: PropTypes.number.isRequired,
   };
 
   render(){

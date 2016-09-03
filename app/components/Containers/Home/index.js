@@ -1,10 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
-import hashit from 'hash-it'
-import R from 'ramda'
-import { Link } from 'react-router'
 
 import { getReleases } from 'redux/actions/releases'
 import { myList as myListSelector } from 'redux/selectors/myList'
@@ -21,11 +17,13 @@ export class Home extends Component {
   static propTypes = {
     releases: PropTypes.object.isRequired,
     myList: PropTypes.object.isRequired,
+    readingHistory: PropTypes.object.isRequired,
+    recommendations: PropTypes.object.isRequired,
     getReleases: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { releases, getReleases, recommendations, getRecommendations } = this.props
+    const { getReleases } = this.props
     getReleases()
   }
 
@@ -66,7 +64,7 @@ export class Home extends Component {
           <div className={s.list}>
             <List>
               {releases.items.map((item) => item && (
-                <MangaItemCard key={'newReleases'+hashit(item)} {...item}/>
+                <MangaItemCard key={'newReleases'+item.mangaid+item.date+item.chapter} {...item}/>
               ))}
             </List>
           </div>

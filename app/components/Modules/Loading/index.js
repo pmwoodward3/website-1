@@ -1,8 +1,5 @@
-// Simple loading component (for async pages)
-
 import React from 'react'
 
-/* component styles */
 import s from './styles.scss'
 
 const Loading = () => (

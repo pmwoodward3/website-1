@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Helmet from 'react-helmet'
-import hashit from 'hash-it'
-import R from 'ramda'
 import { VirtualScroll, AutoSizer } from 'react-virtualized'
 
 import * as mangaActions from 'redux/actions/manga'
@@ -18,13 +15,12 @@ import MangaItemCard from 'components/Modules/MangaItemCard'
 import Loading from 'components/Modules/Loading'
 import MangaList from 'components/Modules/List'
 import Avatar from 'material-ui/Avatar'
-import { List, ListItem } from 'material-ui/List'
+import { ListItem } from 'material-ui/List'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import RaisedButton from 'material-ui/RaisedButton'
 import AvLibraryAdd from 'material-ui/svg-icons/av/library-add'
 import ContentRemove from 'material-ui/svg-icons/content/remove'
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import {
   Card,
   CardActions,
@@ -39,6 +35,8 @@ import Chip from 'material-ui/Chip'
 export class Manga extends Component {
   static propTypes = {
     manga: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    isMyListItem: PropTypes.bool.isRequired,
     getManga: PropTypes.func.isRequired,
     fullCoverLoadFailure: PropTypes.func.isRequired,
     fullCoverLoadSuccess: PropTypes.func.isRequired,
@@ -66,7 +64,7 @@ export class Manga extends Component {
     getManga(params.mangaid, value)
   }
   handleMangaChange(props=this.props){
-    const { getManga, params, manga, fullCoverLoadRequest } = props
+    const { getManga, params, fullCoverLoadRequest } = props
     getManga(params.mangaid)
     fullCoverLoadRequest()
   }
@@ -116,10 +114,10 @@ export class Manga extends Component {
               </CardMedia>
             )}
             <FloatingActionButton
-              secondary={true}
               className={s.actionButton}
               onTouchTap={this.handleToMyListAction}
               disabled={isMyListItem}
+              secondary
               >
               <AvLibraryAdd />
             </FloatingActionButton>
@@ -172,77 +170,76 @@ export class Manga extends Component {
                 </div>
 
                 {chapters && chapters.length > 0 && (
-                <div className={s.chapterList}>
-                  <AutoSizer>
-                    {({ height, width }) => (
-                      <VirtualScroll
-                        height={height}
-                        width={width}
-                        rowCount={chapters.length}
-                        rowHeight={56}
-                        rowRenderer={
-                          ({ index, isScrolling }) => {
-                            const { chapternum, title } = chapters[index]
-                            return (
-                              <Link
-                                to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}
-                                key={chapternum}
-                                className={s.chapterItem}
-                                >
-                                <ListItem
-                                  primaryText={title}
-                                  leftAvatar={
-                                    <Avatar
-                                      style={{left: 8}}
-                                      >
-                                      {Math.round(chapternum * 100) / 100}
-                                    </Avatar>
-                                  }
+                  <div className={s.chapterList}>
+                    <AutoSizer>
+                      {({ height, width }) => (
+                        <VirtualScroll
+                          height={height}
+                          width={width}
+                          rowCount={chapters.length}
+                          rowHeight={56}
+                          rowRenderer={
+                            ({ index }) => {
+                              const { chapternum, title } = chapters[index]
+                              return (
+                                <Link
+                                  to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}
+                                  key={chapternum}
+                                  className={s.chapterItem}
                                   >
-                                </ListItem>
-                              </Link>
-                            )
+                                  <ListItem
+                                    primaryText={title}
+                                    leftAvatar={
+                                      <Avatar
+                                        style={{left: 8}}
+                                        >
+                                        {Math.round(chapternum * 100) / 100}
+                                      </Avatar>
+                                    }
+                                    />
+                                </Link>
+                              )
+                            }
                           }
-                        }
-                        />
-                    )}
-                  </AutoSizer>
-                </div>
+                          />
+                      )}
+                    </AutoSizer>
+                  </div>
                 )}
-                </CardText>
-              ) : (
-                <CardText>
-                  <strong>
-                    No chapters available. This manga was not found in any source.
-                  </strong>
-                </CardText>
-              )}
-            </Card>
-            {details.recommendations && details.recommendations.length > 0 && (
-              <div className={s.recommendationsSection}>
-                <h3 className={s.recommendationsTitle}>Recommendations</h3>
-                <MangaList>
-                  {details.recommendations.map((item) => (
-                    <MangaItemCard key={item.mangaid} {...item}/>
-                  ))}
-                </MangaList>
-              </div>
+              </CardText>
+            ) : (
+              <CardText>
+                <strong>
+                  No chapters available. This manga was not found in any source.
+                </strong>
+              </CardText>
             )}
-          </section>
-        )
-      }else{
-        return <Loading/>
-      }
+          </Card>
+          {details.recommendations && details.recommendations.length > 0 && (
+            <div className={s.recommendationsSection}>
+              <h3 className={s.recommendationsTitle}>Recommendations</h3>
+              <MangaList>
+                {details.recommendations.map((item) => (
+                  <MangaItemCard key={item.mangaid} {...item}/>
+                ))}
+              </MangaList>
+            </div>
+          )}
+        </section>
+      )
+    }else{
+      return <Loading/>
     }
   }
+}
 
-  export default connect(
-    (state, {params}) => ({
-      manga: mangaSelector(state, params.mangaid),
-      isMyListItem: isMyListItemSelector(state, params.mangaid),
-    }),
-    {
-      ...mangaActions,
-      ...myListActions,
-    }
-  )(Manga)
+export default connect(
+  (state, {params}) => ({
+    manga: mangaSelector(state, params.mangaid),
+    isMyListItem: isMyListItemSelector(state, params.mangaid),
+  }),
+  {
+    ...mangaActions,
+    ...myListActions,
+  }
+)(Manga)

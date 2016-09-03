@@ -44,14 +44,6 @@ const common = {
 
   module: {
     loaders: [{
-      // Loader for fonts (woff)
-      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=application/font-woff',
-    }, {
-      // Loader for fonts (woff2)
-      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'url?limit=10000&mimetype=application/font-woff2',
-    }, {
       // Loader for fonts (ttf)
       test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?limit=10000&mimetype=application/octet-stream',
@@ -59,10 +51,6 @@ const common = {
       // Loader for fonts (otf)
       test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?limit=10000&mimetype=application/font-otf',
-    }, {
-      // Loader for fonts (eot)
-      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      loader: 'file',
     }, {
       // Loader for images (svg)
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,

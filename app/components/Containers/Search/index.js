@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { Link, browserHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
-import hashit from 'hash-it'
-import R from 'ramda'
 import debounce from 'debounce'
 import {
   MANGA_ITEM_CARD_HEIGHT,
@@ -19,12 +16,12 @@ import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
-import RaisedButton from 'material-ui/RaisedButton'
 import Infinite from 'react-infinite'
 
 export class Search extends Component {
   static propTypes = {
     search: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     searchItems: PropTypes.func.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
     changeContainerHeight: PropTypes.func.isRequired,
@@ -104,8 +101,8 @@ export class Search extends Component {
               placeholder="Type something..."
               value={search.query}
               onChange={this.handleSearchQueryChange}
-              fullWidth={true}
-              autoFocus={true}
+              fullWidth
+              autoFocus
               />
           </Paper>
         </div>
