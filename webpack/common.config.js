@@ -101,6 +101,7 @@ const common = {
     new SWPrecacheWebpackPlugin({
       cacheId: 'SausageBrain',
       filename: 'precache-worker.js',
+      navigateFallback: '/index.html',
       stripPrefix: outputPath,
     }),
   ],
