@@ -1,5 +1,6 @@
 $width: 130px;
 $height: 180px;
+$color: #BDBDBD;
 
 .root {
   width: $width;
@@ -8,6 +9,7 @@ $height: 180px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
+  background-color: $color;
 }
 
 .title {
@@ -35,5 +37,5 @@ $height: 180px;
   user-drag: none;
   text-align: center;
   text-transform: uppercase;
-  background-color: #BDBDBD;
+  background-color: $color;
 }

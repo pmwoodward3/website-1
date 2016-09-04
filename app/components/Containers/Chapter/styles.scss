@@ -12,14 +12,22 @@
   flex: 1;
 }
 
-.swiper {
-  width: 70%;
+.pageContainer{
   overflow-y: auto;
+  height: 100%;
 }
 
-.touchSwiper {
-  width: 100%;
-  overflow-y: auto;
+.swiper, .touchSwiper {
+  width: 70%;
+  height: 100%;
+
+  &.touchSwiper {
+    width: 100%;
+  }
+
+  & > div {
+    height: 100%;
+  }
 }
 
 .paper {

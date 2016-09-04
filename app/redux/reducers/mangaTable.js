@@ -1,4 +1,4 @@
-import { createReducer } from '../utils/createReducer';
+import { createReducer } from '../utils/createReducer'
 import R from 'ramda'
 
 const initialState = {

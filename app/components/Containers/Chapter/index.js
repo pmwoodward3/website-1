@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import Paper from 'material-ui/Paper'
-import SwipeableViews from 'react-swipeable-views'
 import isTouchAvailable from 'utils/isTouchAvailable'
 import IconButton from 'material-ui/IconButton'
 import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
@@ -13,6 +12,7 @@ import Loading from 'components/Modules/Loading'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
+import Swipe from 'react-swipe'
 
 import {
   getChapter,
@@ -110,12 +110,10 @@ export class Chapter extends Component {
     browserHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
   }
   handleNextPage(){
-    const { params } = this.props
-    this.changePage(parseInt(params.pagenum) + 1)
+    this.refs.swiper.next()
   }
   handlePreviousPage(){
-    const { params } = this.props
-    this.changePage(parseInt(params.pagenum) - 1)
+    this.refs.swiper.prev()
   }
   onChangeIndex(index){
     this.changePage(index + 1)
@@ -170,25 +168,51 @@ export class Chapter extends Component {
                 </FloatingActionButton>
               </div>
             )}
-            <SwipeableViews
+            <Swipe
+              className="carousel"
               className={isTouchAvailable ? s.touchSwiper : s.swiper}
-              index={index}
-              onChangeIndex={this.onChangeIndex}
               ref="swiper"
-              resistance
+              swipeOptions={{
+                continuous: false,
+                callback: this.onChangeIndex,
+                startSlide: pagenum,
+              }}
               >
               {chapter.items.map(({url}) => (
-                <Paper className={s.paper} zDepth={3} key={url}>
-                  <img
-                    draggable={false}
-                    className={s.img}
-                    src={url}
-                    referrerPolicy="no-referrer"
-                    ref="img"
-                    />
-                </Paper>
+                <div className={s.pageContainer} key={url}>
+                  <Paper className={s.paper} zDepth={3}>
+                    <img
+                      draggable={false}
+                      className={s.img}
+                      src={url}
+                      referrerPolicy="no-referrer"
+                      ref="img"
+                      />
+                  </Paper>
+                </div>
               ))}
-            </SwipeableViews>
+            </Swipe>
+            {
+              // <SwipeableViews
+              //   className={isTouchAvailable ? s.touchSwiper : s.swiper}
+              //   index={index}
+              //   onChangeIndex={this.onChangeIndex}
+              //   ref="swiper"
+              //   resistance
+              //   >
+              //   {chapter.items.map(({url}) => (
+              //     <Paper className={s.paper} zDepth={3} key={url}>
+              //       <img
+              //         draggable={false}
+              //         className={s.img}
+              //         src={url}
+              //         referrerPolicy="no-referrer"
+              //         ref="img"
+              //         />
+              //     </Paper>
+              //   ))}
+              // </SwipeableViews>
+            }
             {!isTouchAvailable && (
               <div className={s.controlBtn}>
                 <FloatingActionButton
