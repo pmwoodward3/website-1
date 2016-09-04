@@ -169,7 +169,6 @@ export class Chapter extends Component {
               </div>
             )}
             <Swipe
-              className="carousel"
               className={isTouchAvailable ? s.touchSwiper : s.swiper}
               ref="swiper"
               swipeOptions={{
@@ -180,7 +179,7 @@ export class Chapter extends Component {
               >
               {chapter.items.map(({url}) => (
                 <div className={s.pageContainer} key={url}>
-                  <Paper className={s.paper} zDepth={3}>
+                  <Paper className={s.paper} zDepth={2}>
                     <img
                       draggable={false}
                       className={s.img}
