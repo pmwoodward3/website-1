@@ -74,7 +74,7 @@ const common = {
       loader: 'file?name=[name].[ext]',
     }, {
       test: /manifest\.json$/,
-      loader: 'w3c-manifest?icon=[name].[ext]&legacyAppleSupport=true'
+      loader: 'w3c-manifest?icon=[name].[ext]&legacyAppleSupport=true',
     }],
   },
 
