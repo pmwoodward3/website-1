@@ -19,9 +19,11 @@ if (process.env.NODE_ENV === 'production') {
   devUrl = '/dist/'
 }
 
+const outputPath = path.join(__dirname, '/../dist/')
+
 const common = {
   output: {
-    path: __dirname + '/../dist/',
+    path: outputPath,
     publicPath: devUrl,
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
@@ -99,6 +101,7 @@ const common = {
     new SWPrecacheWebpackPlugin({
       cacheId: 'SausageBrain',
       filename: 'precache-worker.js',
+      stripPrefix: outputPath,
     }),
   ],
 
