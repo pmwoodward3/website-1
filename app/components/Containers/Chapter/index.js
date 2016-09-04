@@ -116,7 +116,7 @@ export class Chapter extends Component {
     this.refs.swiper.prev()
   }
   onChangeIndex(index){
-    this.changePage(index + 1)
+    this.changePage(index)
   }
   handleFullScreen(){
     if (screenfull.enabled) {
@@ -174,7 +174,7 @@ export class Chapter extends Component {
               ref="swiper"
               swipeOptions={{
                 continuous: false,
-                callback: this.onChangeIndex,
+                transitionEnd: this.onChangeIndex,
                 startSlide: pagenum,
               }}
               >
@@ -192,27 +192,6 @@ export class Chapter extends Component {
                 </div>
               ))}
             </Swipe>
-            {
-              // <SwipeableViews
-              //   className={isTouchAvailable ? s.touchSwiper : s.swiper}
-              //   index={index}
-              //   onChangeIndex={this.onChangeIndex}
-              //   ref="swiper"
-              //   resistance
-              //   >
-              //   {chapter.items.map(({url}) => (
-              //     <Paper className={s.paper} zDepth={3} key={url}>
-              //       <img
-              //         draggable={false}
-              //         className={s.img}
-              //         src={url}
-              //         referrerPolicy="no-referrer"
-              //         ref="img"
-              //         />
-              //     </Paper>
-              //   ))}
-              // </SwipeableViews>
-            }
             {!isTouchAvailable && (
               <div className={s.controlBtn}>
                 <FloatingActionButton
