@@ -73,8 +73,10 @@ export class Chapter extends Component {
     const pagenum = parseInt(newProps.params.pagenum)
     const chapternum = parseInt(newProps.params.chapternum)
 
-    if(pagenum && chapternum && isChapterLoaded && pagenum > newProps.chapter.items.length){
-      this.changePage(1, chapternum + 1)
+    if(!isNaN(pagenum) && !isNaN(chapternum)){
+      if(isChapterLoaded && pagenum >= newProps.chapter.items.length){
+        this.changePage(1, chapternum + 1)
+      }
     }
   }
   componentWillUnmount(){
@@ -115,7 +117,7 @@ export class Chapter extends Component {
     this.refs.swiper.prev()
   }
   onChangeIndex(index){
-    this.changePage(index)
+    this.changePage(index + 1)
   }
   handleFullScreen(){
     if (screenfull.enabled) {
@@ -157,6 +159,7 @@ export class Chapter extends Component {
             <div className={s.controlBtn}>
               <FloatingActionButton
                 onClick={this.handlePreviousPage}
+                disabled={pagenum < 2}
                 secondary
                 >
                 <ArrowBack/>
@@ -169,10 +172,12 @@ export class Chapter extends Component {
             swipeOptions={{
               continuous: false,
               transitionEnd: this.onChangeIndex,
-              startSlide: pagenum,
+              startSlide: pagenum - 1,
             }}
             >
-            {chapter.items.map(({url}) => (
+            {chapter.items.concat([
+              {pagenum: chapter.items.length + 1, url: ''},
+            ]).map(({url}) => (
               <div className={s.pageContainer} key={url}>
                 <Paper className={s.paper} zDepth={2}>
                   <img
