@@ -2,13 +2,13 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: calc(100vh - 64px);
 }
 
 .container {
   display: flex;
   flex-direction: row;
   width: 100%;
-  // height: 100%;
   flex: 1;
 }
 

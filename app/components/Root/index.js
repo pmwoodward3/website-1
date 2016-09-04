@@ -18,6 +18,7 @@ const s = {
   root: {
     display: 'flex',
     flexDirection: 'column',
+    minHeight: '100vh',
   },
   childrenContainer: {
     marginTop:'64px',
