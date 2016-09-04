@@ -20,6 +20,7 @@ import {
   exitFullscreen,
 } from 'redux/actions/chapter'
 import { addReadingHistory } from 'redux/actions/readingHistory'
+import { getList } from 'redux/actions/list'
 
 import BreadCrumbs from 'components/Modules/BreadCrumbs'
 import s from './styles.scss'
@@ -28,8 +29,10 @@ export class Chapter extends Component {
   static propTypes = {
     chapter: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    manga: PropTypes.object,
     location: PropTypes.object.isRequired,
     getChapter: PropTypes.func.isRequired,
+    getList: PropTypes.func.isRequired,
     enterFullscreen: PropTypes.func.isRequired,
     exitFullscreen: PropTypes.func.isRequired,
     addReadingHistory: PropTypes.func.isRequired,
@@ -86,8 +89,11 @@ export class Chapter extends Component {
     }
   }
   handleChapterChange(props=this.props){
-    const { getChapter, params, location } = props
+    const { getChapter, getList, params, location, manga } = props
     getChapter(params.mangaid, params.chapternum, location.query.source)
+    if(!manga){
+      getList([params.mangaid])
+    }
   }
   changePage(newPage, chapter){
     const { params, location, addReadingHistory } = this.props
@@ -121,9 +127,9 @@ export class Chapter extends Component {
   }
 
   render() {
-    const { chapter, params } = this.props
+    const { chapter, manga, params } = this.props
     const hierarchy = [
-      {title: 'Berserk', url: `/manga/${params.mangaid}`},
+      {title: manga ? manga.title : 'Manga', url: `/manga/${params.mangaid}`},
       {title: `Chapter ${params.chapternum}`, disabled: true},
       {title: `Page ${params.pagenum}`, disabled: true},
     ]
@@ -203,11 +209,13 @@ export class Chapter extends Component {
 }
 
 export default connect(
-  state => ({
+  (state, {params}) => ({
     chapter: state.chapter,
+    manga: state.mangaTable.items[parseInt(params.mangaid)],
   }),
   {
     getChapter,
+    getList,
     enterFullscreen,
     exitFullscreen,
     addReadingHistory,
