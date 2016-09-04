@@ -58,7 +58,7 @@ const Root = ({children, ...props}) => (
       style={s.root}
       >
       <Helmet
-        title="SausageBrain"
+        title="SB"
         description="Premier manga reading platform."
         meta={meta}
         link={link}

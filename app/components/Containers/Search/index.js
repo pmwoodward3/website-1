@@ -31,30 +31,38 @@ export class Search extends Component {
     super(props)
     this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this)
     this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this)
+    this.handleResize = this.handleResize.bind(this)
     this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
   }
   componentDidMount(){
     const {
       location,
       changeSearchQuery,
-      changeContainerHeight,
     } = this.props
 
     //Amount of manga items to display in a row
     this.rowColums = Math.floor(this.refs.container.clientWidth / MANGA_ITEM_CARD_WIDTH)
 
-    changeContainerHeight(this.refs.container.clientHeight)
+    this.handleResize()
 
     const query = location.query.q
     if(query && query.length > 0){
       changeSearchQuery(query)
     }
     this.handleSearch()
+
+    window.addEventListener('resize', this.handleResize)
   }
   componentWillUpdate(newProps){
     if(this.props.location.query.q != newProps.location.query.q){
       this.handleSearch(newProps)
     }
+  }
+  componentWillUnmount(){
+    window.removeEventListener('resize', this.handleResize)
+  }
+  handleResize(){
+    this.props.changeContainerHeight(this.refs.container.clientHeight)
   }
   handleSearch(props=this.props){
     const query = props.location.query.q
