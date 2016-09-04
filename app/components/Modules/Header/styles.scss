@@ -1,7 +1,15 @@
 $color: rgba(255, 255, 255, 0.8) !important;
 
-.root svg {
-  color: $color;
+.root {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1000 !important;
+
+  svg {
+    color: $color;
+  }
 }
 
 .search {
@@ -18,6 +26,6 @@ $color: rgba(255, 255, 255, 0.8) !important;
   left: 0 !important;
   top: 0 !important;
   width: 100% !important;
-  z-index: 10000 !important;
   background-color: transparent !important;
+  z-index: 10000 !important;
 }

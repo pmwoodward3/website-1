@@ -16,16 +16,13 @@ injectTapEventPlugin()
 
 const s = {
   root: {
-    height: '100vh',
     display: 'flex',
     flexDirection: 'column',
   },
   childrenContainer: {
-    flex: 1,
+    marginTop:'64px',
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'auto',
-    WebkitOverflowScrolling: 'touch',
   },
 }
 
