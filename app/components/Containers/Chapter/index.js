@@ -6,7 +6,6 @@ import Paper from 'material-ui/Paper'
 import isTouchAvailable from 'utils/isTouchAvailable'
 import IconButton from 'material-ui/IconButton'
 import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
-import NavigationExitFullScreen from 'material-ui/svg-icons/navigation/fullscreen-exit'
 import screenfull from 'screenfull'
 import Loading from 'components/Modules/Loading'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
@@ -139,7 +138,6 @@ export class Chapter extends Component {
     const isPagenumValid = pagenum > 0 && pagenum <= chapter.items.length
 
     if(isChapterLoaded && hasPagenum && isPagenumValid){
-      const index = pagenum - 1
       return (
         <section className={s.section}>
           <Helmet
@@ -149,65 +147,62 @@ export class Chapter extends Component {
             <BreadCrumbs items={hierarchy}/>
             {isTouchAvailable && (
               <IconButton onClick={this.handleFullScreen}>
-                {chapter.fullscreen ? (
-                  <NavigationExitFullScreen/>
-                ) : (
-                  <NavigationFullScreen/>
-                )}
-              </IconButton>
-            )}
-          </div>
-          <div className={s.container} ref="container">
-            {!isTouchAvailable && (
-              <div className={s.controlBtn}>
-                <FloatingActionButton
-                  onClick={this.handlePreviousPage}
-                  secondary
-                  >
-                  <ArrowBack/>
-                </FloatingActionButton>
+                <NavigationFullScreen/>
+              )}
+            </IconButton>
+          )}
+        </div>
+        <div className={s.container} ref="container">
+          {!isTouchAvailable && (
+            <div className={s.controlBtn}>
+              <FloatingActionButton
+                onClick={this.handlePreviousPage}
+                secondary
+                >
+                <ArrowBack/>
+              </FloatingActionButton>
+            </div>
+          )}
+          <Swipe
+            className={isTouchAvailable ? s.touchSwiper : s.swiper}
+            ref="swiper"
+            swipeOptions={{
+              continuous: false,
+              transitionEnd: this.onChangeIndex,
+              startSlide: pagenum,
+            }}
+            >
+            {chapter.items.map(({url}) => (
+              <div className={s.pageContainer} key={url}>
+                <Paper className={s.paper} zDepth={2}>
+                  <img
+                    draggable={false}
+                    className={s.img}
+                    src={url}
+                    referrerPolicy="no-referrer"
+                    ref="img"
+                    />
+                </Paper>
               </div>
-            )}
-            <Swipe
-              className={isTouchAvailable ? s.touchSwiper : s.swiper}
-              ref="swiper"
-              swipeOptions={{
-                continuous: false,
-                transitionEnd: this.onChangeIndex,
-                startSlide: pagenum,
-              }}
-              >
-              {chapter.items.map(({url}) => (
-                <div className={s.pageContainer} key={url}>
-                  <Paper className={s.paper} zDepth={2}>
-                    <img
-                      draggable={false}
-                      className={s.img}
-                      src={url}
-                      referrerPolicy="no-referrer"
-                      ref="img"
-                      />
-                  </Paper>
-                </div>
-              ))}
-            </Swipe>
-            {!isTouchAvailable && (
-              <div className={s.controlBtn}>
-                <FloatingActionButton
-                  onClick={this.handleNextPage}
-                  secondary
-                  >
-                  <ArrowForward/>
-                </FloatingActionButton>
-              </div>
-            )}
-          </div>
-        </section>
-      )
-    }else{
-      return <Loading/>
-    }
+            ))}
+          </Swipe>
+          {!isTouchAvailable && (
+            <div className={s.controlBtn}>
+              <FloatingActionButton
+                onClick={this.handleNextPage}
+                secondary
+                >
+                <ArrowForward/>
+              </FloatingActionButton>
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }else{
+    return <Loading/>
   }
+}
 }
 
 export default connect(
