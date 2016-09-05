@@ -15,3 +15,48 @@ export const MANGA_ITEM_CARD_HEIGHT = 160 + (margin * 2)
 export const MANGA_ITEM_CARD_WIDTH = 120 + (margin * 2)
 
 export const MAIN_SOURCE = 'mangaeden'
+
+export const GENRE_LIST = [
+  'Action',
+  'Adult',
+  'Adventure',
+  'Comedy',
+  'Doujinshi',
+  'Drama',
+  'Ecchi',
+  'Fantasy',
+  'Gender-Bender',
+  'Harem',
+  'Hentai',
+  'Historical',
+  'Horror',
+  'Lolicon',
+  'Mature',
+  'Mystery',
+  'Romance',
+  'Scifi',
+  'Shotacon',
+  'Shoujo Ai',
+  'Shounen Ai',
+  'Smut',
+  'School Life',
+  'Seinen',
+  'Shoujo',
+  'Shounen',
+  'Slice of Life',
+  'Sports',
+  'Supernatural',
+  'Tragedy',
+  'Yaoi',
+  'Yuri',
+  'Josei',
+  'Martial Arts',
+  'Mecha',
+  'Psychological',
+]
+.map((x) => x
+.trim()
+.toLowerCase()
+.replace(/[^a-zA-Z0-9\ ]/g, '')
+.replace(/\ /g, '-'))
+.sort()

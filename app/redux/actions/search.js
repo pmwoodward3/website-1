@@ -6,7 +6,7 @@ export const searchItems = (query, page=1, length=7, genres) => ({
     page,
     genres,
     length,
-  }
+  },
 })
 
 export const changeSearchQuery = (payload) => ({

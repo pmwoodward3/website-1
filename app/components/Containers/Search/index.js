@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import debounce from 'debounce'
+import R from 'ramda'
 import {
   MANGA_ITEM_CARD_HEIGHT,
   MANGA_ITEM_CARD_WIDTH,
+  GENRE_LIST,
 } from 'constants'
 
 import * as searchActions from 'redux/actions/search'
@@ -16,7 +18,10 @@ import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
+import Chip from 'material-ui/Chip'
 import Infinite from 'react-infinite'
+import TagsInput from 'react-tagsinput'
+import AutoComplete from 'material-ui/AutoComplete'
 
 export class Search extends Component {
   static propTypes = {
@@ -54,7 +59,7 @@ export class Search extends Component {
     window.addEventListener('resize', this.handleResize)
   }
   componentWillUpdate(newProps){
-    if(this.props.location.query.q != newProps.location.query.q){
+    if(!R.equals(this.props.location.query, newProps.location.query)){
       this.handleSearch(newProps)
     }
   }
@@ -65,13 +70,9 @@ export class Search extends Component {
     this.props.changeContainerHeight(this.refs.container.clientHeight)
   }
   handleSearch(props=this.props){
-    const query = props.location.query.q
-    if(query && query.length > 0){
-      props.searchItems(
-        query,
-        1,
-        this.rowColums
-      )
+    const { q, g } = props.location.query
+    if(q && q.length > 0){
+      props.searchItems(q, 1, this.rowColums, g)
     }
   }
   handleInfiniteLoad(){
@@ -82,7 +83,8 @@ export class Search extends Component {
       searchItems(
         location.query.q,
         newPage,
-        this.rowColums
+        this.rowColums,
+        location.query.g,
       )
     }
   }
@@ -90,8 +92,22 @@ export class Search extends Component {
     this.props.changeSearchQuery(val)
     this.updateQueryLocation(val)
   }
-  updateQueryLocation(query){
-    browserHistory.push(`/search?q=${query}`)
+  updateQueryLocation(query, genres){
+    let { q, g } = this.props.location.query
+
+    let URL = `/search?q=${query || q}`
+
+    if(genres){
+      genres = genres.join('\ ')
+    }else{
+      genres = g
+    }
+
+    if(genres){
+      URL = `${URL}&g=${genres}`
+    }
+
+    browserHistory.push(URL)
   }
 
   render() {
@@ -111,6 +127,34 @@ export class Search extends Component {
               onChange={this.handleSearchQueryChange}
               fullWidth
               autoFocus
+              />
+          </Paper>
+          <Paper zDepth={1} className={s.genreSection}>
+            <h3 className={s.sectionTitle}>Genre Filter</h3>
+            <TagsInput
+              value={location.query.g.split('\ ')}
+              className={s.genreList}
+              renderInput={({ref, addTag}) => (
+                <AutoComplete
+                  id="add-genre"
+                  ref={ref}
+                  placeholder="Add genre"
+                  dataSource={GENRE_LIST}
+                  onNewRequest={addTag}
+                  filter={AutoComplete.caseInsensitiveFilter}
+                  />
+              )}
+              renderTag={({key, tag, onRemove, getTagDisplayValue}) => (
+                <Chip
+                  key={key}
+                  className={s.genreChip}
+                  onRequestDelete={() => onRemove(key)}
+                  >
+                  {getTagDisplayValue(tag)}
+                </Chip>
+              )}
+              onChange={(genres) => this.updateQueryLocation(location.query.q, genres)}
+              onlyUnique
               />
           </Paper>
         </div>
