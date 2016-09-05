@@ -1,11 +1,11 @@
-$width: 130px;
-$height: 180px;
+$width: 120px;
+$height: 160px;
 $color: #BDBDBD;
 
 .root {
   width: $width;
   height: $height;
-  margin: 8px;
+  margin: 7px;
   overflow: hidden;
   flex-shrink: 0;
   cursor: pointer;
