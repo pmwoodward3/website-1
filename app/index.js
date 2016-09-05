@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { Router, browserHistory } from 'react-router'
+import { Router, hashHistory } from 'react-router'
 import configureStore from './redux'
 import routes from './routes'
 import { getList } from './redux/actions/list'
@@ -11,7 +11,7 @@ import * as lf from 'utils/localforage'
 
 import './utils/service-worker-registration'
 
-export const history = browserHistory
+export const history = hashHistory
 
 const initialState = {}
 

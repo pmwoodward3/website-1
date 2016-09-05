@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { browserHistory, Link, IndexLink } from 'react-router'
+import { hashHistory, Link, IndexLink } from 'react-router'
 import { connect } from 'react-redux'
 
 import TextField from 'material-ui/TextField'

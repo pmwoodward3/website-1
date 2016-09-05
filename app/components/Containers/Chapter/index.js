@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { hashHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import Paper from 'material-ui/Paper'
 import isTouchAvailable from 'utils/isTouchAvailable'
@@ -108,7 +108,7 @@ export class Chapter extends Component {
       })
     }
 
-    browserHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
+    hashHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
   }
   handleNextPage(){
     this.refs.swiper.next()

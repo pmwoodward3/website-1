@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { browserHistory } from 'react-router'
+import { hashHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import debounce from 'debounce'
 import R from 'ramda'
@@ -107,7 +107,7 @@ export class Search extends Component {
       URL = `${URL}&g=${genres}`
     }
 
-    browserHistory.push(URL)
+    hashHistory.push(URL)
   }
 
   render() {

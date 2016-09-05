@@ -1,5 +1,5 @@
 import React from 'react'
-import { browserHistory } from 'react-router'
+import { hashHistory } from 'react-router'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 
 /* component styles */
@@ -37,7 +37,7 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, sou
   )
 
   return (
-    <Card className={s.root} onTouchTap={() => browserHistory.push(url)}>
+    <Card className={s.root} onTouchTap={() => hashHistory.push(url)}>
       <CardMedia overlay={overlay}>
         <img
           draggable={false}
