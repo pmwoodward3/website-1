@@ -132,7 +132,7 @@ export class Search extends Component {
           <Paper zDepth={1} className={s.genreSection}>
             <h3 className={s.sectionTitle}>Genre Filter</h3>
             <TagsInput
-              value={location.query.g.split('\ ')}
+              value={location.query.g ? location.query.g.split('\ ') : []}
               className={s.genreList}
               renderInput={({ref, addTag}) => (
                 <AutoComplete
