@@ -207,7 +207,7 @@ export class Manga extends Component {
                   </div>
                 )}
               </CardText>
-            ) : (
+            ) : !manga.isLoading && (
               <CardText>
                 <strong>
                   No chapters available. This manga was not found in any source.

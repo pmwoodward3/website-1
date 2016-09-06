@@ -7,6 +7,7 @@ const initialState = {
   chapters: [],
   fullCoverAvailable: false,
   source: MAIN_SOURCE,
+  isLoading: true,
 }
 
 export default createReducer({
@@ -14,6 +15,7 @@ export default createReducer({
   ['GET_MANGA_SUCCESS']: (state, { payload }) => ({
     ...state,
     ...payload,
+    isLoading: false,
   }),
   ['GET_MANGA_FAILURE']: (state, { payload }) => initialState,
   ['FULL_COVER_LOAD_SUCCESS']: (state, { payload }) => (payload.mangaid == state.details.mangaid || state == initialState) ? ({
@@ -24,4 +26,4 @@ export default createReducer({
     ...state,
     fullCoverAvailable: false,
   }) : state,
-}, initialState);
+}, initialState)
