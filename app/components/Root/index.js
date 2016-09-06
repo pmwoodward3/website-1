@@ -14,19 +14,6 @@ import './styles/app.scss'
 
 injectTapEventPlugin()
 
-const s = {
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  },
-  childrenContainer: {
-    marginTop:'64px',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-}
-
 const themeColor = theme.palette.primary1Color
 
 const link = [
@@ -51,25 +38,43 @@ const meta = [
   {name: 'mobile-web-app-capable', content: 'yes'},
 ]
 
-const Root = ({children, ...props}) => (
-  <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-    <section
-      className={isTouchAvailable ? 'touch' : 'no-touch'}
-      style={s.root}
-      >
-      <Helmet
-        title="SB"
-        description="Premier manga reading platform."
-        meta={meta}
-        link={link}
-        />
+const Root = ({children, ...props}) => {
 
-      <Header {...props}/>
-      <section style={s.childrenContainer}>
-        {children && React.cloneElement(children, props)}
+  const locationIsHome = props.location.pathname == '/'
+  const s = {
+    root: {
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh',
+    },
+    childrenContainer: {
+      marginTop: locationIsHome ? 0 : '64px',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  }
+
+  return (
+    <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+      <section
+        className={isTouchAvailable ? 'touch' : 'no-touch'}
+        style={s.root}
+        >
+        <Helmet
+          title="SB"
+          description="Premier manga reading platform."
+          meta={meta}
+          link={link}
+          />
+
+        {!locationIsHome && <Header {...props}/>}
+
+        <section style={s.childrenContainer}>
+          {children && React.cloneElement(children, props)}
+        </section>
       </section>
-    </section>
-  </MuiThemeProvider>
-)
+    </MuiThemeProvider>
+  )
+}
 
 export default Root

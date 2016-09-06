@@ -7,7 +7,7 @@ import * as searchActions from 'redux/actions/search'
 
 import IconButton from 'material-ui/IconButton'
 import ActionSearch from 'material-ui/svg-icons/action/search'
-import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
+import ActionHome from 'material-ui/svg-icons/action/home'
 import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
@@ -32,7 +32,6 @@ class Header extends Component {
     super(props)
     this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this)
     this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
-    this.handleBack = this.handleBack.bind(this)
   }
   handleSearchQueryChange(e, val){
     this.props.changeSearchQuery(val)
@@ -55,22 +54,21 @@ class Header extends Component {
 
     hashHistory.push(URL)
   }
-  handleBack(){
-    hashHistory.goBack()
-  }
   render(){
     const loading = this.props.loading > 0
-    const { search, location } = this.props
+    const { search } = this.props
 
     return (
       <div className={s.root}>
         <AppBar
           className={s.appBar}
-          zDepth={location.pathname === '/' ? 0 : 2}
+          zDepth={2}
           iconElementLeft={
-            <IconButton onTouchTap={this.handleBack}>
-              <NavigationArrowBack />
-            </IconButton>
+            <IndexLink to="/">
+              <IconButton>
+                <ActionHome />
+              </IconButton>
+            </IndexLink>
           }
           iconElementRight={
             <div className={s.searchSection}>

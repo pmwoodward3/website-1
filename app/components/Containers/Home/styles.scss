@@ -1,13 +1,13 @@
 .root {
   position: relative;
-  height: calc(100vh - 64px);
+  height: 100vh;
 }
 
 .tab {
   display: flex;
   flex-direction: column;
   height: 100%;
-  height: calc(100vh - 64px - 48px); //Viewport - AppBar - TabBar
+  height: calc(100vh - 48px); //Viewport - TabBar
   overflow-y: auto;
 }
 

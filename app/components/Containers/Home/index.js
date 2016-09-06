@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { hashHistory } from 'react-router'
 import Helmet from 'react-helmet'
 
 import { getReleases } from 'redux/actions/releases'
@@ -15,6 +16,7 @@ import Paper from 'material-ui/Paper'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import ActionHome from 'material-ui/svg-icons/action/home'
 import AvLibraryBooks from 'material-ui/svg-icons/av/library-books'
+import ActionSearch from 'material-ui/svg-icons/action/search'
 
 export class Home extends Component {
   static propTypes = {
@@ -94,6 +96,11 @@ export class Home extends Component {
               </Paper>
             </div>
           </Tab>
+          <Tab
+            value="search"
+            icon={<ActionSearch/>}
+            onClick={() => hashHistory.push('/search')}
+            />
         </Tabs>
       </section>
     )

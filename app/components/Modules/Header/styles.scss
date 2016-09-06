@@ -1,5 +1,3 @@
-$color: rgba(255, 255, 255, 0.8) !important;
-
 .root {
   position: fixed;
   width: 100%;
@@ -8,7 +6,7 @@ $color: rgba(255, 255, 255, 0.8) !important;
   z-index: 1000 !important;
 
   svg {
-    color: $color;
+    color: #fff !important;
   }
 }
 
