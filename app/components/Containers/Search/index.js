@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 import Helmet from 'react-helmet'
-import debounce from 'debounce'
 import R from 'ramda'
 import {
   MANGA_ITEM_CARD_HEIGHT,
@@ -16,7 +15,6 @@ import searchSelector from 'redux/selectors/search'
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
-import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
 import Chip from 'material-ui/Chip'
 import Infinite from 'react-infinite'
@@ -30,14 +28,14 @@ export class Search extends Component {
     searchItems: PropTypes.func.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
     changeContainerHeight: PropTypes.func.isRequired,
+    hideSearchField: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this)
-    this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this)
     this.handleResize = this.handleResize.bind(this)
-    this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
+    this.updateGenres = this.updateGenres.bind(this)
   }
   componentDidMount(){
     const {
@@ -65,6 +63,7 @@ export class Search extends Component {
   }
   componentWillUnmount(){
     window.removeEventListener('resize', this.handleResize)
+    this.props.hideSearchField()
   }
   handleResize(){
     this.props.changeContainerHeight(this.refs.container.clientHeight)
@@ -88,11 +87,7 @@ export class Search extends Component {
       )
     }
   }
-  handleSearchQueryChange(e, val){
-    this.props.changeSearchQuery(val)
-    this.updateQueryLocation(val)
-  }
-  updateQueryLocation(query, genres){
+  updateGenres(query, genres){
     let { q, g } = this.props.location.query
 
     let URL = `/search?q=${query || q}`
@@ -109,7 +104,6 @@ export class Search extends Component {
 
     hashHistory.push(URL)
   }
-
   render() {
     const { search, location } = this.props
 
@@ -119,16 +113,6 @@ export class Search extends Component {
           title={`SB - Search ${location.query.q}`}
           />
         <div className={s.header}>
-          <Paper zDepth={1} className={s.searchField}>
-            <TextField
-              id="searchField"
-              placeholder="Type something..."
-              value={search.query}
-              onChange={this.handleSearchQueryChange}
-              fullWidth
-              autoFocus
-              />
-          </Paper>
           <Paper zDepth={1} className={s.genreSection}>
             <h3 className={s.sectionTitle}>Genre Filter</h3>
             <TagsInput
@@ -153,7 +137,7 @@ export class Search extends Component {
                   {getTagDisplayValue(tag)}
                 </Chip>
               )}
-              onChange={(genres) => this.updateQueryLocation(location.query.q, genres)}
+              onChange={(genres) => this.updateGenres(location.query.q, genres)}
               onlyUnique
               />
           </Paper>

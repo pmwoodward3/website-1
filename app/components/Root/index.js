@@ -64,7 +64,7 @@ const Root = ({children, ...props}) => (
         link={link}
         />
 
-      <Header/>
+      <Header {...props}/>
       <section style={s.childrenContainer}>
         {children && React.cloneElement(children, props)}
       </section>

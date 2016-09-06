@@ -12,13 +12,21 @@ $color: rgba(255, 255, 255, 0.8) !important;
   }
 }
 
-.search {
-  display: flex;
-  flex-direction: row;
+.appBar > div:nth-last-of-type(1){
+  flex: 10000;
 }
 
-.active{
-  color: grey !important;
+.searchSection {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.searchField {
+  padding: 0 10px;
+  margin-right: 5px;
+  display: flex;
+  flex: 1;
 }
 
 .progress {

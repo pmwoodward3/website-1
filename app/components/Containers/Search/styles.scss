@@ -19,23 +19,13 @@
   }
 }
 
-.searchSection {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.searchField, .genreSection {
+.genreSection {
   width: 100%;
-  padding: 0 10px;
   margin: 5px;
   display: flex;
   flex-direction: column;
-
-  &.genreSection {
-    padding: 10px;
-    flex-wrap: wrap;
-  }
+  padding: 10px;
+  flex-wrap: wrap;
 }
 
 .sectionTitle {

@@ -1,10 +1,11 @@
-import { createReducer } from '../utils/createReducer';
+import { createReducer } from '../utils/createReducer'
 
 const initialState = {
   query: '',
   totalPages: 0,
   rows: [],
   containerHeight: 10,
+  showSearchField: false,
 }
 
 const toFormat = (payload) =>
@@ -22,18 +23,25 @@ export default createReducer({
       ...state,
       rows,
       totalPages: payload.totalPages,
+      showSearchField: true,
     }
   },
 
-  ['SEARCH_ITEMS_FAILURE']: (state, { payload, error }) => initialState,
+  ['SEARCH_ITEMS_FAILURE']: (state) => initialState,
 
-  ['CHANGE_SEARCH_QUERY']: (state, { payload, error }) => payload !== state.query ? ({
+  ['CHANGE_SEARCH_QUERY']: (state, { payload }) => payload !== state.query ? ({
     ...initialState,
     containerHeight: state.containerHeight,
     query: payload,
+    showSearchField: true,
   }) : state,
-  ['CHANGE_CONTAINER_HEIGHT']: (state, { payload, error }) => ({
+  ['CHANGE_CONTAINER_HEIGHT']: (state, { payload }) => ({
     ...state,
     containerHeight: payload,
+    showSearchField: true,
+  }),
+  ['HIDE_SEARCH_FIELD']: (state) => ({
+    ...state,
+    showSearchField: false,
   }),
 }, initialState)
