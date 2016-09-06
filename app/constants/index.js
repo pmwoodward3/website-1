@@ -60,3 +60,5 @@ export const GENRE_LIST = [
 .replace(/[^a-zA-Z0-9\ ]/g, '')
 .replace(/\ /g, '-'))
 .sort()
+
+export const GA_TRACKING_ID = 'UA-71580391-4'

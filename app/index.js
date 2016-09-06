@@ -8,6 +8,8 @@ import { getList } from './redux/actions/list'
 import { getRecommendations } from './redux/actions/recommendations'
 import R from 'ramda'
 import * as lf from 'utils/localforage'
+import Ga from 'react-router-google-analytics'
+import { __PRODUCTION__, GA_TRACKING_ID } from './constants'
 
 import './utils/service-worker-registration'
 
@@ -65,10 +67,14 @@ lf.getItem('myList')
   })
 })
 
+const ga  = Ga(GA_TRACKING_ID)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
+    <Router
+      history={history}
+      onUpdate={() => __PRODUCTION__ && ga('send', 'pageview', location.pathname)}
+      >
       {routes}
     </Router>
   </Provider>,
