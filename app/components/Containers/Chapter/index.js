@@ -74,7 +74,7 @@ export class Chapter extends Component {
     const chapternum = parseInt(newProps.params.chapternum)
 
     if(!isNaN(pagenum) && !isNaN(chapternum)){
-      if(isChapterLoaded && pagenum >= newProps.chapter.items.length){
+      if(isChapterLoaded && pagenum > newProps.chapter.items.length){
         this.changePage(1, chapternum + 1)
       }
     }
