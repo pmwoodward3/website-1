@@ -7,9 +7,9 @@ const style = {
   height: MANGA_ITEM_CARD_HEIGHT,
 }
 
-const List = ({children}) => (
+const List = ({children, className}) => (
   <div
-    className={s.root}
+    className={s.root+' '+className}
     style={style}
     >
     {children}

@@ -1,14 +1,35 @@
 .root {
   position: relative;
+  height: calc(100vh - 64px);
 }
 
-.section {
+.tab {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  height: calc(100vh - 64px - 48px); //Viewport - AppBar - TabBar
+  overflow-y: auto;
+}
+
+.section, .myListSection {
   margin: 0.7em;
   padding: 0.7em;
+  flex-shrink: 0;
 }
 
 .sectionTitle {
   padding: 0 0.5em;
   margin: 0.5em 0;
   font-size: 1em;
+}
+
+.myListSection {
+  flex: 1;
+}
+
+.myList {
+  overflow-x: hidden;
+  flex-wrap: wrap;
+  flex: 1;
+  height: auto !important;
 }
