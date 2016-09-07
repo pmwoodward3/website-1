@@ -5,8 +5,8 @@ import Helmet from 'react-helmet'
 import { VirtualScroll, AutoSizer } from 'react-virtualized'
 
 import * as mangaActions from 'redux/actions/manga'
-import * as myListActions from 'redux/actions/myList'
-import { isMyListItem as isMyListItemSelector } from 'redux/selectors/myList'
+import * as favoritesActions from 'redux/actions/favorites'
+import { isFavoritesItem as isFavoritesItemSelector } from 'redux/selectors/favorites'
 import mangaSelector from 'redux/selectors/manga'
 
 import s from './styles.scss'
@@ -18,7 +18,7 @@ import Avatar from 'material-ui/Avatar'
 import { ListItem } from 'material-ui/List'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import AvLibraryAdd from 'material-ui/svg-icons/av/library-add'
+import ActionFavorite from 'material-ui/svg-icons/action/favorite'
 import ContentRemove from 'material-ui/svg-icons/content/remove'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import {
@@ -36,20 +36,20 @@ export class Manga extends Component {
   static propTypes = {
     manga: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    isMyListItem: PropTypes.bool.isRequired,
+    isFavoritesItem: PropTypes.bool.isRequired,
     getManga: PropTypes.func.isRequired,
     fullCoverLoadFailure: PropTypes.func.isRequired,
     fullCoverLoadSuccess: PropTypes.func.isRequired,
     fullCoverLoadRequest: PropTypes.func.isRequired,
-    addMyListItem: PropTypes.func.isRequired,
-    removeMyListItem: PropTypes.func.isRequired,
+    addFavoritesItem: PropTypes.func.isRequired,
+    removeFavoritesItem: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleSourceChange = this.handleSourceChange.bind(this)
     this.handleMangaChange = this.handleMangaChange.bind(this)
-    this.handleToMyListAction = this.handleToMyListAction.bind(this)
+    this.handleToFavoritesAction = this.handleToFavoritesAction.bind(this)
   }
   componentDidMount(){
     this.handleMangaChange()
@@ -68,21 +68,21 @@ export class Manga extends Component {
     getManga(params.mangaid)
     fullCoverLoadRequest()
   }
-  handleToMyListAction(){
-    const { addMyListItem, removeMyListItem, manga, isMyListItem } = this.props
-    if(isMyListItem){
-      removeMyListItem({
+  handleToFavoritesAction(){
+    const { addFavoritesItem, removeFavoritesItem, manga, isFavoritesItem } = this.props
+    if(isFavoritesItem){
+      removeFavoritesItem({
         mangaid: manga.details.mangaid,
       })
     }else{
-      addMyListItem({
+      addFavoritesItem({
         mangaid: manga.details.mangaid,
       })
     }
   }
 
   render() {
-    const { manga, isMyListItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
+    const { manga, isFavoritesItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
@@ -115,11 +115,11 @@ export class Manga extends Component {
             )}
             <FloatingActionButton
               className={s.actionButton}
-              onTouchTap={this.handleToMyListAction}
-              disabled={isMyListItem}
+              onTouchTap={this.handleToFavoritesAction}
+              disabled={isFavoritesItem}
               secondary
               >
-              <AvLibraryAdd />
+              <ActionFavorite/>
             </FloatingActionButton>
             <CardHeader
               className={s.cardHeader}
@@ -129,11 +129,11 @@ export class Manga extends Component {
                 subtitle={details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
                 />
             </CardHeader>
-            {isMyListItem && (
+            {isFavoritesItem && (
               <CardActions className={s.cardActions}>
                 <FlatButton
                   icon={<ContentRemove/>}
-                  onClick={this.handleToMyListAction}
+                  onClick={this.handleToFavoritesAction}
                   label="Remove from my list"
                   />
               </CardActions>
@@ -236,10 +236,10 @@ export class Manga extends Component {
 export default connect(
   (state, {params}) => ({
     manga: mangaSelector(state, params.mangaid),
-    isMyListItem: isMyListItemSelector(state, params.mangaid),
+    isFavoritesItem: isFavoritesItemSelector(state, params.mangaid),
   }),
   {
     ...mangaActions,
-    ...myListActions,
+    ...favoritesActions,
   }
 )(Manga)

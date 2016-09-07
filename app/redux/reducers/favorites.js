@@ -19,6 +19,6 @@ export default createReducer({
   }),
   ['LOAD_STORAGE']: (state, { payload }) => ({
     isLoaded: true,
-    items: payload.myList ? payload.myList : state.items,
+    items: payload.favorites ? payload.favorites : state.items,
   }),
 }, initialState)

@@ -8,12 +8,12 @@ import * as searchActions from 'redux/actions/search'
 import IconButton from 'material-ui/IconButton'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import ActionHome from 'material-ui/svg-icons/action/home'
+import ActionFavorite from 'material-ui/svg-icons/action/favorite'
 import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import AvLibraryBooks from 'material-ui/svg-icons/av/library-books'
 
 /* component styles */
 import s from './styles.scss'
@@ -59,7 +59,7 @@ class Header extends Component {
   render(){
     const loading = this.props.loading > 0
     const { search, location } = this.props
-    const showTabs = /\/(home|myList)/i.test(location.pathname)
+    const showTabs = /\/(home|favorites)/i.test(location.pathname)
 
     return (
       <div className={s.root}>
@@ -83,8 +83,8 @@ class Header extends Component {
               >
             </Tab>
             <Tab
-              value="/myList"
-              icon={<AvLibraryBooks/>}
+              value="/favorites"
+              icon={<ActionFavorite/>}
               >
             </Tab>
             <Tab

@@ -11,8 +11,8 @@ export const localforage = store => next => action => {
 }
 
 const save = debounce((state) => {
-  if(state.myList.isLoaded){
-    lf.setItem('myList', state.myList.items)
+  if(state.favorites.isLoaded){
+    lf.setItem('favorites', state.favorites.items)
     .then(() => {})
     .catch((err) => {
       console.error(err)

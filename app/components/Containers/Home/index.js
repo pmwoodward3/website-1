@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 
 import { getReleases } from 'redux/actions/releases'
-import { myList as myListSelector } from 'redux/selectors/myList'
+import { favorites as favoritesSelector } from 'redux/selectors/favorites'
 import releasesSelector from 'redux/selectors/releases'
 import readingHistorySelector from 'redux/selectors/readingHistory'
 import recommendationsSelector from 'redux/selectors/recommendations'
@@ -16,7 +16,7 @@ import Paper from 'material-ui/Paper'
 export class Home extends Component {
   static propTypes = {
     releases: PropTypes.object.isRequired,
-    myList: PropTypes.object.isRequired,
+    favorites: PropTypes.object.isRequired,
     readingHistory: PropTypes.object.isRequired,
     recommendations: PropTypes.object.isRequired,
     getReleases: PropTypes.func.isRequired,
@@ -77,7 +77,7 @@ export class Home extends Component {
 export default connect(
   state => ({
     releases: releasesSelector(state),
-    myList: myListSelector(state),
+    favorites: favoritesSelector(state),
     readingHistory: readingHistorySelector(state),
     recommendations: recommendationsSelector(state),
   }),

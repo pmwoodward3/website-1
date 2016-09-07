@@ -22,10 +22,10 @@ export const store = configureStore(initialState)
 //Load state from storage
 const storageState = {}
 
-lf.getItem('myList')
-.then((myList) => {
-  if(myList){
-    storageState.myList = myList
+lf.getItem('favorites')
+.then((favorites) => {
+  if(favorites){
+    storageState.favorites = favorites
   }
 
   return lf.getItem('readingHistory')
@@ -43,8 +43,8 @@ lf.getItem('myList')
 
   let items = []
 
-  if(storageState.myList){
-    items = items.concat(storageState.myList)
+  if(storageState.favorites){
+    items = items.concat(storageState.favorites)
   }
 
   if(storageState.readingHistory){

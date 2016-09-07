@@ -4,7 +4,7 @@ import releases from './releases'
 import search from './search'
 import manga from './manga'
 import chapter from './chapter'
-import myList from './myList'
+import favorites from './favorites'
 import readingHistory from './readingHistory'
 import mangaTable from './mangaTable'
 import recommendations from './recommendations'
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   manga,
   chapter,
   readingHistory,
-  myList,
+  favorites,
   mangaTable,
   recommendations,
   loading,
