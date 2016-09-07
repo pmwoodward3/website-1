@@ -11,7 +11,6 @@ module.exports = function(outputPath){
         './app/index',
       ],
       vendor: [
-        'bluebird',
         'debounce',
         'localforage',
         'ramda',
@@ -28,11 +27,9 @@ module.exports = function(outputPath){
         'react-virtualized',
         'redux',
         'redux-batched-subscribe',
-        'redux-logger',
         'redux-thunk',
         'reselect',
         'swipe-js-iso',
-        'material-ui',
       ],
     },
 
