@@ -183,7 +183,7 @@ export class Manga extends Component {
                               const { chapternum, title } = chapters[index]
                               return (
                                 <Link
-                                  to={`/manga/${details.mangaid}/${chapternum}?source=${manga.source}`}
+                                  to={`/manga/${details.mangaid}/${chapternum}/1?source=${manga.source}`}
                                   key={chapternum}
                                   className={s.chapterItem}
                                   >

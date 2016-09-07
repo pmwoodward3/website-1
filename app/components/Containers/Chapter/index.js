@@ -51,8 +51,6 @@ export class Chapter extends Component {
     const { params } = this.props
     if(params.pagenum){
       this.handleChapterChange()
-    }else{
-      this.changePage(1)
     }
 
     if (screenfull.enabled) {

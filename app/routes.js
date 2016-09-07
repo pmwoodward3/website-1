@@ -15,6 +15,6 @@ export default (
     <Route path="/favorites" component={Favorites} />
     <Route path="/search" component={Search} />
     <Route path="/manga/:mangaid" component={Manga} />
-    <Route path="/manga/:mangaid/:chapternum(/:pagenum)" component={Chapter} />
+    <Route path="/manga/:mangaid/:chapternum/:pagenum" component={Chapter} />
   </Route>
 )
