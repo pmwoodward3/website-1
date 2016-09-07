@@ -11,9 +11,7 @@ import * as lf from 'utils/localforage'
 import Ga from 'react-router-google-analytics'
 import { __PRODUCTION__, GA_TRACKING_ID } from './constants'
 
-if(__PRODUCTION__){
-  require('./utils/service-worker-registration')
-}
+import './utils/service-worker-registration'
 
 export const history = hashHistory
 
