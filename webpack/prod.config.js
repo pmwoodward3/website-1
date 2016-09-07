@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = function(outputPath){
   return {
@@ -41,6 +42,11 @@ module.exports = function(outputPath){
       new webpack.ProvidePlugin({
         Promise: 'exports?global.Promise!es6-promise',
         fetch: 'exports?self.fetch!whatwg-fetch',
+      }),
+
+      new HtmlWebpackPlugin({
+        title: 'SB',
+        template: 'app/statics/index.ejs',
       }),
 
       //Cache shell files & covers

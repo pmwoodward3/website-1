@@ -11,11 +11,11 @@ let devUrl
 
 // Location dist for dev and prod
 if (process.env.NODE_ENV === 'development') {
-  devUrl = 'http://localhost:3000/dist/'
+  devUrl = 'http://localhost:3000/'
 }
 
 if (process.env.NODE_ENV === 'production') {
-  devUrl = '/dist/'
+  devUrl = '/'
 }
 
 const outputPath = path.join(__dirname, '/../dist/')

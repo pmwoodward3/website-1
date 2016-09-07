@@ -23,13 +23,9 @@
   font-size: 1em;
 }
 
-.myListSection {
-  flex: 1;
-}
-
 .myList {
   overflow-x: hidden;
   flex-wrap: wrap;
-  flex: 1;
   height: auto !important;
+  justify-content: center;
 }

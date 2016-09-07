@@ -7,7 +7,7 @@
   "description": "Start your project easy and fast with modern tools",
   "scripts": {
     "start": "rimraf dist && NODE_ENV=development node bin/server.js",
-    "start:prod": "NODE_ENV=production node bin/server.js",
+    "start:prod": "cd dist && python -m SimpleHTTPServer 8888",
     "build": "rimraf dist && NODE_ENV=production webpack --progress --verbose --display-error-details --config webpack/common.config.js",
     "build:analyze": "NODE_ENV=production webpack --json --config webpack/common.config.js | webpack-bundle-size-analyzer > logs/build-analyze.log",
     "test": "NODE_PATH=./app mocha --require ./bin/test.js 'app/**/*spec.js'",
@@ -84,6 +84,7 @@
     "file-loader": "0.9.0",
     "helmet": "2.1.2",
     "history": "3.0.0",
+    "html-webpack-plugin": "^2.22.0",
     "http-proxy": "1.14.0",
     "imports-loader": "0.6.5",
     "jsdom": "9.4.1",

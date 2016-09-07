@@ -2,7 +2,7 @@
   "name":"SausageBrain",
   "short_name":"SB",
   "description":"Premier manga reading platform.",
-  "start_url":"/",
+  "start_url":"/index.html",
   "display":"standalone",
   "background_color":"#eee",
   "dir":"ltr",
