@@ -69,11 +69,18 @@ lf.getItem('favorites')
 
 const ga  = Ga(GA_TRACKING_ID)
 
+const routerUpdate = () => {
+  if(__PRODUCTION__){
+    ga('send', 'pageview', location.pathname)
+  }
+  window.scrollTo(0, 0)
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <Router
       history={history}
-      onUpdate={() => __PRODUCTION__ && ga('send', 'pageview', location.pathname)}
+      onUpdate={routerUpdate}
       >
       {routes}
     </Router>
