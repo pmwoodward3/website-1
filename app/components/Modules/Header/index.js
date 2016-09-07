@@ -12,6 +12,8 @@ import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
+import { Tabs, Tab } from 'material-ui/Tabs'
+import AvLibraryBooks from 'material-ui/svg-icons/av/library-books'
 
 /* component styles */
 import s from './styles.scss'
@@ -56,42 +58,11 @@ class Header extends Component {
   }
   render(){
     const loading = this.props.loading > 0
-    const { search } = this.props
+    const { search, location } = this.props
+    const showTabs = /\/(home|myList)/i.test(location.pathname)
 
     return (
       <div className={s.root}>
-        <AppBar
-          className={s.appBar}
-          zDepth={2}
-          iconElementLeft={
-            <IndexLink to="/">
-              <IconButton>
-                <ActionHome />
-              </IconButton>
-            </IndexLink>
-          }
-          iconElementRight={
-            <div className={s.searchSection}>
-              {search.showSearchField && (
-                <Paper zDepth={0} className={s.searchField}>
-                  <TextField
-                    id="searchField"
-                    placeholder="Type something..."
-                    value={search.query}
-                    onChange={this.handleSearchQueryChange}
-                    fullWidth
-                    autoFocus
-                    />
-                </Paper>
-              )}
-              <Link to="/search">
-                <IconButton disabled={search.showSearchField}>
-                  <ActionSearch/>
-                </IconButton>
-              </Link>
-            </div>
-          }
-          />
         <LinearProgress
           mode="indeterminate"
           className={s.progress}
@@ -100,6 +71,61 @@ class Header extends Component {
             display: loading ? 'block' : 'none',
           }}
           />
+        {showTabs ? (
+          <Tabs
+            value={location.pathname}
+            className={s.tabsSection}
+            onChange={(path) => hashHistory.push(path)}
+            >
+            <Tab
+              value="/home"
+              icon={<ActionHome/>}
+              >
+            </Tab>
+            <Tab
+              value="/myList"
+              icon={<AvLibraryBooks/>}
+              >
+            </Tab>
+            <Tab
+              value="/search"
+              icon={<ActionSearch/>}
+              />
+          </Tabs>
+        ) : (
+          <AppBar
+            className={s.appBar}
+            zDepth={2}
+            iconElementLeft={
+              <IndexLink to="/home">
+                <IconButton>
+                  <ActionHome />
+                </IconButton>
+              </IndexLink>
+            }
+            iconElementRight={
+              <div className={s.searchSection}>
+                {search.showSearchField && (
+                  <Paper zDepth={0} className={s.searchField}>
+                    <TextField
+                      id="searchField"
+                      placeholder="Type something..."
+                      value={search.query}
+                      onChange={this.handleSearchQueryChange}
+                      fullWidth
+                      autoFocus
+                      />
+                  </Paper>
+                )}
+                <Link to="/search">
+                  <IconButton disabled={search.showSearchField}>
+                    <ActionSearch/>
+                  </IconButton>
+                </Link>
+              </div>
+            }
+            />
+        )}
       </div>
     )
   }

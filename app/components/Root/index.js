@@ -40,7 +40,6 @@ const meta = [
 
 const Root = ({children, ...props}) => {
 
-  const locationIsHome = props.location.pathname == '/'
   const s = {
     root: {
       display: 'flex',
@@ -48,7 +47,7 @@ const Root = ({children, ...props}) => {
       minHeight: '100vh',
     },
     childrenContainer: {
-      marginTop: locationIsHome ? 0 : '64px',
+      marginTop: '64px',
       display: 'flex',
       flexDirection: 'column',
     },
@@ -67,7 +66,7 @@ const Root = ({children, ...props}) => {
           link={link}
           />
 
-        {!locationIsHome && <Header {...props}/>}
+        <Header {...props}/>
 
         <section style={s.childrenContainer}>
           {children && React.cloneElement(children, props)}
