@@ -81,9 +81,8 @@ ReactDOM.render(
     <Router
       history={history}
       onUpdate={routerUpdate}
-      >
-      {routes}
-    </Router>
+      routes={routes}
+      />
   </Provider>,
   document.getElementById('root')
 )

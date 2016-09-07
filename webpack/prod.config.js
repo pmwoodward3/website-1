@@ -1,5 +1,4 @@
 const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -33,18 +32,14 @@ module.exports = function(outputPath){
         'redux-thunk',
         'reselect',
         'swipe-js-iso',
+        'material-ui',
       ],
     },
 
     module: {
-      // Loader fo css modules (https://github.com/gajus/react-css-modules)
-      // Working with extract text plugin (https://github.com/webpack/extract-text-webpack-plugin)
       loaders: [{
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          notExtractLoader: 'style-loader',
-          loader: 'css?minimize&module&localIdentName=[hash:base64:5]!postcss-loader!sass',
-        }),
+        loader: 'style!css?minimize&module&localIdentName=[hash:base64:5]!postcss-loader!sass',
       }],
     },
 
@@ -54,7 +49,6 @@ module.exports = function(outputPath){
 
     plugins: [
       // Save all styles in bundle.css with extract-text-plugin
-      new ExtractTextPlugin('bundle.css'),
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       // Minify bundle
