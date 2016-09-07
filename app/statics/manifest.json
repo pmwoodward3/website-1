@@ -6,7 +6,7 @@
   "display":"standalone",
   "background_color":"#eee",
   "dir":"ltr",
-  "theme_color": "#009688",
+  "theme_color": "#3F51B5",
   "default_locale": "en",
   "lang": "en-US",
   "scope": "/",
