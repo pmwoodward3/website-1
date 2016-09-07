@@ -1,43 +1,10 @@
-import LocalforageWorker from 'worker!./localforageWorker'
+import localforage from 'localforage'
 
-const worker = new LocalforageWorker()
-
-export const getItem = (key) => new Promise((resolve, reject) => {
-  worker.postMessage({
-    type: 'get',
-    key,
-  })
-  const handler = (e) => {
-    const res = e.data
-    if(res.key == key){
-      if(res.type == 'success'){
-        resolve(res.payload)
-      }else{
-        reject(res.error)
-      }
-      worker.removeEventListener('message', handler)
-    }
-  }
-
-  worker.addEventListener('message', handler)
+//Setup up browser storage
+localforage.config({
+  name: 'SausageBrain',
+  description: 'User data',
+  storeName: 'state',
 })
 
-export const setItem = (key, value) => new Promise((resolve, reject) => {
-  worker.postMessage({
-    type: 'set',
-    key,
-    value,
-  })
-  const handler = (res) => {
-    if(res.key == key){
-      if(res.type == 'success'){
-        resolve(res.payload)
-      }else{
-        reject(res.error)
-      }
-      worker.removeEventListener('message', handler)
-    }
-  }
-
-  worker.addEventListener('message', handler)
-})
+export default localforage
