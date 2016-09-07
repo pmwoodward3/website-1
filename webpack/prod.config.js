@@ -8,7 +8,32 @@ module.exports = function(outputPath){
     devtool: 'source-map',
 
     entry: {
-      main: ['./app/index'],
+      main: [
+        './app/index',
+      ],
+      vendor: [
+        'bluebird',
+        'debounce',
+        'localforage',
+        'ramda',
+        'react',
+        'react-dom',
+        'react-helmet',
+        'react-infinite',
+        'react-redux',
+        'react-router',
+        'react-router-google-analytics',
+        'react-swipe',
+        'react-tagsinput',
+        'react-tap-event-plugin',
+        'react-virtualized',
+        'redux',
+        'redux-batched-subscribe',
+        'redux-logger',
+        'redux-thunk',
+        'reselect',
+        'swipe-js-iso',
+      ],
     },
 
     module: {
