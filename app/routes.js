@@ -8,16 +8,12 @@ function loadRoute(cb) {
 }
 
 export default {
+  path: '/',
   component: Root,
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/home'),
+  },
   childRoutes: [
-    {
-      path: '/',
-      getComponent(location, cb) {
-        System.import('./components/Containers/Home')
-          .then(loadRoute(cb))
-          .catch(errorLoading)
-      },
-    },
     {
       path: '/home',
       getComponent(location, cb) {
