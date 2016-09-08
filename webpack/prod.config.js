@@ -62,6 +62,7 @@ module.exports = function(outputPath){
 
       new HtmlWebpackPlugin({
         title: 'SB',
+        description: 'Premier manga reading platform.',
         template: 'app/statics/index.ejs',
       }),
 

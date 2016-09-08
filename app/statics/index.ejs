@@ -1,8 +1,24 @@
 <!doctype html>
-<meta charset="utf-8">
 <html>
 <head>
+  <meta charset="UTF-8">
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <meta name="application-name" content="<%= htmlWebpackPlugin.options.title %>">
+  <meta name="description" content="<%= htmlWebpackPlugin.options.description %>">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/icon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+  <meta name="robots" content="index,noimageindex,noarchive,nocache,nofollow">
+  <meta name="google" content="notranslate">
 </head>
 <body>
   <div id="root"></div>
