@@ -144,11 +144,11 @@ export class Search extends Component {
         </div>
         <div className={s.container} ref="container">
           <Infinite
-            containerHeight={search.containerHeight}
             elementHeight={MANGA_ITEM_CARD_HEIGHT}
-            infiniteLoadBeginEdgeOffset={search.containerHeight}
+            infiniteLoadBeginEdgeOffset={MANGA_ITEM_CARD_HEIGHT * 2}
             onInfiniteLoad={this.handleInfiniteLoad}
-            preloadAdditionalHeight={search.containerHeight * 2}
+            preloadAdditionalHeight={MANGA_ITEM_CARD_HEIGHT * 2}
+            useWindowAsScrollContainer
             >
             {
               search.rows.map((colums, index) => (
