@@ -59,7 +59,7 @@ class Header extends Component {
   render(){
     const loading = this.props.loading > 0
     const { search, location } = this.props
-    const showTabs = /\/(home|favorites)/i.test(location.pathname)
+    const showTabs = /\/(home|favorites)/i.test(location.pathname) || location.pathname == '/'
 
     return (
       <div className={s.root}>
