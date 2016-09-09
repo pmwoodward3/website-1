@@ -49,6 +49,7 @@ export default ({location}) => {
       <BottomNavigation selectedIndex={selectedIndex()}>
         {items.map(({label, path, icon}) => (
           <BottomNavigationItem
+            key={path}
             label={label}
             icon={icon}
             onTouchTap={handleTouchTap(path)}
