@@ -10,6 +10,7 @@ import {
 } from 'constants'
 
 import * as searchActions from 'redux/actions/search'
+import * as headerActions from 'redux/actions/header'
 import searchSelector from 'redux/selectors/search'
 
 import s from './styles.scss'
@@ -29,6 +30,7 @@ export class Search extends Component {
     changeSearchQuery: PropTypes.func.isRequired,
     hideSearchField: PropTypes.func.isRequired,
     showSearchField: PropTypes.func.isRequired,
+    changeHeader: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -41,7 +43,12 @@ export class Search extends Component {
       location,
       changeSearchQuery,
       showSearchField,
+      changeHeader,
     } = this.props
+
+    changeHeader({
+      title: 'Search',
+    })
 
     showSearchField()
 
@@ -165,6 +172,7 @@ export default connect(
     search: searchSelector(state),
   }),
   {
+    ...headerActions,
     ...searchActions,
   }
 )(Search)

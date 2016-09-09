@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 
+import * as headerActions from 'redux/actions/header'
 import { getReleases } from 'redux/actions/releases'
 import { favorites as favoritesSelector } from 'redux/selectors/favorites'
 import releasesSelector from 'redux/selectors/releases'
@@ -20,11 +21,16 @@ export class Home extends Component {
     readingHistory: PropTypes.object.isRequired,
     recommendations: PropTypes.object.isRequired,
     getReleases: PropTypes.func.isRequired,
+    changeHeader: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { getReleases } = this.props
+    const { getReleases, changeHeader } = this.props
+
     getReleases()
+    changeHeader({
+      title: 'Home',
+    })
   }
 
   render() {
@@ -82,6 +88,7 @@ export default connect(
     recommendations: recommendationsSelector(state),
   }),
   {
+    ...headerActions,
     getReleases,
   }
 )(Home)

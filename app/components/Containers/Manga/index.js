@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import { VirtualScroll, AutoSizer } from 'react-virtualized'
 
+import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'
 import * as favoritesActions from 'redux/actions/favorites'
 import { isFavoritesItem as isFavoritesItemSelector } from 'redux/selectors/favorites'
@@ -43,6 +44,7 @@ export class Manga extends Component {
     fullCoverLoadRequest: PropTypes.func.isRequired,
     addFavoritesItem: PropTypes.func.isRequired,
     removeFavoritesItem: PropTypes.func.isRequired,
+    changeHeader: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -57,6 +59,12 @@ export class Manga extends Component {
   componentWillUpdate(newProps){
     if(this.props.params.mangaid != newProps.params.mangaid){
       this.handleMangaChange(newProps)
+    }
+
+    if(this.props.manga.details.title != newProps.manga.details.title){
+      newProps.changeHeader({
+        title: newProps.manga.details.title,
+      })
     }
   }
   handleSourceChange(e, i, value){
@@ -239,6 +247,7 @@ export default connect(
     isFavoritesItem: isFavoritesItemSelector(state, params.mangaid),
   }),
   {
+    ...headerActions,
     ...mangaActions,
     ...favoritesActions,
   }

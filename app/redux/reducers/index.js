@@ -9,6 +9,7 @@ import readingHistory from './readingHistory'
 import mangaTable from './mangaTable'
 import recommendations from './recommendations'
 import loading from './loading'
+import header from './header'
 
 const rootReducer = combineReducers({
   releases,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   mangaTable,
   recommendations,
   loading,
+  header,
 })
 
 export default rootReducer

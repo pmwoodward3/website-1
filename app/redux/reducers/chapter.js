@@ -1,4 +1,4 @@
-import { createReducer } from '../utils/createReducer';
+import { createReducer } from '../utils/createReducer'
 
 const initialState = {
   fullscreen: false,
@@ -6,7 +6,7 @@ const initialState = {
 }
 
 export default createReducer({
-  ['GET_CHAPTER_REQUEST']: (state, { payload }) => ({
+  ['GET_CHAPTER_REQUEST']: (state) => ({
     ...state,
     items: [],
   }),
@@ -14,14 +14,14 @@ export default createReducer({
     ...state,
     items: payload.pages,
   }),
-  ['GET_CHAPTER_FAILURE']: (state, { payload, error }) => initialState,
-  ['ENTER_FULLSCREEN_CHAPTER']: (state, { payload, error }) => ({
+  ['GET_CHAPTER_FAILURE']: () => initialState,
+  ['ENTER_FULLSCREEN_CHAPTER']: (state) => ({
     ...state,
     fullscreen: true,
   }),
-  ['EXIT_FULLSCREEN_CHAPTER']: (state, { payload, error }) => ({
+  ['EXIT_FULLSCREEN_CHAPTER']: (state) => ({
     ...state,
     fullscreen: false,
   }),
 
-}, initialState);
+}, initialState)

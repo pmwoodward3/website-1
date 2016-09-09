@@ -3,6 +3,7 @@ import { hashHistory, Link, IndexLink } from 'react-router'
 import { connect } from 'react-redux'
 import debounce from 'debounce'
 
+import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
 
 import IconButton from 'material-ui/IconButton'
@@ -12,6 +13,7 @@ import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
+import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
 
 /* component styles */
 import s from './styles.scss'
@@ -24,8 +26,10 @@ class Header extends Component {
   static propTypes = {
     loading: PropTypes.number.isRequired,
     search: PropTypes.object.isRequired,
+    header: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
+    enterFullscreen: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -56,7 +60,7 @@ class Header extends Component {
   }
   render(){
     const loading = this.props.loading > 0
-    const { search, location } = this.props
+    const { search, header, enterFullscreen } = this.props
 
     return (
       <div className={s.root}>
@@ -69,6 +73,7 @@ class Header extends Component {
           }}
           />
         <AppBar
+          title={header.title}
           className={s.appBar}
           zDepth={2}
           iconElementLeft={
@@ -92,11 +97,17 @@ class Header extends Component {
                     />
                 </Paper>
               )}
-              <Link to="/search">
-                <IconButton disabled={search.showSearchField}>
-                  <ActionSearch/>
+              {header.showFullScreenButton ? (
+                <IconButton onTouchTap={enterFullscreen}>
+                  <NavigationFullScreen/>
                 </IconButton>
-              </Link>
+              ) : (
+                <Link to="/search">
+                  <IconButton disabled={search.showSearchField}>
+                    <ActionSearch/>
+                  </IconButton>
+                </Link>
+              )}
             </div>
           }
           />
@@ -109,8 +120,10 @@ export default connect(
   (state) => ({
     loading: state.loading,
     search: state.search,
+    header: state.header,
   }),
   {
     ...searchActions,
+    ...chapterActions,
   }
 )(Header)

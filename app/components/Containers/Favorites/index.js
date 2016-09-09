@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 
+import * as headerActions from 'redux/actions/header'
 import { favorites as favoritesSelector } from 'redux/selectors/favorites'
 
 import s from './styles.scss'
@@ -12,8 +13,14 @@ import Paper from 'material-ui/Paper'
 export class Favorites extends Component {
   static propTypes = {
     favorites: PropTypes.object.isRequired,
+    changeHeader: PropTypes.func.isRequired,
   };
 
+  componentDidMount(){
+    this.props.changeHeader({
+      title: 'Favorites',
+    })
+  }
   render() {
     const { favorites } = this.props
 
@@ -38,4 +45,7 @@ export default connect(
   state => ({
     favorites: favoritesSelector(state),
   }),
+  {
+    ...headerActions,
+  }
 )(Favorites)
