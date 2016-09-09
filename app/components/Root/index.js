@@ -4,6 +4,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import isTouchAvailable from 'utils/isTouchAvailable'
 
 import Header from 'components/Modules/Header'
+import BottomNavigation from 'components/Modules/BottomNavigation'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
@@ -33,6 +34,7 @@ const Root = ({children, ...props}) => {
     },
     childrenContainer: {
       marginTop: '64px',
+      marginBottom: '56px',
       display: 'flex',
       flexDirection: 'column',
     },
@@ -55,6 +57,8 @@ const Root = ({children, ...props}) => {
         <section style={s.childrenContainer}>
           {children && React.cloneElement(children, props)}
         </section>
+
+        <BottomNavigation {...props}/>
       </section>
     </MuiThemeProvider>
   )

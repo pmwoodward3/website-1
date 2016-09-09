@@ -1,0 +1,11 @@
+.root {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 10000 !important;
+
+  svg {
+    width: 100% !important;
+  }
+}

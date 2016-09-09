@@ -7,13 +7,11 @@ import * as searchActions from 'redux/actions/search'
 
 import IconButton from 'material-ui/IconButton'
 import ActionSearch from 'material-ui/svg-icons/action/search'
-import ActionHome from 'material-ui/svg-icons/action/home'
-import ActionFavorite from 'material-ui/svg-icons/action/favorite'
+import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
-import { Tabs, Tab } from 'material-ui/Tabs'
 
 /* component styles */
 import s from './styles.scss'
@@ -59,7 +57,6 @@ class Header extends Component {
   render(){
     const loading = this.props.loading > 0
     const { search, location } = this.props
-    const showTabs = /\/(home|favorites)/i.test(location.pathname) || location.pathname == '/'
 
     return (
       <div className={s.root}>
@@ -71,61 +68,38 @@ class Header extends Component {
             display: loading ? 'block' : 'none',
           }}
           />
-        {showTabs ? (
-          <Tabs
-            value={location.pathname}
-            className={s.tabsSection}
-            onChange={(path) => hashHistory.push(path)}
-            >
-            <Tab
-              value="/home"
-              icon={<ActionHome/>}
-              >
-            </Tab>
-            <Tab
-              value="/favorites"
-              icon={<ActionFavorite/>}
-              >
-            </Tab>
-            <Tab
-              value="/search"
-              icon={<ActionSearch/>}
-              />
-          </Tabs>
-        ) : (
-          <AppBar
-            className={s.appBar}
-            zDepth={2}
-            iconElementLeft={
-              <IndexLink to="/home">
-                <IconButton>
-                  <ActionHome />
+        <AppBar
+          className={s.appBar}
+          zDepth={2}
+          iconElementLeft={
+            <IndexLink to="/home">
+              <IconButton>
+                <NavigationArrowBack />
+              </IconButton>
+            </IndexLink>
+          }
+          iconElementRight={
+            <div className={s.searchSection}>
+              {search.showSearchField && (
+                <Paper zDepth={0} className={s.searchField}>
+                  <TextField
+                    id="searchField"
+                    placeholder="Type something..."
+                    value={search.query}
+                    onChange={this.handleSearchQueryChange}
+                    fullWidth
+                    autoFocus
+                    />
+                </Paper>
+              )}
+              <Link to="/search">
+                <IconButton disabled={search.showSearchField}>
+                  <ActionSearch/>
                 </IconButton>
-              </IndexLink>
-            }
-            iconElementRight={
-              <div className={s.searchSection}>
-                {search.showSearchField && (
-                  <Paper zDepth={0} className={s.searchField}>
-                    <TextField
-                      id="searchField"
-                      placeholder="Type something..."
-                      value={search.query}
-                      onChange={this.handleSearchQueryChange}
-                      fullWidth
-                      autoFocus
-                      />
-                  </Paper>
-                )}
-                <Link to="/search">
-                  <IconButton disabled={search.showSearchField}>
-                    <ActionSearch/>
-                  </IconButton>
-                </Link>
-              </div>
-            }
-            />
-        )}
+              </Link>
+            </div>
+          }
+          />
       </div>
     )
   }
