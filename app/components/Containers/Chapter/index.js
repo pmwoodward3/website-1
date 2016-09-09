@@ -143,15 +143,17 @@ export class Chapter extends Component {
           <Helmet
             title={`SB - Ch. ${params.chapternum} - P. ${pagenum}`}
             />
-          <div className={s.header}>
-            <BreadCrumbs items={hierarchy}/>
-            {isTouchAvailable && (
-              <IconButton onClick={this.handleFullScreen}>
-                <NavigationFullScreen/>
-              )}
-            </IconButton>
-          )}
-        </div>
+          {
+          //   <div className={s.header}>
+          //     <BreadCrumbs items={hierarchy}/>
+          //     {isTouchAvailable && (
+          //       <IconButton onClick={this.handleFullScreen}>
+          //         <NavigationFullScreen/>
+          //       )}
+          //     </IconButton>
+          //   )}
+          // </div>
+        }
         <div className={s.container} ref="container">
           {!isTouchAvailable && (
             <div className={s.controlBtn}>

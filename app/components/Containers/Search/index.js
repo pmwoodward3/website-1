@@ -27,34 +27,32 @@ export class Search extends Component {
     location: PropTypes.object.isRequired,
     searchItems: PropTypes.func.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
-    changeContainerHeight: PropTypes.func.isRequired,
     hideSearchField: PropTypes.func.isRequired,
+    showSearchField: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleInfiniteLoad = this.handleInfiniteLoad.bind(this)
-    this.handleResize = this.handleResize.bind(this)
     this.updateGenres = this.updateGenres.bind(this)
   }
   componentDidMount(){
     const {
       location,
       changeSearchQuery,
+      showSearchField,
     } = this.props
+
+    showSearchField()
 
     //Amount of manga items to display in a row
     this.rowColums = Math.floor(this.refs.container.clientWidth / MANGA_ITEM_CARD_WIDTH)
-
-    this.handleResize()
 
     const query = location.query.q
     if(query && query.length > 0){
       changeSearchQuery(query)
     }
     this.handleSearch()
-
-    window.addEventListener('resize', this.handleResize)
   }
   componentWillUpdate(newProps){
     if(!R.equals(this.props.location.query, newProps.location.query)){
@@ -62,11 +60,7 @@ export class Search extends Component {
     }
   }
   componentWillUnmount(){
-    window.removeEventListener('resize', this.handleResize)
     this.props.hideSearchField()
-  }
-  handleResize(){
-    this.props.changeContainerHeight(this.refs.container.clientHeight)
   }
   handleSearch(props=this.props){
     const { q, g } = props.location.query

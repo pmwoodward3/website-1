@@ -14,12 +14,12 @@ export const changeSearchQuery = (payload) => ({
   payload, //String query
 })
 
-export const changeContainerHeight = (payload) => ({
-  type: 'CHANGE_CONTAINER_HEIGHT',
+export const hideSearchField = (payload) => ({
+  type: 'HIDE_SEARCH_FIELD',
   payload, //Number height
 })
 
-export const hideSearchField = (payload) => ({
-  type: 'HIDE_SEARCH_FIELD',
+export const showSearchField = (payload) => ({
+  type: 'SHOW_SEARCH_FIELD',
   payload, //Number height
 })

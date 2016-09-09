@@ -4,7 +4,6 @@ const initialState = {
   query: '',
   totalPages: 0,
   rows: [],
-  containerHeight: 10,
   showSearchField: false,
 }
 
@@ -31,17 +30,15 @@ export default createReducer({
 
   ['CHANGE_SEARCH_QUERY']: (state, { payload }) => payload !== state.query ? ({
     ...initialState,
-    containerHeight: state.containerHeight,
     query: payload,
     showSearchField: true,
   }) : state,
-  ['CHANGE_CONTAINER_HEIGHT']: (state, { payload }) => ({
-    ...state,
-    containerHeight: payload,
-    showSearchField: true,
-  }),
   ['HIDE_SEARCH_FIELD']: (state) => ({
     ...state,
     showSearchField: false,
+  }),
+  ['SHOW_SEARCH_FIELD']: (state) => ({
+    ...state,
+    showSearchField: true,
   }),
 }, initialState)
