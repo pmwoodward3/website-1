@@ -10,8 +10,8 @@
   }
 }
 
-.appBar > div:nth-last-of-type(1){
-  // flex: 10000;
+.showSearchField > div:nth-last-of-type(1){
+  flex: 10000 !important;
 }
 
 .searchSection {

@@ -74,7 +74,7 @@ class Header extends Component {
           />
         <AppBar
           title={header.title}
-          className={s.appBar}
+          className={s.appBar+' '+(search.showSearchField && s.showSearchField)}
           zDepth={2}
           iconElementLeft={
             <IndexLink to="/home">
