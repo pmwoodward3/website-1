@@ -40,6 +40,8 @@ const Root = ({children, ...props}) => {
     },
   }
 
+  const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
+
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
       <section
@@ -58,7 +60,7 @@ const Root = ({children, ...props}) => {
           {children && React.cloneElement(children, props)}
         </section>
 
-        <BottomNavigation {...props}/>
+        {showBottomNav && <BottomNavigation {...props}/>}
       </section>
     </MuiThemeProvider>
   )
