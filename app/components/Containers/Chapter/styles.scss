@@ -51,9 +51,7 @@
   align-content: center;
 }
 
-.header {
+.headerTitle {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 5px;
+  align-items: center;
 }

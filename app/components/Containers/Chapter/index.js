@@ -8,6 +8,7 @@ import screenfull from 'screenfull'
 import Loading from 'components/Modules/Loading'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
+import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Swipe from 'react-swipe'
 import R from 'ramda'
@@ -94,13 +95,14 @@ export class Chapter extends Component {
     }
   }
   setHeaderTitle(props=this.props){
-    const hierarchy = [
-      props.manga ? props.manga.title : 'Manga',
-      `Chapter ${props.params.chapternum}`,
-    ]
-
     props.changeHeader({
-      title: hierarchy.join('/'),
+      title: (
+        <span className={s.headerTitle}>
+          {props.manga ? props.manga.title : 'Manga'}
+          <HardwareArrowBack/>
+          {`Chapter ${props.params.chapternum}`}
+        </span>
+      ),
       parentPath: `/manga/${props.params.mangaid}`,
     })
   }

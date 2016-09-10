@@ -21,7 +21,7 @@
     margin-top: 0 !important;
   }
 
-  & > h1 {
+  & > h1, & > div:nth-last-child(2) {
     height: $headerHeight !important;
     line-height: $headerHeight !important;
     font-size: 1.4em !important;
