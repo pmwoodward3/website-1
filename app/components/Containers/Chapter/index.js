@@ -188,16 +188,20 @@ export class Chapter extends Component {
               >
               {chapter.items.concat([
                 {pagenum: chapter.items.length + 1, url: ''},
-              ]).map(({url}) => (
-                <div className={s.pageContainer} key={url}>
+              ]).map(({url}, index) => (
+                <div className={s.pageContainer} key={index+url}>
                   <Paper className={s.paper} zDepth={2}>
-                    <img
-                      draggable={false}
-                      className={s.img}
-                      src={url}
-                      referrerPolicy="no-referrer"
-                      ref="img"
-                      />
+                    {((index + 1) >= pagenum && (index + 1) <= (pagenum + 3)) ? (
+                      <img
+                        draggable={false}
+                        className={s.img}
+                        src={url}
+                        referrerPolicy="no-referrer"
+                        ref="img"
+                        />
+                    ) : (
+                      <div></div>
+                    )}
                   </Paper>
                 </div>
               ))}
