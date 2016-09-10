@@ -39,6 +39,7 @@ export class Chapter extends Component {
     this.changePage = this.changePage.bind(this)
     this.onChangeIndex = this.onChangeIndex.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
+    this.setHeaderTitle = this.setHeaderTitle.bind(this)
   }
   componentDidMount(){
     const { params, changeHeader } = this.props
@@ -46,11 +47,13 @@ export class Chapter extends Component {
       this.handleChapterChange()
     }
 
-    if (screenfull.enabled) {
+    if(screenfull.enabled){
       changeHeader({
         showFullScreenButton: true,
       })
     }
+
+    this.setHeaderTitle()
   }
   shouldComponentUpdate(newProps){
     return !R.equals(this.props, newProps)
@@ -76,14 +79,7 @@ export class Chapter extends Component {
     }
 
     if(this.props.manga != newProps.manga || isNewChapter){
-      const hierarchy = [
-        newProps.manga ? newProps.manga.title : 'Manga',
-        `Chapter ${newProps.params.chapternum}`,
-      ]
-
-      newProps.changeHeader({
-        title: hierarchy.join('/'),
-      })
+      this.setHeaderTitle(newProps)
     }
 
     if(!this.props.chapter.fullscreen && newProps.chapter.fullscreen){
@@ -96,6 +92,16 @@ export class Chapter extends Component {
         showFullScreenButton: false,
       })
     }
+  }
+  setHeaderTitle(props=this.props){
+    const hierarchy = [
+      props.manga ? props.manga.title : 'Manga',
+      `Chapter ${props.params.chapternum}`,
+    ]
+
+    props.changeHeader({
+      title: hierarchy.join('/'),
+    })
   }
   handleChapterChange(props=this.props){
     const {
