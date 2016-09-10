@@ -2,6 +2,7 @@ import { createReducer } from '../utils/createReducer'
 
 const initialState = {
   title: 'SausageBrain',
+  parentPath: '/home',
   showSearchField: true,
   showFullScreenButton: false,
 }

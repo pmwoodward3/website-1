@@ -30,6 +30,7 @@ export class Home extends Component {
     getReleases()
     changeHeader({
       title: 'Home',
+      parentPath: '/home',
     })
   }
 

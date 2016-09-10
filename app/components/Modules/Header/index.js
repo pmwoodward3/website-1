@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { hashHistory, Link, IndexLink } from 'react-router'
+import { hashHistory, Link } from 'react-router'
 import { connect } from 'react-redux'
 import debounce from 'debounce'
 
@@ -9,6 +9,7 @@ import * as searchActions from 'redux/actions/search'
 import IconButton from 'material-ui/IconButton'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
+import ActionHome from 'material-ui/svg-icons/action/home'
 import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
@@ -77,11 +78,15 @@ class Header extends Component {
           className={s.appBar+' '+(search.showSearchField && s.showSearchField)}
           zDepth={2}
           iconElementLeft={
-            <IndexLink to="/home">
+            <Link to={header.parentPath}>
               <IconButton>
-                <NavigationArrowBack />
+                {header.parentPath == '/home' ? (
+                  <ActionHome/>
+                ) : (
+                  <NavigationArrowBack />
+                )}
               </IconButton>
-            </IndexLink>
+            </Link>
           }
           iconElementRight={
             <div className={s.searchSection}>

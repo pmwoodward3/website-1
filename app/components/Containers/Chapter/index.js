@@ -101,6 +101,7 @@ export class Chapter extends Component {
 
     props.changeHeader({
       title: hierarchy.join('/'),
+      parentPath: `/manga/${props.params.mangaid}`,
     })
   }
   handleChapterChange(props=this.props){

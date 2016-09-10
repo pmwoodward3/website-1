@@ -56,10 +56,11 @@ export class Manga extends Component {
   componentDidMount(){
     this.handleMangaChange()
 
-    const title = this.props.manga.details.title
-    if(title){
-      this.props.changeHeader({ title })
-    }
+    const title = this.props.manga.details.title || 'Manga'
+    this.props.changeHeader({
+      title,
+      parentPath: '/home',
+    })
   }
   componentWillUpdate(newProps){
     if(this.props.params.mangaid != newProps.params.mangaid){

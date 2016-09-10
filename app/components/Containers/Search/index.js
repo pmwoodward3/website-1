@@ -48,6 +48,7 @@ export class Search extends Component {
 
     changeHeader({
       title: 'Search',
+      parentPath: '/home',
     })
 
     showSearchField()

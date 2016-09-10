@@ -19,6 +19,7 @@ export class Favorites extends Component {
   componentDidMount(){
     this.props.changeHeader({
       title: 'Favorites',
+      parentPath: '/home',
     })
   }
   render() {
