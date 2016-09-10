@@ -32,7 +32,7 @@ export default ({location}) => {
     .filter(({path}) => path == location.pathname)
 
     if(result.length <= 0){
-      return 0
+      return
     }
 
     return items.indexOf(result[0])
