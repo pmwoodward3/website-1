@@ -1,7 +1,9 @@
+@import "values";
+
 .root {
   display: flex;
   flex: 1;
-  height: calc(100vh - 64px);
+  height: calc(100vh - #{$headerHeight});
   flex-direction: column;
   justify-content: center;
   align-items: center;

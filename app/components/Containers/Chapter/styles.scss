@@ -1,8 +1,10 @@
+@import "values";
+
 .section {
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: calc(100vh - 64px - 56px);
+  height: calc(100vh - #{$headerHeight});
 }
 
 .container {

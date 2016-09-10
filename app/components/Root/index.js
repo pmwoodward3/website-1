@@ -26,6 +26,8 @@ const meta = [
 
 const Root = ({children, ...props}) => {
 
+  const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
+
   const s = {
     root: {
       display: 'flex',
@@ -33,14 +35,12 @@ const Root = ({children, ...props}) => {
       minHeight: '100vh',
     },
     childrenContainer: {
-      marginTop: '64px',
-      marginBottom: '56px',
+      marginTop: '56px',
+      marginBottom: showBottomNav ? '56px' : '0px',
       display: 'flex',
       flexDirection: 'column',
     },
   }
-
-  const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
 
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(theme)}>

@@ -1,3 +1,5 @@
+@import "values";
+
 .root {
   position: fixed;
   width: 100%;
@@ -7,6 +9,22 @@
 
   svg {
     color: #fff !important;
+  }
+}
+
+.appBar {
+  height: $headerHeight !important;
+  display: flex !important;
+  align-items: center;
+
+  & > div {
+    margin-top: 0 !important;
+  }
+
+  & > h1 {
+    height: $headerHeight !important;
+    line-height: $headerHeight !important;
+    font-size: 1.4em !important;
   }
 }
 
