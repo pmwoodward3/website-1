@@ -61,7 +61,7 @@ class Header extends Component {
   }
   render(){
     const loading = this.props.loading > 0
-    const { search, header, enterFullscreen } = this.props
+    const { search, header, enterFullscreen, location } = this.props
 
     return (
       <div className={s.root}>
@@ -79,7 +79,7 @@ class Header extends Component {
           zDepth={2}
           iconElementLeft={
             <Link to={header.parentPath}>
-              <IconButton>
+              <IconButton disabled={header.parentPath == location.pathname}>
                 {header.parentPath == '/home' ? (
                   <ActionHome/>
                 ) : (
