@@ -1,7 +1,6 @@
 import React from 'react'
 import { hashHistory } from 'react-router'
 
-import ActionSearch from 'material-ui/svg-icons/action/search'
 import ActionHome from 'material-ui/svg-icons/action/home'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite'
 
@@ -25,11 +24,6 @@ export default ({location}) => {
       label: 'Favorites',
       path: '/favorites',
       icon: <ActionFavorite/>,
-    },
-    {
-      label: 'Search',
-      path: '/search',
-      icon: <ActionSearch/>,
     },
   ]
 
