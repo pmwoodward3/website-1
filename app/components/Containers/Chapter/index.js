@@ -145,8 +145,9 @@ export class Chapter extends Component {
     this.changePage(index + 1)
   }
   handleFullScreen(){
+    console.log(screenfull.enabled)
     if (screenfull.enabled) {
-      screenfull.toggle(this.refs.container)
+      screenfull.request(this.refs.container)
     }
   }
 

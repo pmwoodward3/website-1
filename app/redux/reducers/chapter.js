@@ -12,6 +12,7 @@ export default createReducer({
   }),
   ['GET_CHAPTER_SUCCESS']: (state, { payload }) => ({
     ...state,
+    fullscreen: false,
     items: payload.pages,
   }),
   ['GET_CHAPTER_FAILURE']: () => initialState,
