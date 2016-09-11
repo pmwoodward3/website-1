@@ -25,7 +25,6 @@ import {
   CardActions,
   CardHeader,
   CardText,
-  CardMedia,
   CardTitle,
 } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
@@ -58,11 +57,17 @@ export class Manga extends Component {
     this.props.changeHeader({
       title,
       parentPath: '/home',
+      showSourceButton: true,
     })
   }
   componentWillUpdate(newProps){
+    const { getManga, params, location } = newProps
+
     if(this.props.params.mangaid != newProps.params.mangaid){
       this.handleMangaChange(newProps)
+    }
+    if(this.props.location.query.source != newProps.location.query.source){
+      getManga(params.mangaid, location.query.source)
     }
 
     if(this.props.manga.details.title != newProps.manga.details.title){
@@ -71,13 +76,18 @@ export class Manga extends Component {
       })
     }
   }
+  componentWillUnmount(){
+    this.props.changeHeader({
+      showSourceButton: false,
+    })
+  }
   handleSourceChange(e, i, value){
     const { getManga, params } = this.props
     getManga(params.mangaid, value)
   }
   handleMangaChange(props=this.props){
-    const { getManga, params, fullCoverLoadRequest } = props
-    getManga(params.mangaid)
+    const { getManga, params, location, fullCoverLoadRequest } = props
+    getManga(params.mangaid, location.query.source)
     fullCoverLoadRequest()
   }
   handleToFavoritesAction(){
@@ -165,19 +175,6 @@ export class Manga extends Component {
               <CardText className={s.chapterSection}>
                 <div className={s.chapterHeader}>
                   <strong>Chapters</strong>
-                  <SelectField
-                    value={manga.source}
-                    onChange={this.handleSourceChange}
-                    floatingLabelText="Source"
-                    >
-                    {sources.map(({sourceslug}) => (
-                      <MenuItem
-                        key={sourceslug}
-                        value={sourceslug}
-                        primaryText={sourceslug}
-                        />
-                    ))}
-                  </SelectField>
                 </div>
 
                 {chapters && chapters.length > 0 && (

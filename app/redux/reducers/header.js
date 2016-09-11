@@ -5,6 +5,7 @@ const initialState = {
   parentPath: '/home',
   showSearchField: true,
   showFullScreenButton: false,
+  showSourceButton: false,
 }
 
 export default createReducer({

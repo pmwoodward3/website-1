@@ -2,11 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { hashHistory, Link } from 'react-router'
 import { connect } from 'react-redux'
 import debounce from 'debounce'
+import theme from 'components/Root/theme'
 
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
 
 import IconButton from 'material-ui/IconButton'
+import FlatButton from 'material-ui/FlatButton'
 import ActionSearch from 'material-ui/svg-icons/action/search'
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import ActionHome from 'material-ui/svg-icons/action/home'
@@ -15,6 +17,9 @@ import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
 import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import ActionInput from 'material-ui/svg-icons/action/input'
 
 /* component styles */
 import s from './styles.scss'
@@ -29,6 +34,7 @@ class Header extends Component {
     search: PropTypes.object.isRequired,
     header: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+    manga: PropTypes.object.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
     enterFullscreen: PropTypes.func.isRequired,
   };
@@ -61,7 +67,7 @@ class Header extends Component {
   }
   render(){
     const loading = this.props.loading > 0
-    const { search, header, enterFullscreen, location } = this.props
+    const { search, header, enterFullscreen, location, params, manga } = this.props
 
     return (
       <div className={s.root}>
@@ -102,7 +108,30 @@ class Header extends Component {
                     />
                 </Paper>
               )}
-              {header.showFullScreenButton ? (
+              {header.showSourceButton ? (
+                <IconMenu
+                  iconButtonElement={
+                    <FlatButton
+                      label="Source"
+                      className={s.sourceButton}
+                      icon={<ActionInput color="#fff"/>}
+                      />
+                  }
+                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                  >
+                  {manga.sources.map(({sourceslug}) => (
+                    <MenuItem
+                      key={sourceslug}
+                      primaryText={sourceslug}
+                      style={{
+                        color: sourceslug == manga.source ? theme.palette.accent1Color : '',
+                      }}
+                      onTouchTap={() => hashHistory.push(`/manga/${params.mangaid}?source=${sourceslug}`)}
+                      />
+                  ))}
+                </IconMenu>
+              ) : header.showFullScreenButton ? (
                 <IconButton onTouchTap={enterFullscreen}>
                   <NavigationFullScreen/>
                 </IconButton>
@@ -126,6 +155,7 @@ export default connect(
     loading: state.loading,
     search: state.search,
     header: state.header,
+    manga: state.manga,
   }),
   {
     ...searchActions,
