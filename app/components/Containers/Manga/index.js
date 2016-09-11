@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Helmet from 'react-helmet'
-import { VirtualScroll, AutoSizer } from 'react-virtualized'
+import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
 
 import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'
@@ -12,9 +12,7 @@ import mangaSelector from 'redux/selectors/manga'
 
 import s from './styles.scss'
 
-import MangaItemCard from 'components/Modules/MangaItemCard'
 import Loading from 'components/Modules/Loading'
-import MangaList from 'components/Modules/List'
 import Avatar from 'material-ui/Avatar'
 import { ListItem } from 'material-ui/List'
 import SelectField from 'material-ui/SelectField'
@@ -105,28 +103,27 @@ export class Manga extends Component {
           <Helmet
             title={`SB - ${details.title}`}
             />
-          <Card className={s.card} zDepth={2}>
-            <CardMedia>
+
+          <div className={s.coverContainer}>
+            <img
+              draggable={false}
+              src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
+              referrerPolicy="no-referrer"
+              className={s.cover}
+              style={{display: manga.fullCoverAvailable ? 'block' : 'none'}}
+              onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
+              onError={fullCoverLoadFailure.bind({}, details.mangaid)}
+              />
+            {!manga.fullCoverAvailable && (
               <img
                 draggable={false}
-                src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
+                src={details.cover}
                 referrerPolicy="no-referrer"
                 className={s.cover}
-                style={{display: manga.fullCoverAvailable ? 'block' : 'none'}}
-                onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
-                onError={fullCoverLoadFailure.bind({}, details.mangaid)}
                 />
-            </CardMedia>
-            {!manga.fullCoverAvailable && (
-              <CardMedia>
-                <img
-                  draggable={false}
-                  src={details.cover}
-                  referrerPolicy="no-referrer"
-                  className={s.cover}
-                  />
-              </CardMedia>
             )}
+          </div>
+          <Card className={s.card} zDepth={3}>
             <FloatingActionButton
               className={s.actionButton}
               onTouchTap={this.handleToFavoritesAction}
@@ -148,7 +145,7 @@ export class Manga extends Component {
                 <FlatButton
                   icon={<ContentRemove/>}
                   onClick={this.handleToFavoritesAction}
-                  label="Remove from my list"
+                  label="Remove from favorites"
                   />
               </CardActions>
             )}
@@ -167,7 +164,7 @@ export class Manga extends Component {
             {(sources && sources.length > 0) ? (
               <CardText className={s.chapterSection}>
                 <div className={s.chapterHeader}>
-                  <h3>Chapters</h3>
+                  <strong>Chapters</strong>
                   <SelectField
                     value={manga.source}
                     onChange={this.handleSourceChange}
@@ -185,37 +182,44 @@ export class Manga extends Component {
 
                 {chapters && chapters.length > 0 && (
                   <div className={s.chapterList}>
-                    <AutoSizer>
-                      {({ height, width }) => (
-                        <VirtualScroll
-                          height={height}
-                          width={width}
-                          rowCount={chapters.length}
-                          rowHeight={56}
-                          rowRenderer={
-                            ({ index }) => {
-                              const { chapternum, title } = chapters[index]
-                              return (
-                                <Link
-                                  to={`/manga/${details.mangaid}/${chapternum}/1?source=${manga.source}`}
-                                  key={chapternum}
-                                  className={s.chapterItem}
-                                  >
-                                  <ListItem
-                                    primaryText={title}
-                                    leftAvatar={
-                                      <Avatar
-                                        style={{left: 8}}
-                                        >
-                                        {Math.round(chapternum * 100) / 100}
-                                      </Avatar>
-                                    }
-                                    />
-                                </Link>
-                              )
-                            }
-                          }
-                          />
+                    <AutoSizer disableHeight>
+                      {({ width }) => (
+                        <WindowScroller>
+                          {({ height, isScrolling, scrollTop }) => (
+                            <VirtualScroll
+                              autoHeight
+                              height={height}
+                              width={width}
+                              rowCount={chapters.length}
+                              rowHeight={56}
+                              scrollTop={scrollTop}
+                              isScrolling={isScrolling}
+                              rowRenderer={
+                                ({ index }) => {
+                                  const { chapternum, title } = chapters[index]
+                                  return (
+                                    <Link
+                                      to={`/manga/${details.mangaid}/${chapternum}/1?source=${manga.source}`}
+                                      key={chapternum}
+                                      className={s.chapterItem}
+                                      >
+                                      <ListItem
+                                        primaryText={title}
+                                        leftAvatar={
+                                          <Avatar
+                                            style={{left: 8}}
+                                            >
+                                            {Math.round(chapternum * 100) / 100}
+                                          </Avatar>
+                                        }
+                                        />
+                                    </Link>
+                                  )
+                                }
+                              }
+                              />
+                          )}
+                        </WindowScroller>
                       )}
                     </AutoSizer>
                   </div>
@@ -229,16 +233,6 @@ export class Manga extends Component {
               </CardText>
             )}
           </Card>
-          {details.recommendations && details.recommendations.length > 0 && (
-            <div className={s.recommendationsSection}>
-              <h3 className={s.recommendationsTitle}>Recommendations</h3>
-              <MangaList>
-                {details.recommendations.map((item) => (
-                  <MangaItemCard key={item.mangaid} {...item}/>
-                ))}
-              </MangaList>
-            </div>
-          )}
         </section>
       )
     }else{
