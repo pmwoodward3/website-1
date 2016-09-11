@@ -1,5 +1,5 @@
-$width: 120px;
-$height: 160px;
+$width: 100px;
+$height: 140px;
 $color: #BDBDBD;
 
 .root {
@@ -10,9 +10,16 @@ $color: #BDBDBD;
   flex-shrink: 0;
   cursor: pointer;
   background-color: $color;
+
+  & > div > div > div > div > div{
+    padding-top: 0 !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+  }
 }
 
 .title {
+  padding: 10px !important;
+
   span {
     display: inline;
     overflow: hidden !important;

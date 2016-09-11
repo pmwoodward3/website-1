@@ -10,9 +10,9 @@ export const API_URL = __PRODUCTION__
 
 const margin = 7
 
-export const MANGA_ITEM_CARD_HEIGHT = 160 + (margin * 2)
+export const MANGA_ITEM_CARD_HEIGHT = 140 + (margin * 2)
 
-export const MANGA_ITEM_CARD_WIDTH = 120 + (margin * 2)
+export const MANGA_ITEM_CARD_WIDTH = 100 + (margin * 2)
 
 export const MAIN_SOURCE = 'mangaeden'
 
