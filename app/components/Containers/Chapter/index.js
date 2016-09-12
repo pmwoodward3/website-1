@@ -30,6 +30,8 @@ export class Chapter extends Component {
     getList: PropTypes.func.isRequired,
     addReadingHistory: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
+    enterFullscreen: PropTypes.func.isRequired,
+    exitFullscreen: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -41,6 +43,7 @@ export class Chapter extends Component {
     this.onChangeIndex = this.onChangeIndex.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.setHeaderTitle = this.setHeaderTitle.bind(this)
+    this.handleFullScreenChange = this.handleFullScreenChange.bind(this)
   }
   componentDidMount(){
     const { params, changeHeader } = this.props
@@ -52,6 +55,7 @@ export class Chapter extends Component {
       changeHeader({
         showFullScreenButton: true,
       })
+      document.addEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
 
     this.setHeaderTitle()
@@ -92,6 +96,14 @@ export class Chapter extends Component {
       this.props.changeHeader({
         showFullScreenButton: false,
       })
+      document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
+    }
+  }
+  handleFullScreenChange(){
+    if(screenfull.isFullscreen){
+      this.props.enterFullscreen()
+    }else{
+      this.props.exitFullscreen()
     }
   }
   setHeaderTitle(props=this.props){
@@ -145,14 +157,13 @@ export class Chapter extends Component {
     this.changePage(index + 1)
   }
   handleFullScreen(){
-    console.log(screenfull.enabled)
     if (screenfull.enabled) {
       screenfull.request(this.refs.container)
     }
   }
 
   render() {
-    const { chapter, manga, params } = this.props
+    const { chapter, params } = this.props
 
     const pagenum = parseInt(params.pagenum)
 
