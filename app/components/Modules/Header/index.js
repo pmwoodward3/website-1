@@ -113,7 +113,7 @@ class Header extends Component {
                   iconButtonElement={
                     <FlatButton
                       label="Source"
-                      className={s.sourceButton}
+                      className={s.headerButton}
                       icon={<ActionInput color="#fff"/>}
                       />
                   }
@@ -132,9 +132,11 @@ class Header extends Component {
                   ))}
                 </IconMenu>
               ) : header.showFullScreenButton ? (
-                <IconButton onTouchTap={enterFullscreen}>
-                  <NavigationFullScreen/>
-                </IconButton>
+                <FlatButton
+                  label="Fullscreen"
+                  className={s.headerButton}
+                  icon={<NavigationFullScreen color="#fff"/>}
+                  />
               ) : (
                 <Link to="/search">
                   <IconButton disabled={search.showSearchField}>
