@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
+import theme from 'components/Root/theme'
 
 import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'
@@ -15,19 +16,15 @@ import s from './styles.scss'
 import Loading from 'components/Modules/Loading'
 import Avatar from 'material-ui/Avatar'
 import { ListItem } from 'material-ui/List'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite'
-import ContentRemove from 'material-ui/svg-icons/content/remove'
+import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import {
   Card,
-  CardActions,
   CardHeader,
   CardText,
   CardTitle,
 } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
 import Chip from 'material-ui/Chip'
 
 export class Manga extends Component {
@@ -137,10 +134,13 @@ export class Manga extends Component {
             <FloatingActionButton
               className={s.actionButton}
               onTouchTap={this.handleToFavoritesAction}
-              disabled={isFavoritesItem}
-              secondary
+              backgroundColor={isFavoritesItem ? theme.palette.primary3Color : theme.palette.accent1Color}
               >
-              <ActionFavorite/>
+              {isFavoritesItem ? (
+                <ActionFavoriteBorder/>
+              ) : (
+                <ActionFavorite/>
+              )}
             </FloatingActionButton>
             <CardHeader
               className={s.cardHeader}
@@ -150,21 +150,17 @@ export class Manga extends Component {
                 subtitle={details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
                 />
             </CardHeader>
-            {isFavoritesItem && (
-              <CardActions className={s.cardActions}>
-                <FlatButton
-                  icon={<ContentRemove/>}
-                  onClick={this.handleToFavoritesAction}
-                  label="Remove from favorites"
-                  />
-              </CardActions>
-            )}
             {details.genres && details.summary && (
               <CardText>
                 <strong>Genres </strong>
                 <div className={s.genreSection}>
                   {details.genres.map((genre) => (
-                    <Chip key={genre} className={s.genreChip}>{genre}</Chip>
+                    <Chip
+                      key={genre}
+                      className={s.genreChip}
+                      >
+                      {genre}
+                    </Chip>
                   ))}
                 </div>
                 <strong>Summary </strong>
