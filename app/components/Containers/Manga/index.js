@@ -104,7 +104,7 @@ export class Manga extends Component {
   }
 
   render() {
-    const { manga, progress, isFavoritesItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
+    const { manga, progress={}, isFavoritesItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
@@ -194,7 +194,7 @@ export class Manga extends Component {
                                     const { chapternum, title } = chapters[index]
                                     return (
                                       <Link
-                                        to={`/manga/${details.mangaid}/${chapternum}/1?source=${manga.source}`}
+                                        to={`/manga/${details.mangaid}/${chapternum}/${progress.chapternum == chapternum ? progress.pagenum + 1 : 1}?source=${manga.source}`}
                                         key={chapternum}
                                         className={s.chapterItem}
                                         >
