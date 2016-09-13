@@ -136,7 +136,7 @@ class Header extends Component {
                   label="Fullscreen"
                   className={s.headerButton}
                   icon={<NavigationFullScreen color="#fff"/>}
-                  onTouchTap={this.enterFullscreen}
+                  onTouchTap={enterFullscreen}
                   />
               ) : (
                 <Link to="/search">
