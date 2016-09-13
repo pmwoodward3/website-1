@@ -142,89 +142,89 @@ export class Manga extends Component {
                 <ActionFavorite/>
               )}
             </FloatingActionButton>
-            <CardHeader
-              className={s.cardHeader}
-              >
+            <CardHeader className={s.cardHeader}>
               <CardTitle
                 title={details.title}
                 subtitle={details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
                 />
             </CardHeader>
-            {details.genres && details.summary && (
-              <CardText>
-                <strong>Genres </strong>
-                <div className={s.genreSection}>
-                  {details.genres.map((genre) => (
-                    <Chip
-                      key={genre}
-                      className={s.genreChip}
-                      >
-                      {genre}
-                    </Chip>
-                  ))}
-                </div>
-                <strong>Summary </strong>
-                <p>{details.summary}</p>
-              </CardText>
-            )}
-            {(sources && sources.length > 0) ? (
-              <CardText className={s.chapterSection}>
-                <div className={s.chapterHeader}>
-                  <strong>Chapters</strong>
-                </div>
-
-                {chapters && chapters.length > 0 && (
-                  <div className={s.chapterList}>
-                    <AutoSizer disableHeight>
-                      {({ width }) => (
-                        <WindowScroller>
-                          {({ height, isScrolling, scrollTop }) => (
-                            <VirtualScroll
-                              autoHeight
-                              height={height}
-                              width={width}
-                              rowCount={chapters.length}
-                              rowHeight={56}
-                              scrollTop={scrollTop}
-                              isScrolling={isScrolling}
-                              rowRenderer={
-                                ({ index }) => {
-                                  const { chapternum, title } = chapters[index]
-                                  return (
-                                    <Link
-                                      to={`/manga/${details.mangaid}/${chapternum}/1?source=${manga.source}`}
-                                      key={chapternum}
-                                      className={s.chapterItem}
-                                      >
-                                      <ListItem
-                                        primaryText={title}
-                                        leftAvatar={
-                                          <Avatar
-                                            style={{left: 8}}
-                                            >
-                                            {Math.round(chapternum * 100) / 100}
-                                          </Avatar>
-                                        }
-                                        />
-                                    </Link>
-                                  )
-                                }
-                              }
-                              />
-                          )}
-                        </WindowScroller>
-                      )}
-                    </AutoSizer>
+            <div className={s.detailsContainer}>
+              {details.genres && details.summary && (
+                <CardText>
+                  <strong>Genres </strong>
+                  <div className={s.genreSection}>
+                    {details.genres.map((genre) => (
+                      <Chip
+                        key={genre}
+                        className={s.genreChip}
+                        >
+                        {genre}
+                      </Chip>
+                    ))}
                   </div>
-                )}
-              </CardText>
-            ) : !manga.isLoading && (
-              <CardText>
-                <strong>
-                  No chapters available. This manga was not found in any source.
-                </strong>
-              </CardText>
-            )}
+                  <strong>Summary </strong>
+                  <p>{details.summary}</p>
+                </CardText>
+              )}
+              {(sources && sources.length > 0) ? (
+                <CardText className={s.chapterSection}>
+                  <div className={s.chapterHeader}>
+                    <strong>Chapters</strong>
+                  </div>
+
+                  {chapters && chapters.length > 0 && (
+                    <div className={s.chapterList}>
+                      <AutoSizer disableHeight>
+                        {({ width }) => (
+                          <WindowScroller>
+                            {({ height, isScrolling, scrollTop }) => (
+                              <VirtualScroll
+                                autoHeight
+                                height={height}
+                                width={width}
+                                rowCount={chapters.length}
+                                rowHeight={56}
+                                scrollTop={scrollTop}
+                                isScrolling={isScrolling}
+                                rowRenderer={
+                                  ({ index }) => {
+                                    const { chapternum, title } = chapters[index]
+                                    return (
+                                      <Link
+                                        to={`/manga/${details.mangaid}/${chapternum}/1?source=${manga.source}`}
+                                        key={chapternum}
+                                        className={s.chapterItem}
+                                        >
+                                        <ListItem
+                                          primaryText={title}
+                                          leftAvatar={
+                                            <Avatar
+                                              style={{left: 8}}
+                                              >
+                                              {Math.round(chapternum * 100) / 100}
+                                            </Avatar>
+                                          }
+                                          />
+                                      </Link>
+                                    )
+                                  }
+                                }
+                                />
+                            )}
+                          </WindowScroller>
+                        )}
+                      </AutoSizer>
+                    </div>
+                  )}
+                </CardText>
+              ) : !manga.isLoading && (
+                <CardText>
+                  <strong>
+                    No chapters available. This manga was not found in any source.
+                  </strong>
+                </CardText>
+              )}
+            </div>
           </Card>
         </section>
       )
