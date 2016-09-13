@@ -132,12 +132,9 @@ class Header extends Component {
                   ))}
                 </IconMenu>
               ) : header.showFullScreenButton ? (
-                <FlatButton
-                  label="Fullscreen"
-                  className={s.headerButton}
-                  icon={<NavigationFullScreen color="#fff"/>}
-                  onTouchTap={enterFullscreen}
-                  />
+                <IconButton onTouchTap={enterFullscreen}>
+                  <NavigationFullScreen/>
+                </IconButton>
               ) : (
                 <Link to="/search">
                   <IconButton disabled={search.showSearchField}>
