@@ -8,7 +8,6 @@ import { favorites as favoritesSelector } from 'redux/selectors/favorites'
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
-import Paper from 'material-ui/Paper'
 
 export class Favorites extends Component {
   static propTypes = {
@@ -30,13 +29,13 @@ export class Favorites extends Component {
         <Helmet
           title="SB - Favorites"
           />
-        <Paper zDepth={2} className={s.section}>
+        <div className={s.section}>
           <List className={s.favorites}>
             {favorites.items.map((item) => item && (
               <MangaItemCard key={'favorites'+item.mangaid} {...item}/>
             ))}
           </List>
-        </Paper>
+        </div>
       </section>
     )
   }
