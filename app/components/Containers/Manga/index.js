@@ -31,6 +31,7 @@ export class Manga extends Component {
   static propTypes = {
     manga: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
     isFavoritesItem: PropTypes.bool.isRequired,
     getManga: PropTypes.func.isRequired,
     fullCoverLoadFailure: PropTypes.func.isRequired,
@@ -116,7 +117,7 @@ export class Manga extends Component {
               draggable={false}
               src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
               referrerPolicy="no-referrer"
-              className={s.cover}
+              className={s.cover + ' ' + s.fullCover}
               style={{display: manga.fullCoverAvailable ? 'block' : 'none'}}
               onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
               onError={fullCoverLoadFailure.bind({}, details.mangaid)}

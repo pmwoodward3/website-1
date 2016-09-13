@@ -19,6 +19,10 @@ $coverHeight: 200px;
   object-fit: contain;
 }
 
+.fullCover {
+  object-fit: cover;
+}
+
 .card {
   margin-top: $coverHeight;
 }
