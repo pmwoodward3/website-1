@@ -15,3 +15,12 @@ const readingHistory = createSelector(
 )
 
 export default readingHistory
+
+const progressSelector = (state, mangaid) =>
+state.readingHistory.items
+.filter((item) => item.mangaid == mangaid)[0]
+
+export const mangaProgress = createSelector(
+  progressSelector,
+  (progress) => progress
+)

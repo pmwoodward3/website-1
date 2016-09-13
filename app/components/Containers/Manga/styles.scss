@@ -80,6 +80,23 @@ $coverHeight: 200px;
   text-decoration: none;
 }
 
+.chapterItemContainer {
+  $font-size: 1.1em;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: $font-size;
+
+  svg {
+    height: $font-size !important;
+  }
+}
+
+.chapterItemProgressPage {
+  font-size: 0.9em;
+}
+
 .recommendationsSection {
   padding: 10px;
 }

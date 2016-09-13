@@ -8,6 +8,7 @@ import theme from 'components/Root/theme'
 import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'
 import * as favoritesActions from 'redux/actions/favorites'
+import { mangaProgress as mangaProgressSelector } from 'redux/selectors/readingHistory'
 import { isFavoritesItem as isFavoritesItemSelector } from 'redux/selectors/favorites'
 import mangaSelector from 'redux/selectors/manga'
 
@@ -18,6 +19,7 @@ import Avatar from 'material-ui/Avatar'
 import { ListItem } from 'material-ui/List'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite'
 import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border'
+import Check from 'material-ui/svg-icons/navigation/Check'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import {
   Card,
@@ -102,14 +104,14 @@ export class Manga extends Component {
   }
 
   render() {
-    const { manga, isFavoritesItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
+    const { manga, progress, isFavoritesItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
       return (
         <section className={s.root}>
           <Helmet
-            title={`SB - ${details.title}`}
+            title={details.title ? `SB - ${details.title}` : 'SB'}
             />
 
           <div className={s.coverContainer}>
@@ -197,15 +199,32 @@ export class Manga extends Component {
                                         className={s.chapterItem}
                                         >
                                         <ListItem
-                                          primaryText={title}
                                           leftAvatar={
                                             <Avatar
-                                              style={{left: 8}}
+                                              style={{
+                                                left: 8,
+                                                backgroundColor: chapternum == progress.chapternum ? theme.palette.accent1Color : theme.palette.primary3Color,
+                                              }}
                                               >
                                               {Math.round(chapternum * 100) / 100}
                                             </Avatar>
                                           }
-                                          />
+                                          >
+                                          <div className={s.chapterItemContainer}>
+                                            <span>{title}</span>
+                                            {chapternum == progress.chapternum && (
+                                              <span
+                                                className={s.chapterItemProgressPage}
+                                                style={{
+                                                  color: theme.palette.textColor,
+                                                }}
+                                                >
+                                                {`Page ${progress.pagenum}`}
+                                              </span>
+                                            )}
+                                            {chapternum < progress.chapternum && <Check/>}
+                                          </div>
+                                        </ListItem>
                                       </Link>
                                     )
                                   }
@@ -239,6 +258,7 @@ export default connect(
   (state, {params}) => ({
     manga: mangaSelector(state, params.mangaid),
     isFavoritesItem: isFavoritesItemSelector(state, params.mangaid),
+    progress: mangaProgressSelector(state, params.mangaid),
   }),
   {
     ...headerActions,
