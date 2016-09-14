@@ -70,7 +70,7 @@ const Root = ({children, offline, ...props}) => {
         {showBottomNav && <BottomNavigation {...props}/>}
         <Snackbar
           open={offline}
-          message="You are offline. Only local mangas will be available."
+          message="You are offline."
           style={s.snackbar}
           />
       </section>

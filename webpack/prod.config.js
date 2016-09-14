@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CompressionPlugin = require ('compression-webpack-plugin')
 
 module.exports = function(outputPath){
   return {
@@ -45,13 +46,22 @@ module.exports = function(outputPath){
     },
 
     plugins: [
+      new webpack.NoErrorsPlugin (),
       // Save all styles in bundle.css with extract-text-plugin
       new webpack.optimize.DedupePlugin(),
       new webpack.optimize.OccurrenceOrderPlugin(),
       // Minify bundle
       new webpack.optimize.UglifyJsPlugin({
+        beautify: false,
+        comments: false,
         compress: {
+          sequences: true,
+          booleans: true,
+          loops: true,
+          unused: true,
           warnings: false,
+          drop_console: true,
+          unsafe: true,
         },
       }),
       // provide promise and fetch
@@ -72,6 +82,14 @@ module.exports = function(outputPath){
         filename: 'precache-worker.js',
         navigateFallback: '/index.html',
         stripPrefix: outputPath,
+      }),
+
+      new CompressionPlugin ({
+        asset: '[path].gz[query]',
+        algorithm: 'gzip',
+        test: /\.js$|\.html$/,
+        threshold: 10240,
+        minRatio: 0.8,
       }),
     ],
   }
