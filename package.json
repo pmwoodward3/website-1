@@ -115,6 +115,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "react-transform-hmr": "1.0.4",
     "react-virtualized": "^7.22.2",
+    "recompose": "^0.20.2",
     "redux": "3.5.2",
     "redux-batched-subscribe": "0.1.6",
     "redux-logger": "2.6.1",

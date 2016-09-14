@@ -1,6 +1,7 @@
 import React from 'react'
 import { hashHistory } from 'react-router'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+import { onlyUpdateForKeys } from 'recompose'
 
 /* component styles */
 import s from './styles.scss'
@@ -51,4 +52,12 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, sou
 }
 
 
-export default MangaItemCard
+export default onlyUpdateForKeys([
+  'mangaid',
+  'cover',
+  'title',
+  'chapter',
+  'chapternum',
+  'pagenum',
+  'source',
+])(MangaItemCard)

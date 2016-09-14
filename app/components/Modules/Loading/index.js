@@ -1,4 +1,5 @@
 import React from 'react'
+import { onlyUpdateForKeys } from 'recompose'
 
 import CircularProgress from 'material-ui/CircularProgress'
 
@@ -10,4 +11,4 @@ const Loading = () => (
   </div>
 )
 
-export default Loading
+export default onlyUpdateForKeys([])(Loading)

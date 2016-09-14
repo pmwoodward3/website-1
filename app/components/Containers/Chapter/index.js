@@ -12,6 +12,7 @@ import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-rig
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Swipe from 'react-swipe'
 import R from 'ramda'
+import { onlyUpdateForKeys } from 'recompose'
 
 import * as chapterActionCreators from 'redux/actions/chapter'
 import * as headerActions from 'redux/actions/header'
@@ -241,6 +242,14 @@ export class Chapter extends Component {
   }
 }
 
+const PureChapter = onlyUpdateForKeys([
+  'location',
+  'chapter',
+  'params',
+  'manga',
+  'location',
+])(Chapter)
+
 export default connect(
   (state, {params}) => ({
     chapter: state.chapter,
@@ -252,4 +261,4 @@ export default connect(
     getList,
     addReadingHistory,
   }
-)(Chapter)
+)(PureChapter)

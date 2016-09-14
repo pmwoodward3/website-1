@@ -1,5 +1,6 @@
 import React from 'react'
 import { hashHistory } from 'react-router'
+import { onlyUpdateForKeys } from 'recompose'
 
 import ActionHome from 'material-ui/svg-icons/action/home'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite'
@@ -10,7 +11,7 @@ import Paper from 'material-ui/Paper'
 /* component styles */
 import s from './styles.scss'
 
-export default ({location}) => {
+const BottomNav = ({location}) => {
 
   const handleTouchTap = (path) => () => hashHistory.push(path)
 
@@ -53,3 +54,7 @@ export default ({location}) => {
     </Paper>
   )
 }
+
+export default onlyUpdateForKeys([
+  'location',
+])(BottomNav)

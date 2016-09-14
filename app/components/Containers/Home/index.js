@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
+import { onlyUpdateForKeys } from 'recompose'
 
 import * as headerActions from 'redux/actions/header'
 import { getReleases } from 'redux/actions/releases'
@@ -17,7 +18,6 @@ import Paper from 'material-ui/Paper'
 export class Home extends Component {
   static propTypes = {
     releases: PropTypes.object.isRequired,
-    favorites: PropTypes.object.isRequired,
     readingHistory: PropTypes.object.isRequired,
     recommendations: PropTypes.object.isRequired,
     getReleases: PropTypes.func.isRequired,
@@ -81,10 +81,15 @@ export class Home extends Component {
   }
 }
 
+const PureHome = onlyUpdateForKeys([
+  'releases',
+  'readingHistory',
+  'recommendations',
+])(Home)
+
 export default connect(
   state => ({
     releases: releasesSelector(state),
-    favorites: favoritesSelector(state),
     readingHistory: readingHistorySelector(state),
     recommendations: recommendationsSelector(state),
   }),
@@ -92,4 +97,4 @@ export default connect(
     ...headerActions,
     getReleases,
   }
-)(Home)
+)(PureHome)

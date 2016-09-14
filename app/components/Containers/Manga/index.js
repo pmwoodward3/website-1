@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
 import theme from 'components/Root/theme'
+import { onlyUpdateForKeys } from 'recompose'
 
 import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'
@@ -34,6 +35,7 @@ export class Manga extends Component {
     manga: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+    progress: PropTypes.object,
     isFavoritesItem: PropTypes.bool.isRequired,
     getManga: PropTypes.func.isRequired,
     fullCoverLoadFailure: PropTypes.func.isRequired,
@@ -254,6 +256,14 @@ export class Manga extends Component {
   }
 }
 
+const PureManga = onlyUpdateForKeys([
+  'manga',
+  'params',
+  'location',
+  'isFavoritesItem',
+  'progress',
+])(Manga)
+
 export default connect(
   (state, {params}) => ({
     manga: mangaSelector(state, params.mangaid),
@@ -265,4 +275,4 @@ export default connect(
     ...mangaActions,
     ...favoritesActions,
   }
-)(Manga)
+)(PureManga)

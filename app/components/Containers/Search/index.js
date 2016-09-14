@@ -8,6 +8,7 @@ import {
   MANGA_ITEM_CARD_WIDTH,
   GENRE_LIST,
 } from 'constants'
+import { onlyUpdateForKeys } from 'recompose'
 
 import * as searchActions from 'redux/actions/search'
 import * as headerActions from 'redux/actions/header'
@@ -168,6 +169,11 @@ export class Search extends Component {
   }
 }
 
+const PureSearch = onlyUpdateForKeys([
+  'search',
+  'location',
+])(Search)
+
 export default connect(
   state => ({
     search: searchSelector(state),
@@ -176,4 +182,4 @@ export default connect(
     ...headerActions,
     ...searchActions,
   }
-)(Search)
+)(PureSearch)

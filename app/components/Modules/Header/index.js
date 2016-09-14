@@ -3,6 +3,7 @@ import { hashHistory, Link } from 'react-router'
 import { connect } from 'react-redux'
 import debounce from 'debounce'
 import theme from 'components/Root/theme'
+import { onlyUpdateForKeys } from 'recompose'
 
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
@@ -150,6 +151,15 @@ class Header extends Component {
   }
 }
 
+const PureHeader = onlyUpdateForKeys([
+  'params',
+  'loading',
+  'search',
+  'header',
+  'location',
+  'manga',
+])(Header)
+
 export default connect(
   (state) => ({
     loading: state.loading,
@@ -161,4 +171,4 @@ export default connect(
     ...searchActions,
     ...chapterActions,
   }
-)(Header)
+)(PureHeader)

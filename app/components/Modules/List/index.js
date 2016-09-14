@@ -1,4 +1,5 @@
 import React from 'react'
+import { onlyUpdateForKeys } from 'recompose'
 import { MANGA_ITEM_CARD_HEIGHT } from 'constants'
 
 import s from './styles.scss'
@@ -16,4 +17,7 @@ const List = ({children, className}) => (
   </div>
 )
 
-export default List
+export default onlyUpdateForKeys([
+  'children',
+  'className',
+])(List)

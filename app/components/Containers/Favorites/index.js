@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
+import { onlyUpdateForKeys } from 'recompose'
 
 import * as headerActions from 'redux/actions/header'
 import { favorites as favoritesSelector } from 'redux/selectors/favorites'
@@ -41,6 +42,10 @@ export class Favorites extends Component {
   }
 }
 
+const PureFavorites = onlyUpdateForKeys([
+  'favorites',
+])(Favorites)
+
 export default connect(
   state => ({
     favorites: favoritesSelector(state),
@@ -48,4 +53,4 @@ export default connect(
   {
     ...headerActions,
   }
-)(Favorites)
+)(PureFavorites)
