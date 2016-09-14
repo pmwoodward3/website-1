@@ -149,7 +149,7 @@ export class Search extends Component {
             elementHeight={MANGA_ITEM_CARD_HEIGHT}
             infiniteLoadBeginEdgeOffset={MANGA_ITEM_CARD_HEIGHT * 2}
             onInfiniteLoad={this.handleInfiniteLoad}
-            preloadAdditionalHeight={MANGA_ITEM_CARD_HEIGHT * 2}
+            preloadAdditionalHeight={MANGA_ITEM_CARD_HEIGHT * 4}
             useWindowAsScrollContainer
             >
             {

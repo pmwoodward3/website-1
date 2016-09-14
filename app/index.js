@@ -67,6 +67,22 @@ lf.getItem('favorites')
   })
 })
 
+//Listen for connection events
+const connectionHandler = () => {
+  if(navigator.onLine){
+    store.dispatch({type: 'ONLINE'})
+  }else{
+    store.dispatch({type: 'OFFLINE'})
+  }
+}
+
+connectionHandler()
+
+window.addEventListener('online', connectionHandler)
+window.addEventListener('offline', connectionHandler)
+
+//Google analytics
+
 const ga  = Ga(GA_TRACKING_ID)
 
 const routerUpdate = () => {

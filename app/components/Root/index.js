@@ -1,11 +1,13 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import { connect } from 'react-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import isTouchAvailable from 'utils/isTouchAvailable'
 
 import Header from 'components/Modules/Header'
 import BottomNavigation from 'components/Modules/BottomNavigation'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Snackbar from 'material-ui/Snackbar'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import theme from './theme'
@@ -24,9 +26,11 @@ const meta = [
   {name: 'msapplication-navbutton-color', content: themeColor},
 ]
 
-const Root = ({children, ...props}) => {
+const Root = ({children, offline, ...props}) => {
 
   const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
+
+  const bottomNavHeight = '56px'
 
   const s = {
     root: {
@@ -35,10 +39,13 @@ const Root = ({children, ...props}) => {
       minHeight: '100vh',
     },
     childrenContainer: {
-      marginTop: '56px',
-      marginBottom: showBottomNav ? '56px' : '0px',
+      marginTop: bottomNavHeight,
+      marginBottom: showBottomNav ? bottomNavHeight : '0px',
       display: 'flex',
       flexDirection: 'column',
+    },
+    snackbar: {
+      marginBottom: showBottomNav ? bottomNavHeight : '0px',
     },
   }
 
@@ -61,9 +68,18 @@ const Root = ({children, ...props}) => {
         </section>
 
         {showBottomNav && <BottomNavigation {...props}/>}
+        <Snackbar
+          open={offline}
+          message="You are offline. Only local mangas will be available."
+          style={s.snackbar}
+          />
       </section>
     </MuiThemeProvider>
   )
 }
 
-export default Root
+export default connect(
+  (state) => ({
+    offline: state.offline,
+  })
+)(Root)

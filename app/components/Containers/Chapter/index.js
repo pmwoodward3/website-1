@@ -203,7 +203,7 @@ export class Chapter extends Component {
               ]).map(({url}, index) => (
                 <div className={s.pageContainer} key={index+url}>
                   <Paper className={s.paper} zDepth={2}>
-                    {index >= chapter.items.length || true ? (
+                    {index >= chapter.items.length ? (
                       <div className={s.nextChapter}>
                         <Loading/>
                       </div>
