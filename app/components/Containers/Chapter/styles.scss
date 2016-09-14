@@ -58,3 +58,9 @@
     flex-shrink: 0;
   }
 }
+
+.nextChapter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

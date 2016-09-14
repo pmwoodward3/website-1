@@ -203,7 +203,11 @@ export class Chapter extends Component {
               ]).map(({url}, index) => (
                 <div className={s.pageContainer} key={index+url}>
                   <Paper className={s.paper} zDepth={2}>
-                    {((index + 1) >= pagenum && (index + 1) <= (pagenum + 3)) ? (
+                    {index >= chapter.items.length || true ? (
+                      <div className={s.nextChapter}>
+                        <Loading/>
+                      </div>
+                    ) : ((index + 1) >= pagenum && (index + 1) <= (pagenum + 3)) ? (
                       <img
                         draggable={false}
                         className={s.img}
