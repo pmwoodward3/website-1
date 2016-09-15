@@ -1,19 +1,20 @@
 import { createReducer } from '../utils/createReducer'
+import Immutable from 'seamless-immutable'
 
 const initialState = {
   fullscreen: false,
-  items: [],
+  items: Immutable([]),
 }
 
 export default createReducer({
   ['GET_CHAPTER_REQUEST']: (state) => ({
     ...state,
-    items: [],
+    items: initialState.items,
   }),
   ['GET_CHAPTER_SUCCESS']: (state, { payload }) => ({
     ...state,
     fullscreen: false,
-    items: payload.pages,
+    items: Immutable(payload.pages),
   }),
   ['GET_CHAPTER_FAILURE']: () => initialState,
   ['ENTER_FULLSCREEN_CHAPTER']: (state) => ({

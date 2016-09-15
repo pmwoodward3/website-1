@@ -1,7 +1,8 @@
-import { createReducer } from '../utils/createReducer';
+import { createReducer } from '../utils/createReducer'
+import Immutable from 'seamless-immutable'
 
 const initialState = {
-  items: [],
+  items: Immutable([]),
 }
 
 const toFormat = (payload) =>
@@ -13,6 +14,6 @@ payload.items.map(({mangaid, score}) => ({
 export default createReducer({
   ['GET_RECOMMENDATIONS_SUCCESS']: (state, { payload }) => ({
     ...state,
-    items: toFormat(payload),
+    items: Immutable(toFormat(payload)),
   }),
 }, initialState)

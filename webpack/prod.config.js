@@ -30,6 +30,7 @@ module.exports = function(outputPath){
         'redux-thunk',
         'reselect',
         'swipe-js-iso',
+        'seamless-immutable',
       ],
     },
 

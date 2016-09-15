@@ -1,12 +1,13 @@
 import { createReducer } from '../utils/createReducer'
-import R from 'ramda'
+import { indexBy, prop, isArrayLike } from 'ramda'
+import Immutable from 'seamless-immutable'
 
 const initialState = {
-  items: {},
+  items: Immutable({}),
 }
 
 const formatPayload = (payload) => {
-  let items = R.isArrayLike(payload) ? payload : [payload]
+  let items = isArrayLike(payload) ? payload : [payload]
 
   items = items.map(({mangaid, title, cover}) => ({
     mangaid,
@@ -14,17 +15,15 @@ const formatPayload = (payload) => {
     cover,
   }))
 
-  items = R.indexBy(R.prop('mangaid'), items)
+  items = indexBy(prop('mangaid'), items)
 
   return items
 }
 
 const reducer = (key) => (state, { payload }) => ({
   ...state,
-  items: {
-    ...state.items,
-    ...formatPayload(key ? payload[key] : payload),
-  },
+  items: state.items
+  .merge(formatPayload(key ? payload[key] : payload)),
 })
 
 export default createReducer({

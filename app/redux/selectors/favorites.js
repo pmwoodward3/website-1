@@ -7,7 +7,10 @@ export const favorites = createSelector(
   mangaTableSelector,
   favoritesSelector,
   (table, favorites) => ({
-    items: favorites.map(({mangaid}) => table[mangaid]),
+    items: favorites
+    .map(({mangaid}) => table[mangaid])
+    .asMutable()
+    .reverse(),
   })
 )
 

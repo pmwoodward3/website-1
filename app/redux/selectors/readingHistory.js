@@ -7,10 +7,13 @@ const readingHistory = createSelector(
   mangaTableSelector,
   readingHistorySelector,
   (table, readingHistory) => ({
-    items: readingHistory.map((item) => ({
+    items: readingHistory
+    .map((item) => ({
       ...table[item.mangaid],
       ...item,
-    })),
+    }))
+    .asMutable()
+    .reverse(),
   })
 )
 

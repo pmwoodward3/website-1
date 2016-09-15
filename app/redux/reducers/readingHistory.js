@@ -1,20 +1,20 @@
-import { createReducer } from '../utils/createReducer';
+import { createReducer } from '../utils/createReducer'
+import Immutable from 'seamless-immutable'
 
 const initialState = {
   isLoaded: false,
-  items: [],
+  items: Immutable([]),
 }
 
 export default createReducer({
   ['ADD_READING_HISTORY']: (state, { payload }) => ({
     ...state,
-    items: [
-      payload,
-      ...state.items.filter(({mangaid}) => mangaid !== payload.mangaid),
-    ],
+    items: state.items
+    .filter(({mangaid}) => mangaid !== payload.mangaid)
+    .concat(payload),
   }),
   ['LOAD_STORAGE']: (state, { payload }) => ({
     isLoaded: true,
-    items: payload.readingHistory ? payload.readingHistory : state.items,
+    items: payload.readingHistory ? Immutable(payload.readingHistory) : state.items,
   }),
 }, initialState)
