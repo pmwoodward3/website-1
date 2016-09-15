@@ -10,6 +10,10 @@ import { uniq } from 'ramda'
 import lf from 'utils/localforage'
 import Ga from 'react-router-google-analytics'
 import { __PRODUCTION__, GA_TRACKING_ID } from './constants'
+import EnhancedButton from 'material-ui/internal/EnhancedButton'
+
+EnhancedButton.defaultProps.disableTouchRipple = true
+EnhancedButton.defaultProps.disableFocusRipple = true
 
 import './utils/service-worker-registration'
 
