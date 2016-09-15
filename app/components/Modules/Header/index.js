@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { hashHistory, Link } from 'react-router'
+import { hashHistory } from 'react-router'
 import { connect } from 'react-redux'
 import debounce from 'debounce'
 import theme from 'components/Root/theme'
@@ -21,6 +21,7 @@ import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import ActionInput from 'material-ui/svg-icons/action/input'
+import Link from 'components/Modules/Link'
 
 /* component styles */
 import s from './styles.scss'
@@ -85,7 +86,7 @@ class Header extends Component {
           className={s.appBar+' '+(search.showSearchField && s.showSearchField)}
           zDepth={2}
           iconElementLeft={
-            <Link to={header.parentPath}>
+            <Link to={header.parentPath} disabled={header.parentPath == location.pathname}>
               <IconButton disabled={header.parentPath == location.pathname}>
                 {header.parentPath == '/home' ? (
                   <ActionHome/>
