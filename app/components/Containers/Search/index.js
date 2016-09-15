@@ -8,7 +8,7 @@ import {
   MANGA_ITEM_CARD_WIDTH,
   GENRE_LIST,
 } from 'constants'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import * as searchActions from 'redux/actions/search'
 import * as headerActions from 'redux/actions/header'

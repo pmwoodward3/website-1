@@ -14,7 +14,6 @@ module.exports = function(outputPath){
       vendor: [
         'debounce',
         'localforage',
-        'ramda',
         'react',
         'react-dom',
         'react-helmet',
@@ -53,7 +52,9 @@ module.exports = function(outputPath){
       // Minify bundle
       new webpack.optimize.UglifyJsPlugin({
         beautify: false,
+        minimize: true,
         comments: false,
+        debug: false,
         compress: {
           sequences: true,
           booleans: true,
@@ -62,6 +63,7 @@ module.exports = function(outputPath){
           warnings: false,
           drop_console: true,
           unsafe: true,
+          dead_code: true,
         },
       }),
       // provide promise and fetch

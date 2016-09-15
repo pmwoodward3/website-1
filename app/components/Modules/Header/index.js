@@ -3,7 +3,7 @@ import { hashHistory, Link } from 'react-router'
 import { connect } from 'react-redux'
 import debounce from 'debounce'
 import theme from 'components/Root/theme'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'

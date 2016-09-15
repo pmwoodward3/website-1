@@ -1,5 +1,5 @@
 import React from 'react'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import { MANGA_ITEM_CARD_HEIGHT } from 'constants'
 
 import s from './styles.scss'

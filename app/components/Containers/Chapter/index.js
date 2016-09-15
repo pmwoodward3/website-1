@@ -12,7 +12,7 @@ import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-rig
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Swipe from 'react-swipe'
 import R from 'ramda'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import * as chapterActionCreators from 'redux/actions/chapter'
 import * as headerActions from 'redux/actions/header'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { hashHistory } from 'react-router'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 /* component styles */
 import s from './styles.scss'

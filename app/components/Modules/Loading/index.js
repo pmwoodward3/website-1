@@ -1,5 +1,5 @@
 import React from 'react'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import CircularProgress from 'material-ui/CircularProgress'
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 import Helmet from 'react-helmet'
 import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
 import theme from 'components/Root/theme'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'

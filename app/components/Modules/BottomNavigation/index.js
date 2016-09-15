@@ -1,6 +1,6 @@
 import React from 'react'
 import { hashHistory } from 'react-router'
-import { onlyUpdateForKeys } from 'recompose'
+import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import ActionHome from 'material-ui/svg-icons/action/home'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite'

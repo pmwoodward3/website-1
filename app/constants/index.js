@@ -1,4 +1,4 @@
-const __PRODUCTION__ = __PRODUCTION__ || process.env.NODE_ENV === 'production' // eslint-disable-line
+export const __PRODUCTION__ = __PRODUCTION__ || process.env.NODE_ENV === 'production' // eslint-disable-line
 
 export const DEV_URL = __PRODUCTION__
 ? '/dist/'
