@@ -11,7 +11,7 @@ import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
 import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import Swipe from 'react-swipe'
-import R from 'ramda'
+import { equals } from 'ramda'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import * as chapterActionCreators from 'redux/actions/chapter'
@@ -62,7 +62,7 @@ export class Chapter extends Component {
     this.setHeaderTitle()
   }
   shouldComponentUpdate(newProps){
-    return !R.equals(this.props, newProps)
+    return !equals(this.props, newProps)
   }
   componentWillUpdate(newProps){
     const isNewManga = this.props.params.mangaid != newProps.params.mangaid

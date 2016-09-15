@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 import Helmet from 'react-helmet'
-import R from 'ramda'
+import { equals } from 'ramda'
 import {
   MANGA_ITEM_CARD_HEIGHT,
   MANGA_ITEM_CARD_WIDTH,
@@ -64,7 +64,7 @@ export class Search extends Component {
     this.handleSearch()
   }
   componentWillUpdate(newProps){
-    if(!R.equals(this.props.location.query, newProps.location.query)){
+    if(!equals(this.props.location.query, newProps.location.query)){
       this.handleSearch(newProps)
     }
   }

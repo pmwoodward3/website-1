@@ -6,7 +6,7 @@ import configureStore from './redux'
 import routes from './routes'
 import { getList } from './redux/actions/list'
 import { getRecommendations } from './redux/actions/recommendations'
-import R from 'ramda'
+import { uniq } from 'ramda'
 import lf from 'utils/localforage'
 import Ga from 'react-router-google-analytics'
 import { __PRODUCTION__, GA_TRACKING_ID } from './constants'
@@ -54,7 +54,7 @@ lf.getItem('favorites')
   if(items.length > 0){
     items = items.filter(x => !!x)
     items = items.map(({mangaid}) => mangaid)
-    items = R.uniq(items)
+    items = uniq(items)
 
     store.dispatch(getRecommendations(items))
     store.dispatch(getList(items))
