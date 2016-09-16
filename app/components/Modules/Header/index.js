@@ -5,7 +5,6 @@ import debounce from 'debounce'
 import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
-import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
 
 import IconButton from 'material-ui/IconButton'
@@ -17,7 +16,6 @@ import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
-import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import ActionInput from 'material-ui/svg-icons/action/input'
@@ -38,7 +36,6 @@ class Header extends Component {
     location: PropTypes.object.isRequired,
     manga: PropTypes.object.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
-    enterFullscreen: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -133,10 +130,6 @@ class Header extends Component {
                       />
                   ))}
                 </IconMenu>
-              ) : header.showFullScreenButton ? (
-                <IconButton onTouchTap={enterFullscreen}>
-                  <NavigationFullScreen/>
-                </IconButton>
               ) : (
                 <Link to="/search">
                   <IconButton disabled={search.showSearchField}>
@@ -170,6 +163,5 @@ export default connect(
   }),
   {
     ...searchActions,
-    ...chapterActions,
   }
 )(PureHeader)

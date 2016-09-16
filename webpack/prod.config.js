@@ -35,10 +35,16 @@ module.exports = function(outputPath){
     },
 
     module: {
-      loaders: [{
-        test: /\.scss$/,
-        loader: 'style!css?minimize&module&localIdentName=[hash:base64:5]!postcss-loader!sass',
-      }],
+      loaders: [
+        {
+          test: /\.scss$/,
+          loader: 'style!css?minimize&module&localIdentName=[hash:base64:5]!postcss-loader!sass',
+        },
+        {
+          test: /\.css$/,
+          loader: 'style!css',
+        },
+      ],
     },
 
     sassLoader: {
