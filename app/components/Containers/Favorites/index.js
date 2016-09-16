@@ -32,7 +32,7 @@ export class Favorites extends Component {
           />
         <div className={s.section}>
           <List className={s.favorites}>
-            {favorites.items.map((item) => item && (
+            {favorites.items.map((item) => (
               <MangaItemCard key={'favorites'+item.mangaid} {...item}/>
             ))}
           </List>

@@ -8,7 +8,10 @@ export const favorites = createSelector(
   favoritesSelector,
   (table, favorites) => ({
     items: favorites
-    .map(({mangaid}) => table[mangaid])
+    .map(({mangaid}) => ({
+      mangaid,
+      ...table[mangaid],
+    }))
     .asMutable()
     .reverse(),
   })
