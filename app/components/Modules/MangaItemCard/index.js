@@ -54,10 +54,5 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, sou
 
 export default onlyUpdateForKeys([
   'mangaid',
-  'cover',
   'title',
-  'chapter',
-  'chapternum',
-  'pagenum',
-  'source',
 ])(MangaItemCard)
