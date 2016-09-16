@@ -8,10 +8,6 @@ import screenfull from 'screenfull'
 
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
-import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
-import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { PhotoSwipe } from 'react-photoswipe'
 
 import * as chapterActionCreators from 'redux/actions/chapter'
@@ -32,8 +28,6 @@ export class Chapter extends Component {
     getList: PropTypes.func.isRequired,
     addReadingHistory: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
-    enterFullscreen: PropTypes.func.isRequired,
-    exitFullscreen: PropTypes.func.isRequired,
   };
 
   constructor(props){
