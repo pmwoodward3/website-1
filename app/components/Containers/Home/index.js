@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
+import { uniq } from 'ramda'
 
 import * as headerActions from 'redux/actions/header'
 import { getReleases } from 'redux/actions/releases'
-import { favorites as favoritesSelector } from 'redux/selectors/favorites'
+import { getRecommendations } from 'redux/actions/recommendations'
 import releasesSelector from 'redux/selectors/releases'
 import readingHistorySelector from 'redux/selectors/readingHistory'
 import recommendationsSelector from 'redux/selectors/recommendations'
@@ -20,18 +21,51 @@ export class Home extends Component {
     releases: PropTypes.object.isRequired,
     readingHistory: PropTypes.object.isRequired,
     recommendations: PropTypes.object.isRequired,
+    rawFavorites: PropTypes.object.isRequired,
     getReleases: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
+    getRecommendations: PropTypes.func.isRequired,
   };
 
+  constructor(props){
+    super(props)
+    this.updateLists = this.updateLists.bind(this)
+  }
   componentDidMount() {
-    const { getReleases, changeHeader } = this.props
-
-    getReleases()
-    changeHeader({
+    this.props.changeHeader({
       title: 'Home',
       parentPath: '/home',
     })
+
+    this.updateLists()
+  }
+  componentWillUpdate(newProps){
+    const rawFavoritesHasChanged = this.props.rawFavorites.items.length !== newProps.rawFavorites.items.length
+    const readingHistoryHasChanged = this.props.readingHistory.items.length !== newProps.readingHistory.items.length
+    if(rawFavoritesHasChanged || readingHistoryHasChanged){
+      this.updateLists(newProps)
+    }
+  }
+  updateLists(props=this.props){
+    const {
+      getReleases,
+      getRecommendations,
+      readingHistory,
+      rawFavorites,
+    } = props
+
+    getReleases()
+
+    if(readingHistory.isLoaded){
+      const ids = rawFavorites.items
+      .concat(readingHistory.items)
+      .map((x) => x.mangaid)
+      .filter(x => !!x)
+
+      const uniqIds = uniq(ids)
+
+      getRecommendations(uniqIds)
+    }
   }
 
   render() {
@@ -85,6 +119,7 @@ const PureHome = onlyUpdateForKeys([
   'releases',
   'readingHistory',
   'recommendations',
+  'rawFavorites',
 ])(Home)
 
 export default connect(
@@ -92,9 +127,11 @@ export default connect(
     releases: releasesSelector(state),
     readingHistory: readingHistorySelector(state),
     recommendations: recommendationsSelector(state),
+    rawFavorites: state.favorites,
   }),
   {
     ...headerActions,
     getReleases,
+    getRecommendations,
   }
 )(PureHome)

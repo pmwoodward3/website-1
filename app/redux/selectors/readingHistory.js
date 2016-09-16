@@ -1,13 +1,14 @@
 import { createSelector } from 'reselect'
 
 const mangaTableSelector = state => state.mangaTable.items
-const readingHistorySelector = state => state.readingHistory.items
+const readingHistorySelector = state => state.readingHistory
 
 const readingHistory = createSelector(
   mangaTableSelector,
   readingHistorySelector,
   (table, readingHistory) => ({
-    items: readingHistory
+    ...readingHistory,
+    items: readingHistory.items
     .map((item) => ({
       ...table[item.mangaid],
       ...item,

@@ -5,7 +5,6 @@ import { Router, hashHistory } from 'react-router'
 import configureStore from './redux'
 import routes from './routes'
 import { getList } from './redux/actions/list'
-import { getRecommendations } from './redux/actions/recommendations'
 import { uniq } from 'ramda'
 import lf from 'utils/localforage'
 import Ga from 'react-router-google-analytics'
@@ -60,7 +59,6 @@ lf.getItem('favorites')
     items = items.map(({mangaid}) => mangaid)
     items = uniq(items)
 
-    store.dispatch(getRecommendations(items))
     store.dispatch(getList(items))
   }
 })
