@@ -26,11 +26,13 @@ const meta = [
   {name: 'msapplication-navbutton-color', content: themeColor},
 ]
 
+const mockFun = () => {}
+
+const bottomNavHeight = '56px'
+
 const Root = ({children, offline, ...props}) => {
 
   const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
-
-  const bottomNavHeight = '56px'
 
   const s = {
     root: {
@@ -71,6 +73,7 @@ const Root = ({children, offline, ...props}) => {
           open={offline}
           message="You are offline."
           style={s.snackbar}
+          onRequestClose={mockFun}
           />
 
         {showBottomNav && <BottomNavigation {...props}/>}
