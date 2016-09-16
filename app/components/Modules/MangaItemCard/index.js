@@ -10,7 +10,7 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, sou
   let url = `/manga/${mangaid}`
   let subtitle = ''
 
-  if(chapternum){
+  if(!isNaN(chapternum)){
     url = `${url}/${chapternum}`
     subtitle = `Ch. ${chapternum}`
   }
