@@ -8,4 +8,8 @@
   body {
     background: #eee;
   }
+
+  * {
+    user-select: none;
+  }
 }
