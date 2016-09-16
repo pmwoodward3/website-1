@@ -42,7 +42,7 @@ const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, sou
       <CardMedia overlay={overlay}>
         <img
           draggable={false}
-          src={cover || `http://mcd.iosphe.re/t/${mangaid}/1/front/a/`}
+          src={mangaid && title && !cover ? `http://mcd.iosphe.re/t/${mangaid}/1/front/a/` : cover}
           referrerPolicy="no-referrer"
           className={s.cover}
           />
