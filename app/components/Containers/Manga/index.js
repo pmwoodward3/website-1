@@ -37,6 +37,7 @@ export class Manga extends Component {
     location: PropTypes.object.isRequired,
     progress: PropTypes.object,
     isFavoritesItem: PropTypes.bool.isRequired,
+    offline: PropTypes.bool.isRequired,
     getManga: PropTypes.func.isRequired,
     fullCoverLoadFailure: PropTypes.func.isRequired,
     fullCoverLoadSuccess: PropTypes.func.isRequired,
@@ -65,7 +66,10 @@ export class Manga extends Component {
   componentWillUpdate(newProps){
     const { getManga, params, location } = newProps
 
-    if(this.props.params.mangaid != newProps.params.mangaid){
+    const newManga = this.props.params.mangaid != newProps.params.mangaid
+    const hasGoneOnline = this.props.offline && !newProps.offline
+
+    if(newManga || hasGoneOnline){
       this.handleMangaChange(newProps)
     }
     if(this.props.location.query.source != newProps.location.query.source){
@@ -88,9 +92,21 @@ export class Manga extends Component {
     getManga(params.mangaid, value)
   }
   handleMangaChange(props=this.props){
-    const { getManga, params, location, fullCoverLoadRequest } = props
-    getManga(params.mangaid, location.query.source)
+    const {
+      params,
+      location,
+      offline,
+      getManga,
+      fullCoverLoadRequest,
+    } = props
+    
     fullCoverLoadRequest()
+
+    if(offline){
+      return
+    }
+
+    getManga(params.mangaid, location.query.source)
   }
   handleToFavoritesAction(){
     const { addFavoritesItem, removeFavoritesItem, manga, isFavoritesItem } = this.props
@@ -262,6 +278,7 @@ const PureManga = onlyUpdateForKeys([
   'location',
   'isFavoritesItem',
   'progress',
+  'offline',
 ])(Manga)
 
 export default connect(
@@ -269,6 +286,7 @@ export default connect(
     manga: mangaSelector(state, params.mangaid),
     isFavoritesItem: isFavoritesItemSelector(state, params.mangaid),
     progress: mangaProgressSelector(state, params.mangaid),
+    offline: state.offline,
   }),
   {
     ...headerActions,
