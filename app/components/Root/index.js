@@ -67,12 +67,13 @@ const Root = ({children, offline, ...props}) => {
           {children && React.cloneElement(children, props)}
         </section>
 
-        {showBottomNav && <BottomNavigation {...props}/>}
         <Snackbar
           open={offline}
           message="You are offline."
           style={s.snackbar}
           />
+
+        {showBottomNav && <BottomNavigation {...props}/>}
       </section>
     </MuiThemeProvider>
   )

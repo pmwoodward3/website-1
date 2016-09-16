@@ -22,6 +22,7 @@ export class Home extends Component {
     readingHistory: PropTypes.object.isRequired,
     recommendations: PropTypes.object.isRequired,
     rawFavorites: PropTypes.object.isRequired,
+    offline: PropTypes.bool.isRequired,
     getReleases: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
     getRecommendations: PropTypes.func.isRequired,
@@ -42,11 +43,17 @@ export class Home extends Component {
   componentWillUpdate(newProps){
     const rawFavoritesHasChanged = this.props.rawFavorites.items.length !== newProps.rawFavorites.items.length
     const readingHistoryHasChanged = this.props.readingHistory.items.length !== newProps.readingHistory.items.length
-    if(rawFavoritesHasChanged || readingHistoryHasChanged){
+    const hasGoneOnline = this.props.offline && !newProps.offline
+
+    if(rawFavoritesHasChanged || readingHistoryHasChanged || hasGoneOnline){
       this.updateLists(newProps)
     }
   }
   updateLists(props=this.props){
+    if(props.offline){
+      return
+    }
+
     const {
       getReleases,
       getRecommendations,
@@ -69,47 +76,54 @@ export class Home extends Component {
   }
 
   render() {
-    const { releases, readingHistory, recommendations } = this.props
+    const {
+      releases,
+      readingHistory,
+      recommendations,
+      offline,
+    } = this.props
 
     return (
       <section className={s.root}>
         <Helmet
           title="SB - Home"
           />
-        {
-          readingHistory.items.length > 0 && (
-            <Paper zDepth={2} className={s.section}>
-              <h3 className={s.sectionTitle}>Continue Reading</h3>
-              <List>
-                {readingHistory.items.map(({pagenum, ...item}) => item.mangaid && (
-                  <MangaItemCard
-                    key={'readingHistory'+item.mangaid}
-                    pagenum={pagenum + 1}
-                    {...item}
-                    />
-                ))}
-              </List>
-            </Paper>
-          )
-        }
-        <Paper zDepth={2} className={s.section}>
-          <h3 className={s.sectionTitle}>New Releases</h3>
-          <List>
-            {releases.items.map((item) => item && (
-              <MangaItemCard key={'newReleases'+item.mangaid+item.date+item.chapter} {...item}/>
-            ))}
-          </List>
-        </Paper>
-        <Paper zDepth={2} className={s.section}>
-          <h3 className={s.sectionTitle}>Recomended For You</h3>
-          <div className={s.list}>
+        {readingHistory.items.length > 0 && (
+          <Paper zDepth={2} className={s.section}>
+            <h3 className={s.sectionTitle}>Continue Reading</h3>
             <List>
-              {recommendations.items.map((item) => item && (
-                <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
+              {readingHistory.items.map(({pagenum, ...item}) => (
+                <MangaItemCard
+                  key={'readingHistory'+item.mangaid}
+                  pagenum={pagenum + 1}
+                  {...item}
+                  />
               ))}
             </List>
-          </div>
-        </Paper>
+          </Paper>
+        )}
+        {!offline && (
+          <Paper zDepth={2} className={s.section}>
+            <h3 className={s.sectionTitle}>New Releases</h3>
+            <List>
+              {releases.items.map((item) => (
+                <MangaItemCard key={'newReleases'+item.mangaid+item.date+item.chapter} {...item}/>
+              ))}
+            </List>
+          </Paper>
+        )}
+        {!offline && (
+          <Paper zDepth={2} className={s.section}>
+            <h3 className={s.sectionTitle}>Recomended For You</h3>
+            <div className={s.list}>
+              <List>
+                {recommendations.items.map((item) => (
+                  <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
+                ))}
+              </List>
+            </div>
+          </Paper>
+        )}
       </section>
     )
   }
@@ -120,6 +134,7 @@ const PureHome = onlyUpdateForKeys([
   'readingHistory',
   'recommendations',
   'rawFavorites',
+  'offline',
 ])(Home)
 
 export default connect(
@@ -128,6 +143,7 @@ export default connect(
     readingHistory: readingHistorySelector(state),
     recommendations: recommendationsSelector(state),
     rawFavorites: state.favorites,
+    offline: state.offline,
   }),
   {
     ...headerActions,
