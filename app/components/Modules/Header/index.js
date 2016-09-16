@@ -35,6 +35,8 @@ class Header extends Component {
     header: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
     manga: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
+    offline: PropTypes.bool.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
   };
 
@@ -66,7 +68,14 @@ class Header extends Component {
   }
   render(){
     const loading = this.props.loading > 0
-    const { search, header, enterFullscreen, location, params, manga } = this.props
+    const {
+      search,
+      header,
+      location,
+      params,
+      manga,
+      offline,
+    } = this.props
 
     return (
       <div className={s.root}>
@@ -131,8 +140,8 @@ class Header extends Component {
                   ))}
                 </IconMenu>
               ) : (
-                <Link to="/search">
-                  <IconButton disabled={search.showSearchField}>
+                <Link to="/search" disabled={offline}>
+                  <IconButton disabled={search.showSearchField || offline}>
                     <ActionSearch/>
                   </IconButton>
                 </Link>
@@ -152,6 +161,7 @@ const PureHeader = onlyUpdateForKeys([
   'header',
   'location',
   'manga',
+  'offline',
 ])(Header)
 
 export default connect(
@@ -160,6 +170,7 @@ export default connect(
     search: state.search,
     header: state.header,
     manga: state.manga,
+    offline: state.offline,
   }),
   {
     ...searchActions,
