@@ -34,6 +34,7 @@ export class Chapter extends Component {
     this.changePage = this.changePage.bind(this)
     this.afterChange = debounce(this.afterChange.bind(this), 100)
     this.handleChapterChange = this.handleChapterChange.bind(this)
+    this.handleGettingData = this.handleGettingData.bind(this)
   }
   componentDidMount(){
     const { params } = this.props
@@ -106,6 +107,7 @@ export class Chapter extends Component {
     }
   }
   handleGettingData(instance, index, item) {
+    const { correctZoom, props } = this
     if (item.w < 1 || item.h < 1) {
       const img = new Image()
       img.onload = function() {
@@ -113,6 +115,10 @@ export class Chapter extends Component {
         item.h = this.height
         instance.invalidateCurrItems()
         instance.updateSize(true)
+
+        if(index + 1 == props.params.pagenum){
+          correctZoom(instance)
+        }
       }
       img.src = item.src
     }
