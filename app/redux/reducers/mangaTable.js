@@ -3,6 +3,7 @@ import { indexBy, prop, isArrayLike } from 'ramda'
 import Immutable from 'seamless-immutable'
 
 const initialState = {
+  isLoaded: false,
   items: Immutable({}),
 }
 
@@ -26,6 +27,11 @@ const reducer = (key) => (state, { payload }) => ({
   .merge(formatPayload(key ? payload[key] : payload)),
 })
 
+const mergeStorage = (state, { payload }) => ({
+  isLoaded: true,
+  items: payload.mangaTable ? state.items.merge(payload.mangaTable) : state.items,
+})
+
 export default createReducer({
   ['GET_ITEMS_SUCCESS']: reducer(),
   ['GET_RELEASES_SUCCESS']: reducer('releases'),
@@ -33,4 +39,5 @@ export default createReducer({
   ['GET_LIST_SUCCESS']: reducer('items'),
   ['GET_MANGA_SUCCESS']: reducer('details'),
   ['GET_RECOMMENDATIONS_SUCCESS']: reducer('items'),
+  ['LOAD_STORAGE']: mergeStorage,
 }, initialState)

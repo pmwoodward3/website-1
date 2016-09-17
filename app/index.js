@@ -37,6 +37,13 @@ lf.getItem('favorites')
   if(readingHistory){
     storageState.readingHistory = readingHistory
   }
+  
+  return lf.getItem('mangaTable')
+})
+.then((mangaTable) => {
+  if(mangaTable){
+    storageState.mangaTable = mangaTable
+  }
 })
 .then(() => {
   store.dispatch({
