@@ -12,6 +12,7 @@ import * as chapterActionCreators from 'redux/actions/chapter'
 import * as headerActions from 'redux/actions/header'
 import { addReadingHistory } from 'redux/actions/readingHistory'
 import { getList } from 'redux/actions/list'
+import chapterSelector from 'redux/selectors/chapter'
 
 import 'react-photoswipe/lib/photoswipe.css'
 import s from './styles.scss'
@@ -133,14 +134,6 @@ export class Chapter extends Component {
 
     const isChapterLoaded = chapter.items.length > 0
 
-    const items = chapter.items
-    .asMutable()
-    .map(({url}) => ({
-      src: url,
-      w: 0,
-      h: 0,
-    }))
-
     const options = {
       index: pagenum - 1,
       history: false,
@@ -165,7 +158,7 @@ export class Chapter extends Component {
           <PhotoSwipe
             ref="pswp"
             isOpen={isChapterLoaded}
-            items={items}
+            items={chapter.items}
             options={options}
             gettingData={this.handleGettingData}
             afterChange={this.afterChange}
@@ -188,7 +181,7 @@ const PureChapter = onlyUpdateForKeys([
 
 export default connect(
   (state, {params}) => ({
-    chapter: state.chapter,
+    chapter: chapterSelector(state),
     manga: state.mangaTable.items[parseInt(params.mangaid)],
   }),
   {
