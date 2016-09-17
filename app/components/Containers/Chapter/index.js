@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
-import isTouchAvailable from 'utils/isTouchAvailable'
-import { equals } from 'ramda'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
-import screenfull from 'screenfull'
+import debounce from 'debounce'
 
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
@@ -34,7 +32,7 @@ export class Chapter extends Component {
     super(props)
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.changePage = this.changePage.bind(this)
-    this.afterChange = this.afterChange.bind(this)
+    this.afterChange = debounce(this.afterChange.bind(this), 100)
     this.handleChapterChange = this.handleChapterChange.bind(this)
   }
   componentDidMount(){
@@ -83,7 +81,17 @@ export class Chapter extends Component {
 
     hashHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
   }
+  correctZoom(instance){
+    const ratio = instance.viewportSize.x / instance.currItem.w
+    instance.zoomTo(
+      ratio,
+      { x: 0, y: 0 },
+      1,
+    )
+  }
   afterChange(instance){
+    this.correctZoom(instance)
+
     const pagenum = instance.getCurrentIndex()
 
     const { params, location, addReadingHistory } = this.props
@@ -139,6 +147,7 @@ export class Chapter extends Component {
       closeOnScroll: false,
       closeOnVerticalDrag: false,
       loop: false,
+      maxSpreadZoom: 3,
     }
 
     return (
@@ -148,6 +157,7 @@ export class Chapter extends Component {
           />
         <div className={s.container} ref="container">
           <PhotoSwipe
+            ref="pswp"
             isOpen={isChapterLoaded}
             items={items}
             options={options}
