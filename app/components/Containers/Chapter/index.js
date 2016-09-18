@@ -2,11 +2,17 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { hashHistory } from 'react-router'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
-import debounce from 'debounce'
+import screenfull from 'screenfull'
+import isTouchAvailable from 'utils/isTouchAvailable'
 
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
-import { PhotoSwipe } from 'react-photoswipe'
+import Paper from 'material-ui/Paper'
+import Swipe from 'react-swipe'
+import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
+import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
+import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 import * as chapterActionCreators from 'redux/actions/chapter'
 import * as headerActions from 'redux/actions/header'
@@ -14,7 +20,6 @@ import { addReadingHistory } from 'redux/actions/readingHistory'
 import { getList } from 'redux/actions/list'
 import chapterSelector from 'redux/selectors/chapter'
 
-import 'react-photoswipe/lib/photoswipe.css'
 import s from './styles.scss'
 
 export class Chapter extends Component {
@@ -31,17 +36,29 @@ export class Chapter extends Component {
 
   constructor(props){
     super(props)
+    this.handleNextPage = this.handleNextPage.bind(this)
+    this.handlePreviousPage = this.handlePreviousPage.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.changePage = this.changePage.bind(this)
-    this.afterChange = debounce(this.afterChange.bind(this), 100)
+    this.onChangeIndex = this.onChangeIndex.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
-    this.handleGettingData = this.handleGettingData.bind(this)
+    this.setHeaderTitle = this.setHeaderTitle.bind(this)
+    this.handleFullScreenChange = this.handleFullScreenChange.bind(this)
   }
   componentDidMount(){
-    const { params } = this.props
+    const { params, changeHeader } = this.props
     if(params.pagenum){
       this.handleChapterChange()
     }
+
+    if(screenfull.enabled){
+      changeHeader({
+        showFullScreenButton: true,
+      })
+      document.addEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
+    }
+
+    this.setHeaderTitle()
   }
   componentWillUpdate(newProps){
     const isNewManga = this.props.params.mangaid != newProps.params.mangaid
@@ -62,6 +79,40 @@ export class Chapter extends Component {
         this.changePage(1, chapternum + 1)
       }
     }
+    if(this.props.manga != newProps.manga || isNewChapter){
+      this.setHeaderTitle(newProps)
+    }
+
+    if(!this.props.chapter.fullscreen && newProps.chapter.fullscreen){
+      this.handleFullScreen()
+    }
+  }
+  componentWillUnmount(){
+    if (screenfull.enabled) {
+      this.props.changeHeader({
+        showFullScreenButton: false,
+      })
+      document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
+    }
+  }
+  handleFullScreenChange(){
+    if(screenfull.isFullscreen){
+      this.props.enterFullscreen()
+    }else{
+      this.props.exitFullscreen()
+    }
+  }
+  setHeaderTitle(props=this.props){
+    props.changeHeader({
+      title: (
+        <span className={s.headerTitle}>
+          {props.manga ? props.manga.title : 'Manga'}
+          <HardwareArrowBack/>
+          {`Chapter ${props.params.chapternum}`}
+        </span>
+      ),
+      parentPath: `/manga/${props.params.mangaid}`,
+    })
   }
   handleChapterChange(props=this.props){
     const {
@@ -78,94 +129,118 @@ export class Chapter extends Component {
       getList([params.mangaid])
     }
   }
-  changePage(newPage, chapter){
-    const { params, location } = this.props
+  changePage(newPage, newChapternum){
+    const { chapter, params, location, addReadingHistory } = this.props
 
-    hashHistory.push(`/manga/${params.mangaid}/${chapter || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
-  }
-  correctZoom(instance){
-    const ratio = instance.viewportSize.x / instance.currItem.w
-    instance.zoomTo(
-      ratio,
-      { x: 0, y: 0 },
-      1,
-    )
-  }
-  afterChange(instance){
-    this.correctZoom(instance)
+    hashHistory.push(`/manga/${params.mangaid}/${newChapternum || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
 
-    const pagenum = instance.getCurrentIndex()
+    const chapternum = parseInt(params.chapternum)
+    const pagenum = parseInt(params.pagenum)
+    const mangaid = parseInt(params.mangaid)
 
-    const { params, location, addReadingHistory } = this.props
-
-    if(params.pagenum && params.pagenum > 0 && this.props.chapter.items.length > 0){
+    if(chapter.items.length > 0 && chapternum && pagenum && mangaid){
       addReadingHistory({
-        mangaid: parseInt(params.mangaid),
-        chapternum: parseInt(params.chapternum),
-        pagenum: parseInt(pagenum),
+        mangaid,
+        chapternum,
+        pagenum,
         source: location.query.source,
       })
     }
   }
-  handleGettingData(instance, index, item) {
-    const { correctZoom, props } = this
-    if (item.w < 1 || item.h < 1) {
-      const img = new Image()
-      img.onload = function() {
-        item.w = this.width
-        item.h = this.height
-        instance.invalidateCurrItems()
-        instance.updateSize(true)
+  onChangeIndex(index){
+    const { params, chapter } = this.props
 
-        if(index + 1 == props.params.pagenum){
-          correctZoom(instance)
-        }
-      }
-      img.src = item.src
+    const chapternum = parseInt(params.chapternum)
+    const pagenum = parseInt(params.pagenum)
+
+    if(chapter.items.length > 0 && pagenum > chapter.items.length){
+      this.changePage(1, chapternum + 1)
+    }else{
+      this.changePage(index + 1)
     }
   }
-  handleClose(){
-    hashHistory.goBack()
+  handleFullScreen(){
+    if (screenfull.enabled) {
+      screenfull.request(this.refs.container)
+    }
+  }
+  handleNextPage(){
+    this.refs.swiper.next()
+  }
+  handlePreviousPage(){
+    this.refs.swiper.prev()
   }
   render() {
     const { chapter, params } = this.props
 
+    const chapternum = parseInt(params.chapternum)
     const pagenum = parseInt(params.pagenum)
 
     const isChapterLoaded = chapter.items.length > 0
 
-    const options = {
-      index: pagenum - 1,
-      history: false,
-      preload: [0, 2],
-      modal: false,
-      shareEl: false,
-      tapToClose: false,
-      clickToCloseNonZoomable: false,
-      pinchToClose: false,
-      closeOnScroll: false,
-      closeOnVerticalDrag: false,
-      loop: false,
-      maxSpreadZoom: 3,
-    }
-
     return (
       <section className={s.section}>
         <Helmet
-          title={`SB - Ch. ${params.chapternum}`}
+          title={`SB - Ch. ${chapternum} - P. ${pagenum}`}
           />
         <div className={s.container} ref="container">
-          <PhotoSwipe
-            ref="pswp"
-            isOpen={isChapterLoaded}
-            items={chapter.items}
-            options={options}
-            gettingData={this.handleGettingData}
-            afterChange={this.afterChange}
-            onClose={this.handleClose}
-            />
+          {!isTouchAvailable && (
+            <div className={s.controlBtn}>
+              <FloatingActionButton
+                onClick={this.handlePreviousPage}
+                disabled={pagenum < 2}
+                secondary
+                >
+                <ArrowBack/>
+              </FloatingActionButton>
+            </div>
+          )}
+          {isChapterLoaded ? (
+            <Swipe
+              className={isTouchAvailable ? s.touchSwiper : s.swiper}
+              ref="swiper"
+              swipeOptions={{
+                continuous: false,
+                transitionEnd: this.onChangeIndex,
+                startSlide: pagenum - 1,
+              }}
+              >
+              {chapter.items.concat([
+                {pagenum: chapter.items.length + 1, url: ''},
+              ]).map(({url}, index) => (
+                <div className={s.pageContainer} key={index+url}>
+                  <Paper className={s.paper} zDepth={2}>
+                    {index >= chapter.items.length ? (
+                      <div/>
+                    ) : ((index + 1) >= pagenum && (index + 1) <= (pagenum + 3)) ? (
+                      <img
+                        draggable={false}
+                        className={s.img}
+                        src={url}
+                        referrerPolicy="no-referrer"
+                        ref="img"
+                        />
+                    ) : (
+                      <div></div>
+                    )}
+                  </Paper>
+                </div>
+              ))}
+            </Swipe>
+          ) : (
+            <Loading/>
+          )}
+          {!isTouchAvailable && (
+            <div className={s.controlBtn}>
+              <FloatingActionButton
+                onClick={this.handleNextPage}
+                secondary
+                >
+                <ArrowForward/>
+              </FloatingActionButton>
+            </div>
+          )}
         </div>
-        <Loading/>
       </section>
     )
   }
