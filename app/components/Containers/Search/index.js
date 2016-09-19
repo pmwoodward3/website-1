@@ -16,7 +16,6 @@ import searchSelector from 'redux/selectors/search'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
-import List from 'components/Modules/List'
 import Paper from 'material-ui/Paper'
 import Chip from 'material-ui/Chip'
 import Infinite from 'react-infinite'
@@ -155,11 +154,11 @@ export class Search extends Component {
             >
             {
               search.rows.map((colums, index) => (
-                <List key={'row'+index}>
+                <div className={s.row} key={'row'+index}>
                   {colums.map((item) => (
                     <MangaItemCard key={item.mangaid} {...item}/>
                   ))}
-                </List>
+                </div>
               ))
             }
           </Infinite>
