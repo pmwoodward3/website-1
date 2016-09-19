@@ -13,6 +13,7 @@ import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
 import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
+import Hammer from 'react-hammerjs'
 
 import * as chapterActionCreators from 'redux/actions/chapter'
 import * as headerActions from 'redux/actions/header'
@@ -32,6 +33,8 @@ export class Chapter extends Component {
     getList: PropTypes.func.isRequired,
     addReadingHistory: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
+    setScale: PropTypes.func.isRequired,
+    setOffset: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -44,6 +47,7 @@ export class Chapter extends Component {
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.setHeaderTitle = this.setHeaderTitle.bind(this)
     this.handleFullScreenChange = this.handleFullScreenChange.bind(this)
+    this.handleTap = this.handleTap.bind(this)
   }
   componentDidMount(){
     const { params, changeHeader } = this.props
@@ -170,6 +174,25 @@ export class Chapter extends Component {
   handlePreviousPage(){
     this.refs.swiper.prev()
   }
+  handleTap(e){
+    const bb = e.target.getBoundingClientRect()
+    const container = this.refs[`pageContainer${this.props.params.pagenum - 1}`]
+
+    const newScale = this.props.chapter.scale * 2
+
+    if(newScale <= 4){
+      this.props.setScale(newScale)
+
+      //Pointer location - container location + scroll location
+      const pos = {
+        x: e.center.x - bb.left + container.scrollLeft,
+        y: e.center.y - bb.top + container.scrollTop,
+      }
+
+      container.scrollTop = pos.y
+      container.scrollLeft = pos.x
+    }
+  }
   render() {
     const { chapter, params } = this.props
 
@@ -177,6 +200,25 @@ export class Chapter extends Component {
     const pagenum = parseInt(params.pagenum)
 
     const isChapterLoaded = chapter.items.length > 0
+
+    const swipeOptions = {
+      continuous: false,
+      transitionEnd: this.onChangeIndex,
+      startSlide: pagenum - 1,
+    }
+
+    const hammerOptions = {
+      recognizers: {
+        pinch: {
+          enable: true,
+        },
+      },
+    }
+
+    const imgStyle = {
+      height: `${chapter.scale * 100}%`,
+      width: `${chapter.scale * 100}%`,
+    }
 
     return (
       <section className={s.section}>
@@ -199,32 +241,37 @@ export class Chapter extends Component {
             <Swipe
               className={isTouchAvailable ? s.touchSwiper : s.swiper}
               ref="swiper"
-              swipeOptions={{
-                continuous: false,
-                transitionEnd: this.onChangeIndex,
-                startSlide: pagenum - 1,
-              }}
+              swipeOptions={swipeOptions}
               >
               {chapter.items.concat([
                 {pagenum: chapter.items.length + 1, url: ''},
               ]).map(({url}, index) => (
-                <div className={s.pageContainer} key={index+url}>
-                  <Paper className={s.paper} zDepth={2}>
-                    {index >= chapter.items.length ? (
-                      <div/>
-                    ) : ((index + 1) >= pagenum && (index + 1) <= (pagenum + 3)) ? (
-                      <img
-                        draggable={false}
-                        className={s.img}
-                        src={url}
-                        referrerPolicy="no-referrer"
-                        ref="img"
-                        />
-                    ) : (
-                      <div></div>
-                    )}
-                  </Paper>
-                </div>
+                <Hammer
+                  onTap={this.handleTap}
+                  options={hammerOptions}>
+                  <div
+                    ref={`pageContainer${index}`}
+                    className={s.pageContainer}
+                    key={index+url}
+                    >
+                    <Paper className={s.paper} zDepth={2}>
+                      {index >= chapter.items.length ? (
+                        <div/>
+                      ) : ((index + 1) >= pagenum && (index + 1) <= (pagenum + 3)) ? (
+                        <img
+                          draggable={false}
+                          className={s.img}
+                          style={imgStyle}
+                          src={url}
+                          referrerPolicy="no-referrer"
+                          ref="img"
+                          />
+                      ) : (
+                        <div/>
+                      )}
+                    </Paper>
+                  </div>
+                </Hammer>
               ))}
             </Swipe>
           ) : (

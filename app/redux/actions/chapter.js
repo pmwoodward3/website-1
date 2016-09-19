@@ -24,3 +24,13 @@ export const enterFullscreen = () => ({
 export const exitFullscreen = () => ({
   type: 'EXIT_FULLSCREEN_CHAPTER',
 })
+
+export const setScale = (payload) => ({
+  type: 'SET_SCALE_CHAPTER',
+  payload,
+})
+
+export const setOffset = (payload) => ({
+  type: 'SET_OFFSET_CHAPTER',
+  payload,
+})

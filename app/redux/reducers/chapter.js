@@ -3,13 +3,18 @@ import Immutable from 'seamless-immutable'
 
 const initialState = {
   fullscreen: false,
+  offset: {
+    x: 0,
+    y: 0,
+  },
+  scale: 1,
   items: Immutable([]),
 }
 
 export default createReducer({
   ['GET_CHAPTER_REQUEST']: (state) => ({
-    ...state,
-    items: initialState.items,
+    ...initialState,
+    fullscreen: state.fullscreen,
   }),
   ['GET_CHAPTER_SUCCESS']: (state, { payload }) => ({
     ...state,
@@ -24,5 +29,13 @@ export default createReducer({
   ['EXIT_FULLSCREEN_CHAPTER']: (state) => ({
     ...state,
     fullscreen: false,
+  }),
+  ['SET_OFFSET_CHAPTER']: (state, {payload}) => ({
+    ...state,
+    scale: payload,
+  }),
+  ['SET_SCALE_CHAPTER']: (state, {payload}) => ({
+    ...state,
+    scale: payload,
   }),
 }, initialState)
