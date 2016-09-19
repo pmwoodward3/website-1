@@ -11,6 +11,7 @@ import recommendations from './recommendations'
 import loading from './loading'
 import header from './header'
 import offline from './offline'
+import home from './home'
 
 const rootReducer = combineReducers({
   releases,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   loading,
   header,
   offline,
+  home,
 })
 
 export default rootReducer

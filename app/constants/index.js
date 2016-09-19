@@ -14,6 +14,8 @@ export const MANGA_ITEM_CARD_HEIGHT = 140 + (margin * 2)
 
 export const MANGA_ITEM_CARD_WIDTH = 100 + (margin * 2)
 
+export const MAX_SECTION_ROWS = 2
+
 export const MAIN_SOURCE = 'mangaeden'
 
 export const GENRE_LIST = [

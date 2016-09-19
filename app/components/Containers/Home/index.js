@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import { uniq } from 'ramda'
+import { MANGA_ITEM_CARD_WIDTH } from 'constants'
 
 import * as headerActions from 'redux/actions/header'
+import * as homeActions from 'redux/actions/home'
 import { getReleases } from 'redux/actions/releases'
 import { getRecommendations } from 'redux/actions/recommendations'
 import releasesSelector from 'redux/selectors/releases'
@@ -15,6 +17,7 @@ import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
 import Paper from 'material-ui/Paper'
+import FlatButton from 'material-ui/FlatButton'
 
 export class Home extends Component {
   static propTypes = {
@@ -22,15 +25,20 @@ export class Home extends Component {
     readingHistory: PropTypes.object.isRequired,
     recommendations: PropTypes.object.isRequired,
     rawFavorites: PropTypes.object.isRequired,
+    home: PropTypes.object.isRequired,
     offline: PropTypes.bool.isRequired,
     getReleases: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
     getRecommendations: PropTypes.func.isRequired,
+    expandSection: PropTypes.func.isRequired,
+    closeSection: PropTypes.func.isRequired,
+    setSectionRowLength: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.updateLists = this.updateLists.bind(this)
+    this.handleExpand = this.handleExpand.bind(this)
   }
   componentDidMount() {
     this.props.changeHeader({
@@ -39,6 +47,8 @@ export class Home extends Component {
     })
 
     this.updateLists()
+
+    this.props.setSectionRowLength(Math.floor(this.refs.root.clientWidth / MANGA_ITEM_CARD_WIDTH))
   }
   componentWillUpdate(newProps){
     const rawFavoritesHasChanged = this.props.rawFavorites.items.length !== newProps.rawFavorites.items.length
@@ -74,6 +84,13 @@ export class Home extends Component {
       getRecommendations(uniqIds)
     }
   }
+  handleExpand(key){
+    if(this.props.home.expandedSections[key]){
+      this.props.closeSection(key)
+    }else{
+      this.props.expandSection(key)
+    }
+  }
 
   render() {
     const {
@@ -81,49 +98,76 @@ export class Home extends Component {
       readingHistory,
       recommendations,
       offline,
+      home,
     } = this.props
 
+    const sections = [
+      {
+        key: 'readingHistory',
+        show: readingHistory.items.length > 0,
+        title: 'Continue Reading',
+        items: readingHistory.items,
+        renderItem: ({pagenum, ...item}) => (
+          <MangaItemCard
+            key={`readingHistory-${item.mangaid}`}
+            pagenum={pagenum + 1}
+            {...item}
+            />
+        ),
+      },
+      {
+        key: 'newReleases',
+        show: !offline,
+        title: 'New Releases',
+        items: releases.items,
+        renderItem: (item) => (
+          <MangaItemCard
+            key={`newReleases-${item.mangaid}-${item.date}-${item.chapter}`}
+            {...item}
+            />
+        ),
+      },
+      {
+        key: 'recommendations',
+        show: !offline,
+        title: 'Recomended for You',
+        items: recommendations.items,
+        renderItem: (item) => (
+          <MangaItemCard
+            key={`recommendations-${item.mangaid}`}
+            {...item}
+            />
+        ),
+      },
+    ]
+
     return (
-      <section className={s.root}>
+      <section className={s.root} ref="root">
         <Helmet
           title="SB - Home"
           />
-        {readingHistory.items.length > 0 && (
-          <Paper zDepth={2} className={s.section}>
-            <h3 className={s.sectionTitle}>Continue Reading</h3>
-            <List>
-              {readingHistory.items.map(({pagenum, ...item}) => (
-                <MangaItemCard
-                  key={'readingHistory'+item.mangaid}
-                  pagenum={pagenum + 1}
-                  {...item}
-                  />
-              ))}
+        {sections.map(({key, show, title, items, renderItem}) => show && (
+          <Paper
+            key={key}
+            zDepth={2}
+            className={s.section}
+            >
+            <h3 className={s.sectionTitle}>
+              {title}
+              <FlatButton
+                label={home.expandedSections[key] ? 'Less' : 'More'}
+                onTouchTap={() => this.handleExpand(key)}
+                primary
+                />
+            </h3>
+            <List
+              expanded={home.expandedSections[key]}
+              sectionRowLength={home.sectionRowLength}
+              >
+              {items.map(renderItem)}
             </List>
           </Paper>
-        )}
-        {!offline && (
-          <Paper zDepth={2} className={s.section}>
-            <h3 className={s.sectionTitle}>New Releases</h3>
-            <List>
-              {releases.items.map((item) => (
-                <MangaItemCard key={'newReleases'+item.mangaid+item.date+item.chapter} {...item}/>
-              ))}
-            </List>
-          </Paper>
-        )}
-        {!offline && (
-          <Paper zDepth={2} className={s.section}>
-            <h3 className={s.sectionTitle}>Recomended For You</h3>
-            <div className={s.list}>
-              <List>
-                {recommendations.items.map((item) => (
-                  <MangaItemCard key={'recomended'+item.mangaid} {...item}/>
-                ))}
-              </List>
-            </div>
-          </Paper>
-        )}
+        ))}
       </section>
     )
   }
@@ -135,6 +179,7 @@ const PureHome = onlyUpdateForKeys([
   'recommendations',
   'rawFavorites',
   'offline',
+  'home',
 ])(Home)
 
 export default connect(
@@ -144,9 +189,11 @@ export default connect(
     recommendations: recommendationsSelector(state),
     rawFavorites: state.favorites,
     offline: state.offline,
+    home: state.home,
   }),
   {
     ...headerActions,
+    ...homeActions,
     getReleases,
     getRecommendations,
   }

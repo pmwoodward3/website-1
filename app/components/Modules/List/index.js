@@ -1,42 +1,41 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
-import { MANGA_ITEM_CARD_HEIGHT, MANGA_ITEM_CARD_WIDTH } from 'constants'
+import { MAX_SECTION_ROWS } from 'constants'
+import toClass from 'utils/toClass'
 
 import s from './styles.scss'
 
-const style = {
-  height: MANGA_ITEM_CARD_HEIGHT,
+const List = ({
+  children,
+  className,
+  expanded,
+  sectionRowLength,
+}) => {
+  const slice = expanded
+  ? children.slice(0, MAX_SECTION_ROWS * sectionRowLength)
+  : children.slice(0, sectionRowLength)
+
+  return (
+    <div
+      className={toClass([
+        s.root,
+        expanded && s.expanded,
+        className,
+      ])}
+      >
+      {slice}
+    </div>
+  )
 }
 
-class List extends Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-  };
-
-  constructor(props){
-    super(props)
-    this.state = {
-      itemsLength: 3,
-    }
-  }
-  componentDidMount(){
-    this.setState({
-      itemsLength: Math.round(this.refs.container.clientWidth / MANGA_ITEM_CARD_WIDTH),
-    })
-  }
-  render(){
-    const { children, className } = this.props
-    return (
-      <div
-        ref="container"
-        className={s.root+' '+className}
-        style={style}
-        >
-        {children.slice(0, this.state.itemsLength)}
-      </div>
-    )
-  }
+List.propTypes = {
+  children: PropTypes.node.isRequired,
+  sectionRowLength: PropTypes.number.isRequired,
+  className: PropTypes.string,
+  expanded: PropTypes.bool,
+}
+List.defaultProps = {
+  expanded: false,
 }
 
 export default onlyUpdateForKeys([
