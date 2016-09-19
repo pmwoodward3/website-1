@@ -41,8 +41,19 @@ $color: #BDBDBD;
   width: 100%;
   object-fit: fill;
   pointer-events: none;
-  user-drag: none;
   text-align: center;
-  text-transform: uppercase;
   background-color: $color;
+
+  //Hide ugly broken img icon
+  &:before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $color;
+    background-image: attr(data-backup-cover url);
+  }
 }

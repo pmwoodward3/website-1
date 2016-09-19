@@ -1,54 +1,107 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import { hashHistory } from 'react-router'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
-/* component styles */
 import s from './styles.scss'
 
-const MangaItemCard = ({mangaid, cover, title, chapter, chapternum, pagenum, source}) => {
-  let url = `/manga/${mangaid}`
-  let subtitle = ''
-
-  if(!isNaN(chapternum)){
-    url = `${url}/${chapternum}`
-    subtitle = `Ch. ${chapternum}`
-  }
-  if(chapter){
-    subtitle = `Ch. ${chapter}`
-  }
-  if(pagenum){
-    url = `${url}/${pagenum}`
-    subtitle = subtitle + `, p. ${pagenum}`
-  }
-  if(source){
-    url = `${url}?source=${source}`
+class MangaItemCard extends Component {
+  static propTypes = {
+    mangaid: PropTypes.number.isRequired,
+    cover: PropTypes.string,
+    title: PropTypes.string,
+    chapter: PropTypes.string,
+    chapternum: PropTypes.number,
+    pagenum: PropTypes.number,
+    source: PropTypes.string,
   }
 
-  if(subtitle.length < 1){
-    subtitle = undefined
+  constructor(props) {
+    super(props)
+    this.handleTouchTap = this.handleTouchTap.bind(this)
+    this.handleCoverFailure = this.handleCoverFailure.bind(this)
+    this._renderOverlay = this._renderOverlay.bind(this)
+
+    this.state = {
+      fullCover: true,
+    }
   }
+  handleTouchTap(){
+    const {
+      mangaid,
+      chapternum,
+      pagenum,
+      source,
+    } = this.props
 
-  const overlay = (
-    <CardTitle
-      title={title}
-      subtitle={subtitle}
-      className={s.title}
-      />
-  )
+    let url = `/manga/${mangaid}`
 
-  return (
-    <Card className={s.root} onTouchTap={() => hashHistory.push(url)}>
-      <CardMedia overlay={overlay}>
-        <img
-          draggable={false}
-          src={mangaid && title && !cover ? `http://mcd.iosphe.re/t/${mangaid}/1/front/a/` : cover}
-          referrerPolicy="no-referrer"
-          className={s.cover}
-          />
-      </CardMedia>
-    </Card>
-  )
+    if(!isNaN(chapternum)){
+      url = `${url}/${chapternum}`
+    }
+    if(pagenum){
+      url = `${url}/${pagenum}`
+    }
+    if(source){
+      url = `${url}?source=${source}`
+    }
+
+    hashHistory.push(url)
+  }
+  _renderOverlay(){
+    const {
+      title,
+      chapter,
+      chapternum,
+      pagenum,
+    } = this.props
+
+    let subtitle = ''
+
+    if(!isNaN(chapternum)){
+      subtitle = `Ch. ${chapternum}`
+    }
+    if(chapter){
+      subtitle = `Ch. ${chapter}`
+    }
+    if(pagenum){
+      subtitle = `${subtitle}, p. ${pagenum}`
+    }
+
+    if(subtitle.length < 1){
+      subtitle = undefined
+    }
+
+    return (
+      <CardTitle
+        title={title}
+        subtitle={subtitle}
+        className={s.title}
+        />
+    )
+  }
+  handleCoverFailure(){
+    this.setState({
+      fullCover: false,
+    })
+  }
+  render(){
+    const { mangaid, cover } = this.props
+
+    return (
+      <Card className={s.root} onTouchTap={this.handleTouchTap}>
+        <CardMedia overlay={this._renderOverlay()}>
+          <img
+            draggable={false}
+            src={this.state.fullCover ? `http://mcd.iosphe.re/t/${mangaid}/1/front/a/` : cover}
+            onError={this.handleCoverFailure}
+            referrerPolicy="no-referrer"
+            className={s.cover}
+            />
+        </CardMedia>
+      </Card>
+    )
+  }
 }
 
 
