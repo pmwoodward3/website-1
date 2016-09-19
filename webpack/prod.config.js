@@ -91,15 +91,16 @@ module.exports = function(outputPath){
         filename: 'precache-worker.js',
         navigateFallback: '/index.html',
         stripPrefix: outputPath,
+        staticFileGlobsIgnorePatterns: [/.*\.gz/],
       }),
 
-      new CompressionPlugin ({
-        asset: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: /\.js$|\.html$/,
-        threshold: 10240,
-        minRatio: 0.8,
-      }),
+      // new CompressionPlugin ({
+        // asset: '[path].gz[query]',
+        // algorithm: 'gzip',
+        // test: /\.js$|\.html$/,
+        // threshold: 10240,
+        // minRatio: 0.8,
+      // }),
     ],
   }
 }
