@@ -3,15 +3,12 @@
 .section {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  height: calc(100vh - #{$headerHeight});
 }
 
 .container {
   display: flex;
   flex-direction: row;
   width: 100%;
-  flex: 1;
 }
 
 .pageContainer{
@@ -19,7 +16,7 @@
   height: 100%;
   width: 75%;
   max-width: 700px;
-  height: 100%;
+  height: calc(100vh - #{$headerHeight});
 
   &.touchAvailable {
     width: 100%;
