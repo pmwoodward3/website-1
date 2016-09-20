@@ -35,6 +35,8 @@ export class Chapter extends Component {
     changeHeader: PropTypes.func.isRequired,
     setScale: PropTypes.func.isRequired,
     setOffset: PropTypes.func.isRequired,
+    enterFullscreen: PropTypes.func.isRequired,
+    exitFullscreen: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -87,10 +89,6 @@ export class Chapter extends Component {
       this.setHeaderTitle(newProps)
     }
 
-    if(!this.props.chapter.fullscreen && newProps.chapter.fullscreen){
-      this.handleFullScreen()
-    }
-
     if(this.props.chapter.scale !== newProps.chapter.scale){
       if(newProps.chapter.scale > 1){
         newProps.changeHeader({
@@ -110,13 +108,6 @@ export class Chapter extends Component {
         showZoomOutButton: false,
       })
       document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
-    }
-  }
-  handleFullScreenChange(){
-    if(screenfull.isFullscreen){
-      this.props.enterFullscreen()
-    }else{
-      this.props.exitFullscreen()
     }
   }
   setHeaderTitle(props=this.props){
@@ -166,9 +157,11 @@ export class Chapter extends Component {
       })
     }
   }
-  handleFullScreen(){
-    if (screenfull.enabled) {
-      screenfull.request(this.refs.container)
+  handleFullScreenChange(){
+    if(screenfull.isFullscreen){
+      this.props.enterFullscreen()
+    }else{
+      this.props.exitFullscreen()
     }
   }
   handleNextPage(){

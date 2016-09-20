@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import debounce from 'debounce'
 import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
+import screenfull from 'screenfull'
 
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
@@ -22,6 +23,7 @@ import MenuItem from 'material-ui/MenuItem'
 import ActionInput from 'material-ui/svg-icons/action/input'
 import ActionZoomOut from 'material-ui/svg-icons/action/zoom-out'
 import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
+import NavigationFullScreenExit from 'material-ui/svg-icons/navigation/fullscreen-exit'
 import Link from 'components/Modules/Link'
 
 /* component styles */
@@ -40,8 +42,10 @@ class Header extends Component {
     manga: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     offline: PropTypes.bool.isRequired,
+    fullscreen: PropTypes.bool.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
     enterFullscreen: PropTypes.func.isRequired,
+    exitFullscreen: PropTypes.func.isRequired,
     setScale: PropTypes.func.isRequired,
   };
 
@@ -50,6 +54,7 @@ class Header extends Component {
     this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this)
     this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
     this.zoomOut = this.zoomOut.bind(this)
+    this.handleFullscreen = this.handleFullscreen.bind(this)
   }
   handleSearchQueryChange(e, val){
     this.props.changeSearchQuery(val)
@@ -75,6 +80,9 @@ class Header extends Component {
   zoomOut(){
     this.props.setScale(1)
   }
+  handleFullscreen(){
+    screenfull.toggle()
+  }
   render(){
     const loading = this.props.loading > 0
     const {
@@ -84,7 +92,7 @@ class Header extends Component {
       params,
       manga,
       offline,
-      enterFullscreen,
+      fullscreen,
     } = this.props
 
     return (
@@ -155,8 +163,12 @@ class Header extends Component {
                   ))}
                 </IconMenu>
               ) : header.showFullScreenButton ? (
-                <IconButton onTouchTap={enterFullscreen}>
-                  <NavigationFullScreen/>
+                <IconButton onTouchTap={this.handleFullscreen}>
+                  {fullscreen ? (
+                    <NavigationFullScreenExit/>
+                  ) : (
+                    <NavigationFullScreen/>
+                  )}
                 </IconButton>
               ) : (
                 <Link to="/search" disabled={offline}>
@@ -181,6 +193,7 @@ const PureHeader = onlyUpdateForKeys([
   'location',
   'manga',
   'offline',
+  'fullscreen',
 ])(Header)
 
 export default connect(
@@ -190,6 +203,7 @@ export default connect(
     header: state.header,
     manga: state.manga,
     offline: state.offline,
+    fullscreen: state.chapter.fullscreen,
   }),
   {
     ...searchActions,
