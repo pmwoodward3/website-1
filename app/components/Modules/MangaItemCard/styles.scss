@@ -14,7 +14,7 @@ $color: #BDBDBD;
   &.flex {
     flex: 1;
     width: auto;
-    min-width: $width - 10px;
+    min-width: $width;
     max-width: $width + 20px;
   }
 
