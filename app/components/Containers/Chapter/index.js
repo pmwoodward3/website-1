@@ -8,7 +8,6 @@ import isTouchAvailable from 'utils/isTouchAvailable'
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
 import Paper from 'material-ui/Paper'
-import Swipe from 'react-swipe'
 import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
 import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
 import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
@@ -43,11 +42,11 @@ export class Chapter extends Component {
     this.handlePreviousPage = this.handlePreviousPage.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.changePage = this.changePage.bind(this)
-    this.onChangeIndex = this.onChangeIndex.bind(this)
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.setHeaderTitle = this.setHeaderTitle.bind(this)
     this.handleFullScreenChange = this.handleFullScreenChange.bind(this)
     this.handleTap = this.handleTap.bind(this)
+    this.handleSwipe = this.handleSwipe.bind(this)
   }
   componentDidMount(){
     const { params, changeHeader } = this.props
@@ -147,13 +146,15 @@ export class Chapter extends Component {
     }
   }
   changePage(newPage, newChapternum){
-    const { chapter, params, location, addReadingHistory } = this.props
-
-    hashHistory.push(`/manga/${params.mangaid}/${newChapternum || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
+    const { chapter, params, location, addReadingHistory, setScale } = this.props
 
     const chapternum = parseInt(params.chapternum)
     const pagenum = parseInt(params.pagenum)
     const mangaid = parseInt(params.mangaid)
+
+    hashHistory.push(`/manga/${params.mangaid}/${newChapternum || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
+
+    setScale(1)
 
     if(chapter.items.length > 0 && chapternum && pagenum && mangaid){
       addReadingHistory({
@@ -164,32 +165,22 @@ export class Chapter extends Component {
       })
     }
   }
-  onChangeIndex(index){
-    const { params, chapter } = this.props
-
-    const chapternum = parseInt(params.chapternum)
-    const pagenum = parseInt(params.pagenum)
-
-    if(chapter.items.length > 0 && pagenum > chapter.items.length){
-      this.changePage(1, chapternum + 1)
-    }else{
-      this.changePage(index + 1)
-    }
-  }
   handleFullScreen(){
     if (screenfull.enabled) {
       screenfull.request(this.refs.container)
     }
   }
   handleNextPage(){
-    this.refs.swiper.next()
+    const pagenum = parseInt(this.props.params.pagenum)
+    if(pagenum) this.changePage(pagenum + 1)
   }
   handlePreviousPage(){
-    this.refs.swiper.prev()
+    const pagenum = parseInt(this.props.params.pagenum)
+    if(pagenum) this.changePage(pagenum - 1)
   }
   handleTap(e){
     const bb = e.target.getBoundingClientRect()
-    const container = this.refs[`pageContainer${this.props.params.pagenum - 1}`]
+    const container = this.refs.pageContainer
 
     const newScale = this.props.chapter.scale * 2
 
@@ -206,6 +197,13 @@ export class Chapter extends Component {
       container.scrollLeft = pos.x
     }
   }
+  handleSwipe(e){
+    if(e.velocityX > 0){
+      this.handlePreviousPage()
+    }else{
+      this.handleNextPage()
+    }
+  }
   render() {
     const { chapter, params } = this.props
 
@@ -214,22 +212,8 @@ export class Chapter extends Component {
 
     const isChapterLoaded = chapter.items.length > 0
 
-    const swipeOptions = {
-      continuous: false,
-      transitionEnd: this.onChangeIndex,
-      startSlide: pagenum - 1,
-    }
-
     const hammerOptions = {
-      touchAction: 'tap',
-      recognizers: {
-        pan: {
-          enable: false,
-        },
-        pinch: {
-          enable: true,
-        },
-      },
+      touchAction: chapter.scale > 1 ? 'auto' : 'compute',
     }
 
     const imgStyle = {
@@ -255,42 +239,27 @@ export class Chapter extends Component {
             </div>
           )}
           {isChapterLoaded ? (
-            <Swipe
-              className={isTouchAvailable ? s.touchSwiper : s.swiper}
-              ref="swiper"
-              swipeOptions={swipeOptions}
+            <Hammer
+              onTap={this.handleTap}
+              onSwipe={this.handleSwipe}
+              options={hammerOptions}
               >
-              {chapter.items.concat([
-                {pagenum: chapter.items.length + 1, url: ''},
-              ]).map(({url}, index) => (
-                <Hammer
-                  onTap={this.handleTap}
-                  options={hammerOptions}>
-                  <div
-                    ref={`pageContainer${index}`}
-                    className={s.pageContainer}
-                    key={index+url}
-                    >
-                    <Paper className={s.paper} zDepth={2}>
-                      {index >= chapter.items.length ? (
-                        <div/>
-                      ) : ((index + 1) >= pagenum && (index + 1) <= (pagenum + 3)) ? (
-                        <img
-                          draggable={false}
-                          className={s.img}
-                          style={imgStyle}
-                          src={url}
-                          referrerPolicy="no-referrer"
-                          ref="img"
-                          />
-                      ) : (
-                        <div/>
-                      )}
-                    </Paper>
-                  </div>
-                </Hammer>
-              ))}
-            </Swipe>
+              <div
+                ref="pageContainer"
+                className={s.pageContainer}
+                >
+                <Paper className={s.paper} zDepth={2}>
+                  <img
+                    draggable={false}
+                    className={s.img}
+                    style={imgStyle}
+                    src={chapter.items[pagenum - 1].url}
+                    referrerPolicy="no-referrer"
+                    ref="img"
+                    />
+                </Paper>
+              </div>
+            </Hammer>
           ) : (
             <Loading/>
           )}
