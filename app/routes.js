@@ -1,11 +1,10 @@
 import Root from './components/Root'
 
-function errorLoading(err) {
-  console.error('Dynamic page loading failed', err)
-}
-function loadRoute(cb) {
-  return (module) => cb(null, module.default)
-}
+import Home from 'components/Containers/Home'
+import Favorites from 'components/Containers/Favorites'
+import Search from 'components/Containers/Search'
+import Manga from 'components/Containers/Manga'
+import Chapter from 'components/Containers/Chapter'
 
 export default {
   path: '/',
@@ -16,43 +15,23 @@ export default {
   childRoutes: [
     {
       path: '/home',
-      getComponent(location, cb) {
-        System.import('./components/Containers/Home')
-          .then(loadRoute(cb))
-          .catch(errorLoading)
-      },
+      component: Home,
     },
     {
       path: '/favorites',
-      getComponent(location, cb) {
-        System.import('./components/Containers/Favorites')
-          .then(loadRoute(cb))
-          .catch(errorLoading)
-      },
+      component: Favorites,
     },
     {
       path: '/search',
-      getComponent(location, cb) {
-        System.import('./components/Containers/Search')
-          .then(loadRoute(cb))
-          .catch(errorLoading)
-      },
+      component: Search,
     },
     {
       path: '/manga/:mangaid',
-      getComponent(location, cb) {
-        System.import('./components/Containers/Manga')
-          .then(loadRoute(cb))
-          .catch(errorLoading)
-      },
+      component: Manga,
     },
     {
       path: '/manga/:mangaid/:chapternum/:pagenum',
-      getComponent(location, cb) {
-        System.import('./components/Containers/Chapter')
-          .then(loadRoute(cb))
-          .catch(errorLoading)
-      },
+      component: Chapter,
     },
   ],
 }

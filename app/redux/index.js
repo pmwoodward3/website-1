@@ -4,6 +4,7 @@ import rootReducer from './reducers'
 import { promiseMiddleware } from './middleware/promise'
 import { apiMiddleware } from './middleware/api'
 import { localforage } from './middleware/localforage'
+import { __PRODUCTION__ } from 'constants'
 
 let middlewares = [
   apiMiddleware,
