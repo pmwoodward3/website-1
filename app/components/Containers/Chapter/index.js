@@ -172,7 +172,15 @@ export class Chapter extends Component {
   }
   handleNextPage(){
     const pagenum = parseInt(this.props.params.pagenum)
-    if(pagenum) this.changePage(pagenum + 1)
+    const chapternum = parseInt(this.props.params.chapternum)
+
+    if(pagenum && chapternum){
+      if(pagenum > this.props.chapter.items.length){
+        this.changePage(1, chapternum + 1)
+      }else{
+        this.changePage(pagenum + 1)
+      }
+    }
   }
   handlePreviousPage(){
     const pagenum = parseInt(this.props.params.pagenum)
