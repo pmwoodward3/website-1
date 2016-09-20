@@ -14,7 +14,9 @@ import EnhancedButton from 'material-ui/internal/EnhancedButton'
 EnhancedButton.defaultProps.disableTouchRipple = true
 EnhancedButton.defaultProps.disableFocusRipple = true
 
-import './utils/service-worker-registration'
+if(__PRODUCTION__){
+  require('offline-plugin/runtime').install()
+}
 
 export const history = hashHistory
 
@@ -37,7 +39,7 @@ lf.getItem('favorites')
   if(readingHistory){
     storageState.readingHistory = readingHistory
   }
-  
+
   return lf.getItem('mangaTable')
 })
 .then((mangaTable) => {

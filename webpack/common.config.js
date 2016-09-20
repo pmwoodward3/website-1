@@ -113,5 +113,5 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = merge(production(outputPath), common)
+  module.exports = merge(production, common)
 }
