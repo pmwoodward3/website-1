@@ -20,6 +20,7 @@ import Paper from 'material-ui/Paper'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import ActionInput from 'material-ui/svg-icons/action/input'
+import ActionZoomOut from 'material-ui/svg-icons/action/zoom-out'
 import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
 import Link from 'components/Modules/Link'
 
@@ -41,12 +42,14 @@ class Header extends Component {
     offline: PropTypes.bool.isRequired,
     changeSearchQuery: PropTypes.func.isRequired,
     enterFullscreen: PropTypes.func.isRequired,
+    setScale: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this)
     this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
+    this.zoomOut = this.zoomOut.bind(this)
   }
   handleSearchQueryChange(e, val){
     this.props.changeSearchQuery(val)
@@ -68,6 +71,9 @@ class Header extends Component {
     }
 
     hashHistory.push(URL)
+  }
+  zoomOut(){
+    this.props.setScale(1)
   }
   render(){
     const loading = this.props.loading > 0
@@ -119,6 +125,11 @@ class Header extends Component {
                     autoFocus
                     />
                 </Paper>
+              )}
+              {header.showZoomOutButton && (
+                <IconButton onTouchTap={this.zoomOut}>
+                  <ActionZoomOut/>
+                </IconButton>
               )}
               {header.showSourceButton ? (
                 <IconMenu

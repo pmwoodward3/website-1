@@ -90,11 +90,24 @@ export class Chapter extends Component {
     if(!this.props.chapter.fullscreen && newProps.chapter.fullscreen){
       this.handleFullScreen()
     }
+
+    if(this.props.chapter.scale !== newProps.chapter.scale){
+      if(newProps.chapter.scale > 1){
+        newProps.changeHeader({
+          showZoomOutButton: true,
+        })
+      }else{
+        newProps.changeHeader({
+          showZoomOutButton: false,
+        })
+      }
+    }
   }
   componentWillUnmount(){
     if (screenfull.enabled) {
       this.props.changeHeader({
         showFullScreenButton: false,
+        showZoomOutButton: false,
       })
       document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
@@ -208,7 +221,11 @@ export class Chapter extends Component {
     }
 
     const hammerOptions = {
+      touchAction: 'tap',
       recognizers: {
+        pan: {
+          enable: false,
+        },
         pinch: {
           enable: true,
         },
