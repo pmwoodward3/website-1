@@ -151,7 +151,7 @@ export class Chapter extends Component {
     this.refs.pageContainer.scrollTop = 0
     this.refs.pageContainer.scrollLeft = 0
 
-    if(chapter.items.length > 0 && chapternum && pagenum && mangaid){
+    if(chapter.items.length > 0 && !isNaN(chapternum) && !isNaN(pagenum) && !isNaN(mangaid)){
       addReadingHistory({
         mangaid,
         chapternum,
@@ -171,7 +171,7 @@ export class Chapter extends Component {
     const pagenum = parseInt(this.props.params.pagenum)
     const chapternum = parseInt(this.props.params.chapternum)
 
-    if(pagenum && chapternum){
+    if(!isNaN(pagenum) && !isNaN(chapternum)){
       if(pagenum >= this.props.chapter.items.length){
         this.changePage(1, chapternum + 1)
       }else{
@@ -181,7 +181,7 @@ export class Chapter extends Component {
   }
   handlePreviousPage(){
     const pagenum = parseInt(this.props.params.pagenum)
-    if(pagenum) this.changePage(pagenum - 1)
+    if(!isNaN(pagenum)) this.changePage(pagenum - 1)
   }
   handleTap(e){
     const bb = e.target.getBoundingClientRect()
