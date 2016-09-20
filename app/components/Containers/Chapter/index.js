@@ -198,10 +198,12 @@ export class Chapter extends Component {
     }
   }
   handleSwipe(e){
-    if(e.velocityX > 0){
-      this.handlePreviousPage()
-    }else{
-      this.handleNextPage()
+    if(this.props.chapter.scale === 1){
+      if(e.velocityX > 0){
+        this.handlePreviousPage()
+      }else{
+        this.handleNextPage()
+      }
     }
   }
   render() {
