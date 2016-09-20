@@ -4,6 +4,7 @@ import { hashHistory } from 'react-router'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import screenfull from 'screenfull'
 import isTouchAvailable from 'utils/isTouchAvailable'
+import toClass from 'utils/toClass'
 
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
@@ -175,7 +176,7 @@ export class Chapter extends Component {
     const chapternum = parseInt(this.props.params.chapternum)
 
     if(pagenum && chapternum){
-      if(pagenum > this.props.chapter.items.length){
+      if(pagenum >= this.props.chapter.items.length){
         this.changePage(1, chapternum + 1)
       }else{
         this.changePage(pagenum + 1)
@@ -248,7 +249,7 @@ export class Chapter extends Component {
               </FloatingActionButton>
             </div>
           )}
-          {isChapterLoaded ? (
+          {isChapterLoaded && chapter.items[pagenum -1] ? (
             <Hammer
               onTap={this.handleTap}
               onSwipe={this.handleSwipe}
@@ -256,7 +257,7 @@ export class Chapter extends Component {
               >
               <div
                 ref="pageContainer"
-                className={s.pageContainer}
+                className={toClass([s.pageContainer, isTouchAvailable && s.touchAvailable])}
                 >
                 <Paper className={s.paper} zDepth={2}>
                   <img
@@ -271,7 +272,11 @@ export class Chapter extends Component {
               </div>
             </Hammer>
           ) : (
-            <Loading/>
+            <div
+              className={toClass([s.pageContainer, isTouchAvailable && s.touchAvailable])}
+              >
+              <Loading/>
+            </div>
           )}
           {!isTouchAvailable && (
             <div className={s.controlBtn}>
