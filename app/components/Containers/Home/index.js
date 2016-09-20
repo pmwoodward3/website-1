@@ -151,14 +151,17 @@ export class Home extends Component {
             key={key}
             zDepth={2}
             className={s.section}
+            ref={key}
             >
             <h3 className={s.sectionTitle}>
               {title}
-              <FlatButton
-                label={home.expandedSections[key] ? 'Less' : 'More'}
-                onTouchTap={() => this.handleExpand(key)}
-                primary
-                />
+              {items.length > home.sectionRowLength && (
+                <FlatButton
+                  label={home.expandedSections[key] ? 'Less' : 'More'}
+                  onTouchTap={() => this.handleExpand(key)}
+                  primary
+                  />
+              )}
             </h3>
             <List
               expanded={home.expandedSections[key]}
