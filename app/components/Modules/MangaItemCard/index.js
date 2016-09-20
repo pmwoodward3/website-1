@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { hashHistory } from 'react-router'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
+import toClass from 'utils/toClass'
 
 import s from './styles.scss'
 
@@ -14,6 +15,7 @@ class MangaItemCard extends Component {
     chapternum: PropTypes.number,
     pagenum: PropTypes.number,
     source: PropTypes.string,
+    flex: PropTypes.bool,
   }
 
   constructor(props) {
@@ -86,10 +88,10 @@ class MangaItemCard extends Component {
     })
   }
   render(){
-    const { mangaid, cover } = this.props
+    const { mangaid, cover, flex } = this.props
 
     return (
-      <Card className={s.root} onTouchTap={this.handleTouchTap}>
+      <Card className={toClass([s.root, flex && s.flex])} onTouchTap={this.handleTouchTap}>
         <CardMedia overlay={this._renderOverlay()}>
           <img
             draggable={false}

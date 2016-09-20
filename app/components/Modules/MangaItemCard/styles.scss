@@ -11,6 +11,13 @@ $color: #BDBDBD;
   cursor: pointer;
   background-color: $color;
 
+  &.flex {
+    flex: 1;
+    width: auto;
+    min-width: $width - 10px;
+    max-width: $width + 20px;
+  }
+
   & > div > div > div > div > div{
     padding-top: 0 !important;
     background-color: rgba(0, 0, 0, 0.7) !important;

@@ -167,7 +167,10 @@ export class Home extends Component {
               expanded={home.expandedSections[key]}
               sectionRowLength={home.sectionRowLength}
               >
-              {items.map(renderItem)}
+              {items.map((x) => renderItem({
+                ...x,
+                flex: items.length >= home.sectionRowLength,
+              }))}
             </List>
           </Paper>
         ))}
