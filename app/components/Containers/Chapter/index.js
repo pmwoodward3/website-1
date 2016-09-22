@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import screenfull from 'screenfull'
 import isTouchAvailable from 'utils/isTouchAvailable'
@@ -144,7 +144,7 @@ export class Chapter extends Component {
     const pagenum = parseInt(params.pagenum)
     const mangaid = parseInt(params.mangaid)
 
-    hashHistory.push(`/manga/${params.mangaid}/${newChapternum || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
+    browserHistory.push(`/manga/${params.mangaid}/${newChapternum || params.chapternum}/${newPage}${location.query.source ? '?source=' + location.query.source : ''}`)
 
     setScale(1)
 

@@ -1,7 +1,7 @@
 import React from 'react'
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 
-const go = (x) => () => hashHistory.push(x)
+const go = (x) => () => browserHistory.push(x)
 
 const Link = ({children, to, disabled, ...props}) => (
   <div {...props} onTouchTap={!disabled && go(to)}>

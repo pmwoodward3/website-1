@@ -1,5 +1,5 @@
 import React from 'react'
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
 import ActionHome from 'material-ui/svg-icons/action/home'
@@ -13,7 +13,7 @@ import s from './styles.scss'
 
 const BottomNav = ({location}) => {
 
-  const handleTouchTap = (path) => () => hashHistory.push(path)
+  const handleTouchTap = (path) => () => browserHistory.push(path)
 
   const items = [
     {

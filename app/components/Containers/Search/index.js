@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import Helmet from 'react-helmet'
 import { equals } from 'ramda'
 import {
@@ -104,7 +104,7 @@ export class Search extends Component {
       URL = `${URL}&g=${genres}`
     }
 
-    hashHistory.push(URL)
+    browserHistory.push(URL)
   }
   render() {
     const { search, location } = this.props

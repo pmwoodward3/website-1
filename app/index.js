@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { Router, hashHistory } from 'react-router'
+import { Router, browserHistory } from 'react-router'
 import configureStore from './redux'
 import routes from './routes'
 import Ga from 'react-router-google-analytics'
@@ -47,7 +47,7 @@ function handleRouterUpdate() {
   window.scrollTo(0, 0)
 }
 
-export const history = hashHistory
+export const history = browserHistory
 
 ReactDOM.render(
   <Provider store={store}>

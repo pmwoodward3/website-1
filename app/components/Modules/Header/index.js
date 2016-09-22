@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import debounce from 'debounce'
 import theme from 'components/Root/theme'
@@ -75,7 +75,7 @@ class Header extends Component {
       URL = `${URL}&g=${genres}`
     }
 
-    hashHistory.push(URL)
+    browserHistory.push(URL)
   }
   zoomOut(){
     this.props.setScale(1)
@@ -158,7 +158,7 @@ class Header extends Component {
                       style={{
                         color: sourceslug == manga.source ? theme.palette.accent1Color : '',
                       }}
-                      onTouchTap={() => hashHistory.push(`/manga/${params.mangaid}?source=${sourceslug}`)}
+                      onTouchTap={() => browserHistory.push(`/manga/${params.mangaid}?source=${sourceslug}`)}
                       />
                   ))}
                 </IconMenu>

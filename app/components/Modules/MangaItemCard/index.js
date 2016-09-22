@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import toClass from 'utils/toClass'
@@ -48,7 +48,7 @@ class MangaItemCard extends Component {
       url = `${url}?source=${source}`
     }
 
-    hashHistory.push(url)
+    browserHistory.push(url)
   }
   _renderOverlay(){
     const {
