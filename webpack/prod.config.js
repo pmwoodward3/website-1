@@ -93,6 +93,7 @@ module.exports = {
     new OfflinePlugin({
       caches: 'all',
       publicPath: '/',
+      relativePaths: false,
       updateStrategy: 'all',
       externals: [],
       excludes: ['**/*.gz'],
