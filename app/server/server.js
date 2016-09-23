@@ -18,7 +18,8 @@ app.use(require('morgan')('short'))
 
 if (process.env.NODE_ENV === 'development') {
   app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true, publicPath: webpackConfig.output.publicPath,
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath,
   }))
 
   app.use(require('webpack-hot-middleware')(compiler, {
@@ -32,7 +33,7 @@ proxy.on('error', (err, req) => {
   console.error(err, req.url)
 })
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.end(fullPage)
 })
 
