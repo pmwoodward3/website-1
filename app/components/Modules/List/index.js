@@ -9,14 +9,14 @@ const rootStyle = {
   minHeight: MANGA_ITEM_CARD_HEIGHT,
 }
 
-const List = ({
+export const List = ({
   children,
   className,
   expanded,
   sectionRowLength,
 }) => {
   const slice = expanded
-  ? children.slice(0, MAX_SECTION_ROWS * sectionRowLength)
+  ? children
   : children.slice(0, sectionRowLength)
 
   return (
