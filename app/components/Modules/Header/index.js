@@ -5,6 +5,7 @@ import debounce from 'debounce'
 import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import screenfull from 'screenfull'
+import toClass from 'utils/toClass'
 
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
@@ -107,7 +108,7 @@ class Header extends Component {
           />
         <AppBar
           title={header.title}
-          className={s.appBar+' '+(search.showSearchField && s.showSearchField)}
+          className={toClass([s.appBar, search.showSearchField && s.showSearchField])}
           zDepth={2}
           iconElementLeft={
             <Link to={header.parentPath} disabled={header.parentPath == location.pathname}>

@@ -7,6 +7,7 @@ import {
   MANGA_ITEM_CARD_HEIGHT,
   MANGA_ITEM_CARD_WIDTH,
   GENRE_LIST,
+  MOCKS,
 } from 'constants'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
@@ -63,9 +64,9 @@ export class Search extends Component {
     this.handleSearch()
   }
   componentWillUpdate(newProps){
-    if(!equals(this.props.location.query, newProps.location.query)){
-      this.handleSearch(newProps)
-    }
+    if(equals(this.props.location.query, newProps.location.query)) return
+
+    this.handleSearch(newProps)
   }
   componentWillUnmount(){
     this.props.hideSearchField()
@@ -80,25 +81,21 @@ export class Search extends Component {
     const { searchItems, location, search } = this.props
     const newPage = search.rows.length + 1
 
-    if(newPage <= search.totalPages){
-      searchItems(
-        location.query.q,
-        newPage,
-        this.rowColums,
-        location.query.g,
-      )
-    }
+    if(newPage > search.totalPages) return
+
+    searchItems(
+      location.query.q,
+      newPage,
+      this.rowColums,
+      location.query.g,
+    )
   }
   updateGenres(query, genres){
     let { q, g } = this.props.location.query
 
-    let URL = `/search?q=${query || q}`
+    genres = genres ? genres.join('\ ') : g
 
-    if(genres){
-      genres = genres.join('\ ')
-    }else{
-      genres = g
-    }
+    let URL = `/search?q=${query || q}`
 
     if(genres){
       URL = `${URL}&g=${genres}`
@@ -109,6 +106,8 @@ export class Search extends Component {
   render() {
     const { search, location } = this.props
 
+    const genreTags = location.query.g ? location.query.g.split('\ ') : MOCKS.array
+
     return (
       <section className={s.root}>
         <Helmet
@@ -118,7 +117,7 @@ export class Search extends Component {
           <Paper zDepth={1} className={s.genreSection}>
             <h3 className={s.sectionTitle}>Genre Filter</h3>
             <TagsInput
-              value={location.query.g ? location.query.g.split('\ ') : []}
+              value={genreTags}
               className={s.genreList}
               renderInput={({ref, addTag}) => (
                 <AutoComplete
@@ -154,7 +153,7 @@ export class Search extends Component {
             >
             {
               search.rows.map((colums, index) => (
-                <div className={s.row} key={'row'+index}>
+                <div className={s.row} key={`row-${index}`}>
                   {colums.map((item) => (
                     <MangaItemCard key={item.mangaid} {...item}/>
                   ))}

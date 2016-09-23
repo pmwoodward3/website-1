@@ -5,6 +5,8 @@ import Helmet from 'react-helmet'
 import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
 import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
+import toClass from 'utils/toClass'
+import { MOCKS } from 'constants'
 
 import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'
@@ -46,12 +48,17 @@ export class Manga extends Component {
     removeFavoritesItem: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
   };
+  static defaultProps = {
+    progress: MOCKS.object,
+  }
 
   constructor(props){
     super(props)
     this.handleSourceChange = this.handleSourceChange.bind(this)
     this.handleMangaChange = this.handleMangaChange.bind(this)
     this.handleToFavoritesAction = this.handleToFavoritesAction.bind(this)
+    this.handleFullCoverLoad = this.handleFullCoverLoad.bind(this)
+    this.handleFullCoverFailure = this.handleFullCoverFailure.bind(this)
   }
   componentDidMount(){
     this.handleMangaChange()
@@ -120,9 +127,20 @@ export class Manga extends Component {
       })
     }
   }
+  handleFullCoverLoad(){
+    this.props.fullCoverLoadSuccess(this.props.manga.details.mangaid)
+  }
+  handleFullCoverFailure(){
+    this.props.fullCoverLoadFailure(this.props.manga.details.mangaid)
+  }
 
   render() {
-    const { manga, progress={}, isFavoritesItem, fullCoverLoadSuccess, fullCoverLoadFailure } = this.props
+    const { manga, progress, isFavoritesItem } = this.props
+
+    const avatarStyle = (chapternum) => ({
+      left: 8,
+      backgroundColor: chapternum == progress.chapternum ? theme.palette.accent1Color : theme.palette.primary3Color,
+    })
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
@@ -138,9 +156,9 @@ export class Manga extends Component {
                 draggable={false}
                 src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
                 referrerPolicy="no-referrer"
-                className={s.cover + ' ' + s.fullCover}
-                onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
-                onError={fullCoverLoadFailure.bind({}, details.mangaid)}
+                className={toClass([s.cover, s.fullCover])}
+                onLoad={this.handleFullCoverLoad}
+                onError={this.handleFullCoverFailure}
                 />
             ) : (
               <img
@@ -187,7 +205,7 @@ export class Manga extends Component {
                   <p>{details.summary}</p>
                 </CardText>
               )}
-              {(sources && sources.length > 0) ? (
+              {(sources && sources.length > 0) && (
                 <CardText className={s.chapterSection}>
                   <div className={s.chapterHeader}>
                     <strong>Chapters</strong>
@@ -219,10 +237,7 @@ export class Manga extends Component {
                                         <ListItem
                                           leftAvatar={
                                             <Avatar
-                                              style={{
-                                                left: 8,
-                                                backgroundColor: chapternum == progress.chapternum ? theme.palette.accent1Color : theme.palette.primary3Color,
-                                              }}
+                                              style={avatarStyle(chapternum)}
                                               >
                                               {Math.round(chapternum * 100) / 100}
                                             </Avatar>
@@ -254,12 +269,6 @@ export class Manga extends Component {
                       </AutoSizer>
                     </div>
                   )}
-                </CardText>
-              ) : !manga.isLoading && (
-                <CardText>
-                  <strong>
-                    No chapters available. This manga was not found in any source.
-                  </strong>
                 </CardText>
               )}
             </div>

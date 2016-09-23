@@ -64,3 +64,10 @@ export const GENRE_LIST = [
 .sort()
 
 export const GA_TRACKING_ID = 'UA-71580391-4'
+
+export const MOCKS = {
+  object: {},
+  array: [],
+  number: 0,
+  function: () => {},
+}

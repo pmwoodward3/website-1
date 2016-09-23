@@ -7,8 +7,8 @@ import { MANGA_ITEM_CARD_WIDTH } from 'constants'
 
 import * as headerActions from 'redux/actions/header'
 import * as homeActions from 'redux/actions/home'
-import { getReleases } from 'redux/actions/releases'
-import { getRecommendations } from 'redux/actions/recommendations'
+import * as releasesActions from 'redux/actions/releases'
+import * as recommendationsActions from 'redux/actions/recommendations'
 import releasesSelector from 'redux/selectors/releases'
 import readingHistorySelector from 'redux/selectors/readingHistory'
 import recommendationsSelector from 'redux/selectors/recommendations'
@@ -60,9 +60,7 @@ export class Home extends Component {
     }
   }
   updateLists(props=this.props){
-    if(props.offline){
-      return
-    }
+    if(props.offline) return
 
     const {
       getReleases,
@@ -73,16 +71,16 @@ export class Home extends Component {
 
     getReleases()
 
-    if(readingHistory.isLoaded){
-      const ids = rawFavorites.items
-      .concat(readingHistory.items)
-      .map((x) => x.mangaid)
-      .filter(x => !!x)
+    if(!readingHistory.isLoaded) return
 
-      const uniqIds = uniq(ids)
+    const ids = rawFavorites.items
+    .concat(readingHistory.items)
+    .map((x) => x.mangaid)
+    .filter(x => !!x)
 
-      getRecommendations(uniqIds)
-    }
+    const uniqIds = uniq(ids)
+
+    getRecommendations(uniqIds)
   }
   handleExpand(key){
     if(this.props.home.expandedSections[key]){
@@ -200,7 +198,7 @@ export default connect(
   {
     ...headerActions,
     ...homeActions,
-    getReleases,
-    getRecommendations,
+    ...releasesActions,
+    ...recommendationsActions,
   }
 )(PureHome)

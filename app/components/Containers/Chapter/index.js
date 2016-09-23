@@ -90,15 +90,9 @@ export class Chapter extends Component {
     }
 
     if(this.props.chapter.scale !== newProps.chapter.scale){
-      if(newProps.chapter.scale > 1){
-        newProps.changeHeader({
-          showZoomOutButton: true,
-        })
-      }else{
-        newProps.changeHeader({
-          showZoomOutButton: false,
-        })
-      }
+      newProps.changeHeader({
+        showZoomOutButton: newProps.chapter.scale > 1,
+      })
     }
   }
   componentWillUnmount(){
@@ -110,15 +104,18 @@ export class Chapter extends Component {
       document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
   }
+  _renderHeaderTitle(props){
+    return (
+      <span className={s.headerTitle}>
+        {props.manga ? props.manga.title : 'Manga'}
+        <HardwareArrowBack/>
+        {`Chapter ${props.params.chapternum}`}
+      </span>
+    )
+  }
   setHeaderTitle(props=this.props){
     props.changeHeader({
-      title: (
-        <span className={s.headerTitle}>
-          {props.manga ? props.manga.title : 'Manga'}
-          <HardwareArrowBack/>
-          {`Chapter ${props.params.chapternum}`}
-        </span>
-      ),
+      title: this._renderHeaderTitle(props),
       parentPath: `/manga/${props.params.mangaid}`,
     })
   }
@@ -187,28 +184,29 @@ export class Chapter extends Component {
     const bb = e.target.getBoundingClientRect()
     const container = this.refs.pageContainer
 
+    //If the scaling value is not 2 than manual correction has to be done to keep it centered.
     const newScale = this.props.chapter.scale * 2
 
-    if(newScale <= 4){
-      this.props.setScale(newScale)
+    if(newScale > 4) return
 
-      //Pointer location - container location + scroll location
-      const pos = {
-        x: e.center.x - bb.left + container.scrollLeft,
-        y: e.center.y - bb.top + container.scrollTop,
-      }
+    this.props.setScale(newScale)
 
-      container.scrollTop = pos.y
-      container.scrollLeft = pos.x
+    //Pointer location - container location + scroll location
+    const pos = {
+      x: e.center.x - bb.left + container.scrollLeft,
+      y: e.center.y - bb.top + container.scrollTop,
     }
+
+    container.scrollTop = pos.y
+    container.scrollLeft = pos.x
   }
   handleSwipe(e){
-    if(this.props.chapter.scale === 1){
-      if(e.velocityX > 0){
-        this.handlePreviousPage()
-      }else{
-        this.handleNextPage()
-      }
+    if(this.props.chapter.scale !== 1) return
+
+    if(e.velocityX > 0){
+      this.handlePreviousPage()
+    }else{
+      this.handleNextPage()
     }
   }
   render() {

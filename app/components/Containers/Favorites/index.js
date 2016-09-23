@@ -27,13 +27,14 @@ export class Favorites extends Component {
 
     return (
       <section className={s.root}>
-        <Helmet
-          title="SB - Favorites"
-          />
+        <Helmet title="SB - Favorites"/>
         <div className={s.section}>
           <List className={s.favorites}>
             {favorites.items.map((item) => (
-              <MangaItemCard key={'favorites'+item.mangaid} {...item}/>
+              <MangaItemCard
+                key={`favorites-${item.mangaid}`}
+                {...item}
+                />
             ))}
           </List>
         </div>
