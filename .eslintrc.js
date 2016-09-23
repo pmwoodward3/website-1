@@ -3,7 +3,9 @@ module.exports = {
   env: {
     es6: true,
     node: true,
-    browser: true
+    browser: true,
+    mocha: true,
+    serviceworker: true,
   },
   extends: 'eslint:recommended',
   parserOptions: {
@@ -16,6 +18,11 @@ module.exports = {
 
     }
 
+  },
+  globals: {
+    React: true,
+    expect: true,
+    sinon: true,
   },
   plugins: [
     'react'
@@ -64,4 +71,3 @@ module.exports = {
   }
 
 }
-
