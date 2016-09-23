@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CompressionPlugin = require ('compression-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   devtool: 'source-map',
@@ -34,12 +35,11 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.scss$/,
-        loader: 'style!css?minimize&module&localIdentName=[hash:base64:5]!postcss-loader!sass',
-      },
-      {
-        test: /\.css$/,
-        loader: 'style!css',
+        test: /\.s?css$/,
+        loader: ExtractTextPlugin.extract({
+          notExtractLoader: 'style-loader',
+          loader: 'css?minimize&module&localIdentName=[hash:base64:5]!postcss-loader!sass',
+        }),
       },
     ],
   },
@@ -49,8 +49,8 @@ module.exports = {
   },
 
   plugins: [
+    new ExtractTextPlugin('bundle.css'),
     new webpack.NoErrorsPlugin (),
-    // Save all styles in bundle.css with extract-text-plugin
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     // Minify bundle
@@ -89,7 +89,7 @@ module.exports = {
     //   threshold: 10240,
     //   minRatio: 0.8,
     // }),
-    // 
+    //
     new OfflinePlugin({
       caches: 'all',
       publicPath: '/',
