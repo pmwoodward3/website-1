@@ -25,7 +25,7 @@ export default createReducer({
     ...state,
     fullCoverAvailable: true,
   }) : state,
-  ['FULL_COVER_LOAD_FAILURE']: (state, { payload }) => payload.mangaid == state.details.mangaid ? ({
+  ['FULL_COVER_LOAD_FAILURE']: (state, { payload }) => (payload.mangaid == state.details.mangaid || state == initialState) ? ({
     ...state,
     fullCoverAvailable: false,
   }) : state,
