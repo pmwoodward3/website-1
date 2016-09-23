@@ -6,7 +6,7 @@ const initialState = {
   details: {},
   sources: Immutable([]),
   chapters: Immutable([]),
-  fullCoverAvailable: false,
+  fullCoverAvailable: true,
   source: MAIN_SOURCE,
   isLoading: true,
 }

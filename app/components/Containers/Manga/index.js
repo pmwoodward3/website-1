@@ -99,7 +99,7 @@ export class Manga extends Component {
       getManga,
       fullCoverLoadRequest,
     } = props
-    
+
     fullCoverLoadRequest()
 
     if(offline){
@@ -133,16 +133,16 @@ export class Manga extends Component {
             />
 
           <div className={s.coverContainer}>
-            <img
-              draggable={false}
-              src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
-              referrerPolicy="no-referrer"
-              className={s.cover + ' ' + s.fullCover}
-              style={{display: manga.fullCoverAvailable ? 'block' : 'none'}}
-              onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
-              onError={fullCoverLoadFailure.bind({}, details.mangaid)}
-              />
-            {!manga.fullCoverAvailable && (
+            {manga.fullCoverAvailable ? (
+              <img
+                draggable={false}
+                src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
+                referrerPolicy="no-referrer"
+                className={s.cover + ' ' + s.fullCover}
+                onLoad={fullCoverLoadSuccess.bind({}, details.mangaid)}
+                onError={fullCoverLoadFailure.bind({}, details.mangaid)}
+                />
+            ) : (
               <img
                 draggable={false}
                 src={details.cover}
