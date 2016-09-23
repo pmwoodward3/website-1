@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router'
 
 const go = (x) => () => browserHistory.push(x)
 
-const Link = ({children, to, disabled, ...props}) => (
+export const Link = ({children, to, disabled, ...props}) => (
   <div {...props} onTouchTap={!disabled && go(to)}>
     {children}
   </div>

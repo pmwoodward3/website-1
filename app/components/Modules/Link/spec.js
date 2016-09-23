@@ -1,12 +1,25 @@
 import { shallow } from 'enzyme'
-import Header from './'
-import s from './styles.scss'
+import { Link } from './'
+import { mocks } from 'test/constants'
 
-describe('Header component', () => {
-  const element = shallow(<Header />)
+const childrenCount = 20
+
+const props = {
+  to: '/home',
+}
+
+describe('Link', () => {
+  const element = shallow(
+    <Link {...props}>
+      {mocks.children(childrenCount)}
+    </Link>
+  )
 
   it('render', () => {
-    expect(element.find(`.${s.root}`)).to.exist
-    expect(element.find(`.${s.menu}`)).to.exist
+    expect(element).to.exist
+  })
+
+  it('render children', () => {
+    expect(element.children().length).to.equal(childrenCount)
   })
 })

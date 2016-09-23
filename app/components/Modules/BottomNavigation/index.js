@@ -5,7 +5,7 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import ActionHome from 'material-ui/svg-icons/action/home'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite'
 
-import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation'
+import { BottomNavigation as BotNav, BottomNavigationItem } from 'material-ui/BottomNavigation'
 import Paper from 'material-ui/Paper'
 
 /* component styles */
@@ -35,9 +35,9 @@ function selectedIndex(location) {
   : undefined
 }
 
-const BottomNav = ({location}) => (
+export const BottomNavigation = ({location}) => (
   <Paper zDepth={3} className={s.root}>
-    <BottomNavigation selectedIndex={selectedIndex(location)}>
+    <BotNav selectedIndex={selectedIndex(location)}>
       {items.map(({label, path, icon}) => (
         <BottomNavigationItem
           key={path}
@@ -46,14 +46,14 @@ const BottomNav = ({location}) => (
           onTouchTap={handleTouchTap(path)}
           />
       ))}
-    </BottomNavigation>
+    </BotNav>
   </Paper>
 )
 
-BottomNav.propTypes = {
+BottomNavigation.propTypes = {
   location: PropTypes.object,
 }
 
 export default onlyUpdateForKeys([
   'location',
-])(BottomNav)
+])(BottomNavigation)

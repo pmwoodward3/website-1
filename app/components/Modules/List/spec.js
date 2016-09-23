@@ -1,12 +1,41 @@
 import { shallow } from 'enzyme'
-import Header from './'
+import { List } from './'
 import s from './styles.scss'
+import { mocks } from 'test/constants'
 
-describe('Header component', () => {
-  const element = shallow(<Header />)
+const props = {
+  sectionRowLength: 5,
+  expanded: false,
+}
+
+const childrenCount = 20
+
+const renderElement = (props) => shallow(
+  <List {...props}>
+    {mocks.children(childrenCount)}
+  </List>
+)
+
+describe('List', () => {
+  const element = renderElement(props)
 
   it('render', () => {
     expect(element.find(`.${s.root}`)).to.exist
-    expect(element.find(`.${s.menu}`)).to.exist
+  })
+
+  it('renders only an amount of items described by the prop sectionRowLength', () => {
+    expect(element.children().length).to.equal(props.sectionRowLength)
+
+    props.sectionRowLength = 10
+    const newElement = renderElement(props)
+
+    expect(newElement.children().length).to.equal(props.sectionRowLength)
+  })
+
+  it('expands to show all items', () => {
+    props.expanded = true
+    const newElement = renderElement(props)
+
+    expect(newElement.children().length).to.equal(childrenCount)
   })
 })

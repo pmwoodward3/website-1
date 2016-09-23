@@ -1,10 +1,11 @@
 import { shallow } from 'enzyme'
-import Loading from './'
+import { Loading } from './'
+import s from './styles.scss'
 
-describe('Loading component', () => {
-  const element = shallow(<Loading />)
+describe('Loading', () => {
+  const element = shallow(<Loading/>)
 
   it('render', () => {
-    expect(element.find('div')).to.have.length(1)
+    expect(element.find(`.${s.root}`)).to.exist
   })
 })

@@ -6,7 +6,7 @@ import toClass from 'utils/toClass'
 
 import s from './styles.scss'
 
-class MangaItemCard extends Component {
+export class MangaItemCard extends Component {
   static propTypes = {
     mangaid: PropTypes.number.isRequired,
     cover: PropTypes.string,
@@ -16,6 +16,9 @@ class MangaItemCard extends Component {
     pagenum: PropTypes.number,
     source: PropTypes.string,
     flex: PropTypes.bool,
+  }
+  static contextTypes = {
+    muiTheme: PropTypes.object.isRequired,
   }
 
   constructor(props) {
