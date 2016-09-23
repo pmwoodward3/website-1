@@ -30,7 +30,7 @@ function selectedIndex(location) {
   const result = items
   .filter(({path}) => path == location.pathname)
 
-  return result.length <= 0
+  return result.length > 0
   ? items.indexOf(result[0])
   : undefined
 }
