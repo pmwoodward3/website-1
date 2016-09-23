@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
-import { MAX_SECTION_ROWS } from 'constants'
+import { MAX_SECTION_ROWS, MANGA_ITEM_CARD_HEIGHT } from 'constants'
 import toClass from 'utils/toClass'
 
 import s from './styles.scss'
+
+const rootStyle = {
+  minHeight: MANGA_ITEM_CARD_HEIGHT,
+}
 
 const List = ({
   children,
@@ -17,6 +21,7 @@ const List = ({
 
   return (
     <div
+      style={rootStyle}
       className={toClass([
         s.root,
         expanded && s.expanded,
