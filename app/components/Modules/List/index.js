@@ -35,12 +35,13 @@ const List = ({
 
 List.propTypes = {
   children: PropTypes.node.isRequired,
-  sectionRowLength: PropTypes.number.isRequired,
+  sectionRowLength: PropTypes.number,
   className: PropTypes.string,
   expanded: PropTypes.bool,
 }
 List.defaultProps = {
   expanded: false,
+  sectionRowLength: 4,
 }
 
 export default onlyUpdateForKeys([
