@@ -20,6 +20,7 @@ import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
 import Paper from 'material-ui/Paper'
 import FlatButton from 'material-ui/FlatButton'
+import { Card, CardTitle, CardText } from 'material-ui/Card'
 
 export class Home extends Component {
   static propTypes = {
@@ -104,6 +105,7 @@ export class Home extends Component {
     const {
       releases,
       readingHistory,
+      rawFavorites,
       recommendations,
       offline,
       home,
@@ -137,7 +139,7 @@ export class Home extends Component {
       },
       {
         key: 'recommendations',
-        show: !offline,
+        show: !offline && recommendations.items.length > 0,
         title: 'Recomended for You',
         items: recommendations.items,
         renderItem: (item) => (
@@ -154,6 +156,15 @@ export class Home extends Component {
         <Helmet
           title="SB - Home"
           />
+        {(readingHistory.items.length < 1 && readingHistory.isLoaded && rawFavorites.isLoaded && rawFavorites.items.length < 1) && (
+          <Card
+            zDepth={2}
+            className={s.welcome}
+            >
+            <CardTitle>Welcome</CardTitle>
+            <CardText>Favorite mangas and start reading. Your reading history and personal recommendations will be shown here.</CardText>
+          </Card>
+        )}
         {sections.map(({key, show, title, items, renderItem}) => show && (
           <Paper
             key={key}
