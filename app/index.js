@@ -7,6 +7,9 @@ import routes from './routes'
 import Ga from 'react-router-google-analytics'
 import { __PRODUCTION__, GA_TRACKING_ID } from './constants'
 
+import 'statics/manifest.json'
+
+
 if(__PRODUCTION__){
   //Register AppCache and ServiceWorker
   require('offline-plugin/runtime').install()

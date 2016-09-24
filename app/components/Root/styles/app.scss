@@ -3,13 +3,32 @@
   @import 'normalize';
   @import 'typography';
   @import 'react-virtualized';
+  @import 'values';
+  @import 'colors';
 
-  //Trick to use hwacceleration on some browsers
+  * {
+    user-select: none;
+  }
+
   body {
     background: #eee;
   }
 
-  * {
-    user-select: none;
+  //Show some mock ui before js is loaded
+  #mocks {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .header {
+      height: $headerHeight;
+      background-color: $primary1Color;
+    }
+    .bottomNav {
+      height: $bottomNavHeight;
+      background-color: $canvasColor;
+    }
   }
 }

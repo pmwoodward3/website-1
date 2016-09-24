@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -18,8 +18,6 @@ injectTapEventPlugin()
 
 const themeColor = theme.palette.primary1Color
 
-import 'statics/manifest.json'
-
 const meta = [
   //Navigation and status bar color
   {name: 'theme-color', content: themeColor},
@@ -30,58 +28,69 @@ const mockFun = () => {}
 
 const bottomNavHeight = '56px'
 
-const Root = ({children, offline, ...props}) => {
-
-  const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
-
-  const s = {
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '100vh',
-    },
-    childrenContainer: {
-      marginTop: bottomNavHeight,
-      marginBottom: showBottomNav ? bottomNavHeight : '0px',
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    snackbar: {
-      marginBottom: showBottomNav ? bottomNavHeight : '0px',
-    },
+class Root extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    offline: PropTypes.bool.isRequired,
   }
+  componentWillMount(){
+    //remove mock ui from DOM
+    const mocks = document.getElementById('mocks')
+    if(mocks) mocks.remove()
+  }
+  render(){
+    const { children, offline, ...props} = this.props
 
-  return (
-    <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
-      <section
-        className={isTouchAvailable ? 'touch' : 'no-touch'}
-        style={s.root}
-        >
-        <Helmet
-          title="SB"
-          description="Premier manga reading platform."
-          meta={meta}
-          />
+    const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
 
-        <Header {...props}/>
+    const s = {
+      root: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      },
+      childrenContainer: {
+        marginTop: bottomNavHeight,
+        marginBottom: showBottomNav ? bottomNavHeight : '0px',
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      snackbar: {
+        marginBottom: showBottomNav ? bottomNavHeight : '0px',
+      },
+    }
 
-        <section style={s.childrenContainer}>
-          {children && React.cloneElement(children, props)}
+    return (
+      <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
+        <section
+          className={isTouchAvailable ? 'touch' : 'no-touch'}
+          style={s.root}
+          >
+          <Helmet
+            title="SB"
+            description="Premier manga reading platform."
+            meta={meta}
+            />
+
+          <Header {...props}/>
+
+          <section style={s.childrenContainer}>
+            {children && React.cloneElement(children, props)}
+          </section>
+
+          <Snackbar
+            open={offline}
+            message="You are offline."
+            style={s.snackbar}
+            onRequestClose={mockFun}
+            />
+
+          {showBottomNav && <BottomNavigation {...props}/>}
         </section>
-
-        <Snackbar
-          open={offline}
-          message="You are offline."
-          style={s.snackbar}
-          onRequestClose={mockFun}
-          />
-
-        {showBottomNav && <BottomNavigation {...props}/>}
-      </section>
-    </MuiThemeProvider>
-  )
+      </MuiThemeProvider>
+    )
+  }
 }
-
 export default connect(
   (state) => ({
     offline: state.offline,
