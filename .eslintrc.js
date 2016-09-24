@@ -21,6 +21,8 @@ module.exports = {
   },
   globals: {
     React: true,
+    ReactDOM: true,
+    TestUtils: true,
     expect: true,
     sinon: true,
   },

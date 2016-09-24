@@ -1,4 +1,6 @@
-import React from 'react' // eslint-disable-line no-unused-vars
+import React from 'react'
+import ReactDOM from 'react-dom'
+import TestUtils from 'react-test-utils'
 import chai, { expect } from 'chai'
 import sinonChai from 'sinon-chai'
 import sinon from 'sinon'
@@ -16,6 +18,8 @@ global.window = document.defaultView
 global.navigator = { userAgent: 'browser' }
 
 global.React = React
+global.ReactDOM = ReactDOM
+global.TestUtils = TestUtils
 global.expect = expect
 global.sinon = sinon
 

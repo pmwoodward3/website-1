@@ -4,6 +4,8 @@ import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import { uniq } from 'ramda'
 import { MANGA_ITEM_CARD_WIDTH } from 'constants'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import theme from 'components/Root/theme'
 
 import * as headerActions from 'redux/actions/header'
 import * as homeActions from 'redux/actions/home'
@@ -34,11 +36,19 @@ export class Home extends Component {
     closeSection: PropTypes.func.isRequired,
     setSectionRowLength: PropTypes.func.isRequired,
   };
+  static childContextTypes = {
+    muiTheme: PropTypes.object.isRequired,
+  };
 
   constructor(props){
     super(props)
     this.updateLists = this.updateLists.bind(this)
     this.handleExpand = this.handleExpand.bind(this)
+  }
+  getChildContext(){
+    return ({
+      muiTheme: getMuiTheme(theme),
+    })
   }
   componentDidMount() {
     this.props.changeHeader({
@@ -80,7 +90,7 @@ export class Home extends Component {
 
     const uniqIds = uniq(ids)
 
-    getRecommendations(uniqIds)
+    if(uniqIds.length > 0) getRecommendations(uniqIds)
   }
   handleExpand(key){
     if(this.props.home.expandedSections[key]){
@@ -155,6 +165,7 @@ export class Home extends Component {
               {title}
               {items.length > home.sectionRowLength && (
                 <FlatButton
+                  className={home.expandedSections[key] ? s.contractButton : s.expandButton}
                   label={home.expandedSections[key] ? 'Less' : 'More'}
                   onTouchTap={() => this.handleExpand(key)}
                   primary
