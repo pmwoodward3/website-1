@@ -78,6 +78,7 @@ export class Home extends Component {
       getRecommendations,
       readingHistory,
       rawFavorites,
+      home,
     } = props
 
     getReleases()
@@ -91,7 +92,12 @@ export class Home extends Component {
 
     const uniqIds = uniq(ids)
 
-    if(uniqIds.length > 0) getRecommendations(uniqIds)
+    if(uniqIds.length > 0){
+      getRecommendations(
+        uniqIds,
+        home.sectionRowLength * 2
+      )
+    }
   }
   handleExpand(key){
     if(this.props.home.expandedSections[key]){
