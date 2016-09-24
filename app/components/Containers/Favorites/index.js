@@ -19,7 +19,7 @@ export class Favorites extends Component {
   };
   static childContextTypes = {
     muiTheme: PropTypes.object.isRequired,
-  }
+  };
 
   getChildContext(){
     return ({

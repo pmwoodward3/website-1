@@ -23,6 +23,10 @@ describe('Favorites', () => {
     expect(element.find(`.${s.section}`)).to.exist
     expect(element.find(`.${s.favorites}`)).to.exist
   })
+  
+  it('has all props', () => {
+    expect(element.props()).to.contain(props)
+  })
 
   it('changes header title on mount', () => {
     expect(props.changeHeader.calledOnce).to.equal(true)
