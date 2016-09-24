@@ -81,7 +81,7 @@ export class Home extends Component {
       home,
     } = props
 
-    getReleases()
+    getReleases(home.sectionRowLength * 2)
 
     if(!readingHistory.isLoaded) return
 
