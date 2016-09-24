@@ -5,6 +5,7 @@ import sinon from 'sinon'
 import chaiAsPromised from 'chai-as-promised'
 import chaiEnzyme from 'chai-enzyme'
 import { jsdom } from 'jsdom'
+import injectTapEventPlugin from 'react-tap-event-plugin'
 
 chai.use(sinonChai)
 chai.use(chaiAsPromised)
@@ -28,3 +29,5 @@ window.matchMedia = window.matchMedia || function matchMedia() {
     removeListener: () => {},
   }
 }
+
+injectTapEventPlugin()
