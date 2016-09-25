@@ -57,9 +57,9 @@ export class Home extends Component {
       parentPath: '/home',
     })
 
-    this.updateLists()
-
     this.props.setSectionRowLength(Math.floor(this.refs.root.clientWidth / MANGA_ITEM_CARD_WIDTH))
+
+    this.updateLists()
   }
   componentWillUpdate(newProps){
     const rawFavoritesHasChanged = this.props.rawFavorites.items.length !== newProps.rawFavorites.items.length
