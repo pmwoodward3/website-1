@@ -7,9 +7,9 @@ const recommendations = createSelector(
   mangaTableSelector,
   popularSelector ,
   (table, popular) => ({
-    items: popular.map(({mangaid, hits}) => ({
-      ...table[mangaid],
-      hits,
+    items: popular.map((item) => ({
+      ...item,
+      ...table[item.mangaid],
     })),
   })
 )

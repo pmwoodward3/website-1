@@ -6,7 +6,7 @@ const initialState = {
 }
 
 const toFormat = (payload) =>
-payload.hits.map(({mangaid, hits}) => ({
+payload.items.map(({mangaid, hits}) => ({
   mangaid,
   hits,
 }))
