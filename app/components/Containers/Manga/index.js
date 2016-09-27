@@ -124,6 +124,7 @@ export class Manga extends Component {
     }else{
       addFavoritesItem({
         mangaid: manga.details.mangaid,
+        source: manga.source,
       })
     }
   }

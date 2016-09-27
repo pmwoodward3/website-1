@@ -9,9 +9,9 @@ export const favorites = createSelector(
   (table, favorites) => ({
     ...favorites,
     items: favorites.items
-    .map(({mangaid}) => ({
-      mangaid,
-      ...table[mangaid],
+    .map((item) => ({
+      ...item,
+      ...table[item.mangaid],
     }))
     .asMutable()
     .reverse(),
