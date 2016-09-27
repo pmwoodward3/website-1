@@ -39,5 +39,6 @@ export default createReducer({
   ['GET_LIST_SUCCESS']: reducer('items'),
   ['GET_MANGA_SUCCESS']: reducer('details'),
   ['GET_RECOMMENDATIONS_SUCCESS']: reducer('items'),
+  ['GET_POPULAR_SUCCESS']: reducer('hits'),
   ['LOAD_STORAGE']: mergeStorage,
 }, initialState)

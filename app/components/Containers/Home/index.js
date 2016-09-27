@@ -11,9 +11,11 @@ import * as headerActions from 'redux/actions/header'
 import * as homeActions from 'redux/actions/home'
 import * as releasesActions from 'redux/actions/releases'
 import * as recommendationsActions from 'redux/actions/recommendations'
+import * as popularActions from 'redux/actions/popular'
 import releasesSelector from 'redux/selectors/releases'
 import readingHistorySelector from 'redux/selectors/readingHistory'
 import recommendationsSelector from 'redux/selectors/recommendations'
+import popularSelector from 'redux/selectors/popular'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
@@ -29,6 +31,7 @@ export class Home extends Component {
     recommendations: PropTypes.object.isRequired,
     rawFavorites: PropTypes.object.isRequired,
     home: PropTypes.object.isRequired,
+    popular: PropTypes.object.isRequired,
     offline: PropTypes.bool.isRequired,
     getReleases: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
@@ -76,12 +79,14 @@ export class Home extends Component {
     const {
       getReleases,
       getRecommendations,
+      getPopular,
       readingHistory,
       rawFavorites,
       home,
     } = props
 
     getReleases(home.sectionRowLength * 2)
+    getPopular(home.sectionRowLength * 2)
 
     if(!readingHistory.isLoaded) return
 
@@ -115,6 +120,7 @@ export class Home extends Component {
       recommendations,
       offline,
       home,
+      popular,
     } = this.props
 
     const sections = [
@@ -151,6 +157,18 @@ export class Home extends Component {
         renderItem: (item) => (
           <MangaItemCard
             key={`recommendations-${item.mangaid}`}
+            {...item}
+            />
+        ),
+      },
+      {
+        key: 'popular',
+        show: !offline,
+        title: 'Popular',
+        items: popular.items,
+        renderItem: (item) => (
+          <MangaItemCard
+            key={`popular-${item.mangaid}`}
             {...item}
             />
         ),
@@ -212,6 +230,7 @@ const PureHome = onlyUpdateForKeys([
   'rawFavorites',
   'offline',
   'home',
+  'popular',
 ])(Home)
 
 export default connect(
@@ -219,6 +238,7 @@ export default connect(
     releases: releasesSelector(state),
     readingHistory: readingHistorySelector(state),
     recommendations: recommendationsSelector(state),
+    popular: popularSelector(state),
     rawFavorites: state.favorites,
     offline: state.offline,
     home: state.home,
@@ -228,5 +248,6 @@ export default connect(
     ...homeActions,
     ...releasesActions,
     ...recommendationsActions,
+    ...popularActions,
   }
 )(PureHome)

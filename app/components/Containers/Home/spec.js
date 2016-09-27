@@ -72,7 +72,7 @@ describe('Home', () => {
   })
 
   it('shows all sections', () => {
-    expect(element.find(`.${s.section}`).length).to.equal(3)
+    expect(element.find(`.${s.section}`).length).to.equal(4)
   })
 
   describe('shows/hides expand button', () => {
