@@ -170,7 +170,7 @@ export class Manga extends Component {
                 />
             )}
           </div>
-          <Card className={s.card} zDepth={3}>
+          <Card className={s.card} zDepth={3} expanded={!isFavoritesItem}>
             <FloatingActionButton
               className={s.actionButton}
               onTouchTap={this.handleToFavoritesAction}
@@ -188,9 +188,9 @@ export class Manga extends Component {
                 subtitle={details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
                 />
             </CardHeader>
-            <div className={s.detailsContainer}>
-              {details.genres && details.summary && (
-                <CardText>
+            {details.genres && details.summary && (
+              <CardText expandable>
+                <div className={s.detailsContainer}>
                   <strong>Genres </strong>
                   <div className={s.genreSection}>
                     {details.genres.map((genre) => (
@@ -204,13 +204,17 @@ export class Manga extends Component {
                   </div>
                   <strong>Summary </strong>
                   <p>{details.summary}</p>
-                </CardText>
-              )}
+                </div>
+              </CardText>
+            )}
+            <div className={s.detailsContainer}>
               {(sources && sources.length > 0) && (
                 <CardText className={s.chapterSection}>
-                  <div className={s.chapterHeader}>
-                    <strong>Chapters</strong>
-                  </div>
+                  {!isFavoritesItem && (
+                    <div className={s.chapterHeader}>
+                      <strong>Chapters</strong>
+                    </div>
+                  )}
 
                   {chapters && chapters.length > 0 && (
                     <div className={s.chapterList}>
