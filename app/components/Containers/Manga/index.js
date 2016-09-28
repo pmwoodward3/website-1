@@ -136,7 +136,7 @@ export class Manga extends Component {
   }
 
   render() {
-    const { manga, progress, isFavoritesItem } = this.props
+    const { manga, progress, isFavoritesItem, params } = this.props
 
     const avatarStyle = (chapternum) => ({
       left: 8,
@@ -155,7 +155,7 @@ export class Manga extends Component {
             {manga.fullCoverAvailable ? (
               <img
                 draggable={false}
-                src={`http://mcd.iosphe.re/r/${details.mangaid}/1/full/a/`}
+                src={`http://mcd.iosphe.re/r/${params.mangaid}/1/full/a/`}
                 referrerPolicy="no-referrer"
                 className={toClass([s.cover, s.fullCover])}
                 onLoad={this.handleFullCoverLoad}
