@@ -2,7 +2,7 @@ import { createReducer } from '../utils/createReducer'
 import Immutable from 'seamless-immutable'
 
 const initialState = {
-  sectionRowLength: 4,
+  sectionRowLength: 8,
   expandedSections: Immutable({}),
 }
 

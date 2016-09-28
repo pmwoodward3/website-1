@@ -14,6 +14,7 @@ export const List = ({
   className,
   expanded,
   sectionRowLength,
+  ...props,
 }) => {
   const slice = expanded
   ? children
@@ -27,6 +28,7 @@ export const List = ({
         expanded && s.expanded,
         className,
       ])}
+      {...props}
       >
       {slice}
     </div>

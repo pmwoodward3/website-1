@@ -48,6 +48,7 @@ export class Home extends Component {
     super(props)
     this.updateLists = this.updateLists.bind(this)
     this.handleExpand = this.handleExpand.bind(this)
+    this.setSectionRowLength = this.setSectionRowLength.bind(this)
   }
   getChildContext(){
     return ({
@@ -55,12 +56,12 @@ export class Home extends Component {
     })
   }
   componentDidMount() {
+    this.setSectionRowLength()
+
     this.props.changeHeader({
       title: 'Home',
       parentPath: '/home',
     })
-
-    this.props.setSectionRowLength(Math.floor(this.refs.root.clientWidth / MANGA_ITEM_CARD_WIDTH))
 
     this.updateLists()
   }
@@ -68,10 +69,23 @@ export class Home extends Component {
     const rawFavoritesHasChanged = this.props.rawFavorites.items.length !== newProps.rawFavorites.items.length
     const readingHistoryHasChanged = this.props.readingHistory.items.length !== newProps.readingHistory.items.length
     const hasGoneOnline = this.props.offline && !newProps.offline
+    const sectionRowLengthHasChanged = this.props.home.sectionRowLength !== newProps.home.sectionRowLength
 
-    if(rawFavoritesHasChanged || readingHistoryHasChanged || hasGoneOnline){
+    if(rawFavoritesHasChanged || readingHistoryHasChanged || hasGoneOnline || sectionRowLengthHasChanged){
       this.updateLists(newProps)
     }
+  }
+  setSectionRowLength(){
+    const sectionList = document.getElementById('sectionList')
+    const widths = [
+      sectionList && sectionList.clientWidth,
+      document.documentElement.clientWidth,
+      window.innerWidth,
+    ].filter((x) => !!x && x > 0)
+
+    const sectionRowLength = Math.floor(Math.min(...widths) / MANGA_ITEM_CARD_WIDTH)
+
+    this.props.setSectionRowLength(sectionRowLength)
   }
   updateLists(props=this.props){
     if(props.offline) return
@@ -210,6 +224,7 @@ export class Home extends Component {
             <List
               expanded={home.expandedSections[key]}
               sectionRowLength={home.sectionRowLength}
+              id="sectionList"
               >
               {items.map((x) => renderItem({
                 ...x,
