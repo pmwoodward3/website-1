@@ -8,11 +8,11 @@ import toClass from 'utils/toClass'
 
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
-import Paper from 'material-ui/Paper'
-import ArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
-import ArrowForward from 'material-ui/svg-icons/navigation/arrow-forward'
-import HardwareArrowBack from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+
+import FABButton from 'react-mdl/lib/FABButton'
+import Icon from 'react-mdl/lib/Icon'
+import { Card } from 'react-mdl/lib/Card'
+
 import Hammer from 'react-hammerjs'
 
 import * as chapterActionCreators from 'redux/actions/chapter'
@@ -23,11 +23,22 @@ import chapterSelector from 'redux/selectors/chapter'
 
 import s from './styles.scss'
 
+const ControlBtn = ({direction='forward', pagenum=0, onClick}) => (
+  <div className={s.controlBtn}>
+    <FABButton
+      onClick={onClick}
+      disabled={direction == 'back' && pagenum < 2}
+      colored
+      >
+      <Icon name={`arrow_${direction}`}/>
+    </FABButton>
+  </div>
+)
+
 export class Chapter extends Component {
   static propTypes = {
     chapter: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    manga: PropTypes.object,
     location: PropTypes.object.isRequired,
     getChapter: PropTypes.func.isRequired,
     getList: PropTypes.func.isRequired,
@@ -85,7 +96,10 @@ export class Chapter extends Component {
         this.changePage(1, chapternum + 1)
       }
     }
-    if(this.props.manga != newProps.manga || isNewChapter){
+
+    const isNewPage = this.props.params.pagenum != newProps.params.pagenum
+
+    if(isNewChapter ||isNewPage || isChapterLoaded){
       this.setHeaderTitle(newProps)
     }
 
@@ -104,18 +118,9 @@ export class Chapter extends Component {
       document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
   }
-  _renderHeaderTitle(props){
-    return (
-      <span className={s.headerTitle}>
-        {props.manga ? props.manga.title : 'Manga'}
-        <HardwareArrowBack/>
-        {`Chapter ${props.params.chapternum}`}
-      </span>
-    )
-  }
   setHeaderTitle(props=this.props){
     props.changeHeader({
-      title: this._renderHeaderTitle(props),
+      title: props.params.pagenum + '/' + props.chapter.items.length,
       parentPath: `/manga/${props.params.mangaid}`,
     })
   }
@@ -232,17 +237,11 @@ export class Chapter extends Component {
           title={`SB - Ch. ${chapternum} - P. ${pagenum}`}
           />
         <div className={s.container} ref="container">
-          {!isTouchAvailable && (
-            <div className={s.controlBtn}>
-              <FloatingActionButton
-                onClick={this.handlePreviousPage}
-                disabled={pagenum < 2}
-                secondary
-                >
-                <ArrowBack/>
-              </FloatingActionButton>
-            </div>
-          )}
+          {!isTouchAvailable && <ControlBtn
+            pagenum={pagenum}
+            direction="back"
+            onClick={this.handlePreviousPage}
+            />}
           {isChapterLoaded && chapter.items[pagenum -1] ? (
             <Hammer
               onTap={this.handleTap}
@@ -253,7 +252,7 @@ export class Chapter extends Component {
                 ref="pageContainer"
                 className={toClass([s.pageContainer, isTouchAvailable && s.touchAvailable])}
                 >
-                <Paper className={s.paper} zDepth={2}>
+                <Card className={s.paper} shadow={2}>
                   <img
                     draggable={false}
                     className={s.img}
@@ -262,7 +261,7 @@ export class Chapter extends Component {
                     referrerPolicy="no-referrer"
                     ref="img"
                     />
-                </Paper>
+                </Card>
               </div>
             </Hammer>
           ) : (
@@ -272,16 +271,11 @@ export class Chapter extends Component {
               <Loading/>
             </div>
           )}
-          {!isTouchAvailable && (
-            <div className={s.controlBtn}>
-              <FloatingActionButton
-                onClick={this.handleNextPage}
-                secondary
-                >
-                <ArrowForward/>
-              </FloatingActionButton>
-            </div>
-          )}
+          {!isTouchAvailable && <ControlBtn
+            pagenum={pagenum}
+            direction="forward"
+            onClick={this.handleNextPage}
+            />}
         </div>
       </section>
     )
@@ -292,14 +286,12 @@ const PureChapter = onlyUpdateForKeys([
   'location',
   'chapter',
   'params',
-  'manga',
   'location',
 ])(Chapter)
 
 export default connect(
-  (state, {params}) => ({
+  (state) => ({
     chapter: chapterSelector(state),
-    manga: state.mangaTable.items[parseInt(params.mangaid)],
   }),
   {
     ...chapterActionCreators,
