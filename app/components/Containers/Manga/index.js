@@ -18,19 +18,22 @@ import mangaSelector from 'redux/selectors/manga'
 import s from './styles.scss'
 
 import Loading from 'components/Modules/Loading'
-import Avatar from 'material-ui/Avatar'
-import { ListItem } from 'material-ui/List'
-import ActionFavorite from 'material-ui/svg-icons/action/favorite'
-import ActionFavoriteBorder from 'material-ui/svg-icons/action/favorite-border'
+import {
+  List,
+  ListItem,
+  ListItemContent,
+  ListItemAction,
+} from 'react-mdl/lib/List'
 import Check from 'material-ui/svg-icons/navigation/Check'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
+
 import {
   Card,
-  CardHeader,
   CardText,
   CardTitle,
-} from 'material-ui/Card'
-import Chip from 'material-ui/Chip'
+} from 'react-mdl/lib/Card'
+import { Chip } from 'react-mdl/lib/Chip'
+import FABButton from 'react-mdl/lib/FABButton'
+import Icon from 'react-mdl/lib/Icon'
 
 export class Manga extends Component {
   static propTypes = {
@@ -138,9 +141,26 @@ export class Manga extends Component {
   render() {
     const { manga, progress, isFavoritesItem, params } = this.props
 
+    const actionButton = (
+      <div className={s.actionButtonContainer}>
+        <FABButton
+          onClick={this.handleToFavoritesAction}
+          colored
+          style={{
+            backgroundColor: isFavoritesItem ? theme.palette.primary3Color : theme.palette.accent1Color,
+          }}
+          >
+          <Icon name={isFavoritesItem ? 'favorite_border' : 'favorite'} />
+        </FABButton>
+      </div>
+    )
+
     const avatarStyle = (chapternum) => ({
-      left: 8,
       backgroundColor: chapternum == progress.chapternum ? theme.palette.accent1Color : theme.palette.primary3Color,
+      fontSize: '1.4em',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     })
 
     if(manga.details.mangaid){
@@ -169,27 +189,16 @@ export class Manga extends Component {
                 className={s.cover}
                 />
             )}
+            {actionButton}
           </div>
-          <Card className={s.card} zDepth={3} expanded={!isFavoritesItem}>
-            <FloatingActionButton
-              className={s.actionButton}
-              onTouchTap={this.handleToFavoritesAction}
-              backgroundColor={isFavoritesItem ? theme.palette.primary3Color : theme.palette.accent1Color}
-              >
-              {isFavoritesItem ? (
-                <ActionFavoriteBorder/>
-              ) : (
-                <ActionFavorite/>
-              )}
-            </FloatingActionButton>
-            <CardHeader className={s.cardHeader}>
-              <CardTitle
-                title={details.title}
-                subtitle={details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}
-                />
-            </CardHeader>
-            {details.genres && details.summary && (
-              <CardText expandable>
+          <Card className={s.card} shadow={3}>
+            {actionButton}
+            <CardTitle className={s.titleContainer}>
+              <span className={s.title}>{details.title}</span>
+              <span className={s.subtitle}>{details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}</span>
+            </CardTitle>
+            {!isFavoritesItem && details.genres && details.summary && (
+              <CardText>
                 <div className={s.detailsContainer}>
                   <strong>Genres </strong>
                   <div className={s.genreSection}>
@@ -217,7 +226,7 @@ export class Manga extends Component {
                   )}
 
                   {chapters && chapters.length > 0 && (
-                    <div className={s.chapterList}>
+                    <List className={s.chapterList}>
                       <AutoSizer disableHeight>
                         {({ width }) => (
                           <WindowScroller>
@@ -227,29 +236,31 @@ export class Manga extends Component {
                                 height={height}
                                 width={width}
                                 rowCount={chapters.length}
-                                rowHeight={56}
+                                rowHeight={72}
                                 scrollTop={scrollTop}
                                 isScrolling={isScrolling}
                                 rowRenderer={
                                   ({ index }) => {
                                     const { chapternum, title } = chapters[index]
+                                    const roundedChapterNum = Math.round(chapternum * 100) / 100
                                     return (
                                       <Link
                                         to={`/manga/${details.mangaid}/${chapternum}/${progress.chapternum == chapternum ? progress.pagenum + 1 : 1}?source=${manga.source}`}
                                         key={chapternum}
                                         className={s.chapterItem}
                                         >
-                                        <ListItem
-                                          leftAvatar={
-                                            <Avatar
-                                              style={avatarStyle(chapternum)}
-                                              >
-                                              {Math.round(chapternum * 100) / 100}
-                                            </Avatar>
-                                          }
-                                          >
-                                          <div className={s.chapterItemContainer}>
-                                            <span>{title}</span>
+                                        <ListItem>
+                                          <ListItemContent
+                                            avatar={
+                                              <div
+                                                style={avatarStyle(chapternum)}
+                                                >
+                                                {roundedChapterNum}
+                                              </div>
+                                            }
+                                            >
+                                            {title != roundedChapterNum && title}</ListItemContent>
+                                          <ListItemAction>
                                             {chapternum == progress.chapternum && (
                                               <span
                                                 className={s.chapterItemProgressPage}
@@ -261,7 +272,7 @@ export class Manga extends Component {
                                               </span>
                                             )}
                                             {chapternum < progress.chapternum && <Check/>}
-                                          </div>
+                                          </ListItemAction>
                                         </ListItem>
                                       </Link>
                                     )
@@ -272,7 +283,7 @@ export class Manga extends Component {
                           </WindowScroller>
                         )}
                       </AutoSizer>
-                    </div>
+                    </List>
                   )}
                 </CardText>
               )}
