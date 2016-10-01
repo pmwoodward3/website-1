@@ -16,7 +16,7 @@ export const MANGA_ITEM_CARD_WIDTH = 100 + (margin * 2)
 
 export const MAX_SECTION_ROWS = 2
 
-export const MAIN_SOURCE = 'mangaeden'
+export const MAIN_SOURCE = 'mangafox'
 
 export const GENRE_LIST = [
   'Action',
