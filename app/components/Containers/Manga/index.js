@@ -5,7 +5,6 @@ import Helmet from 'react-helmet'
 import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
 import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
-import toClass from 'utils/toClass'
 import { MOCKS } from 'constants'
 
 import * as headerActions from 'redux/actions/header'
@@ -44,9 +43,6 @@ export class Manga extends Component {
     isFavoritesItem: PropTypes.bool.isRequired,
     offline: PropTypes.bool.isRequired,
     getManga: PropTypes.func.isRequired,
-    fullCoverLoadFailure: PropTypes.func.isRequired,
-    fullCoverLoadSuccess: PropTypes.func.isRequired,
-    fullCoverLoadRequest: PropTypes.func.isRequired,
     addFavoritesItem: PropTypes.func.isRequired,
     removeFavoritesItem: PropTypes.func.isRequired,
     changeHeader: PropTypes.func.isRequired,
@@ -60,8 +56,6 @@ export class Manga extends Component {
     this.handleSourceChange = this.handleSourceChange.bind(this)
     this.handleMangaChange = this.handleMangaChange.bind(this)
     this.handleToFavoritesAction = this.handleToFavoritesAction.bind(this)
-    this.handleFullCoverLoad = this.handleFullCoverLoad.bind(this)
-    this.handleFullCoverFailure = this.handleFullCoverFailure.bind(this)
   }
   componentDidMount(){
     this.handleMangaChange()
@@ -107,10 +101,7 @@ export class Manga extends Component {
       location,
       offline,
       getManga,
-      fullCoverLoadRequest,
     } = props
-
-    fullCoverLoadRequest()
 
     if(offline){
       return
@@ -131,12 +122,6 @@ export class Manga extends Component {
       })
     }
   }
-  handleFullCoverLoad(){
-    this.props.fullCoverLoadSuccess(this.props.manga.details.mangaid)
-  }
-  handleFullCoverFailure(){
-    this.props.fullCoverLoadFailure(this.props.manga.details.mangaid)
-  }
 
   render() {
     const { manga, progress, isFavoritesItem, params } = this.props
@@ -145,10 +130,10 @@ export class Manga extends Component {
       <div className={s.actionButtonContainer}>
         <FABButton
           onClick={this.handleToFavoritesAction}
-          colored
           style={{
             backgroundColor: isFavoritesItem ? theme.palette.primary3Color : theme.palette.accent1Color,
           }}
+          colored
           >
           <Icon name={isFavoritesItem ? 'favorite_border' : 'favorite'} />
         </FABButton>
@@ -165,38 +150,41 @@ export class Manga extends Component {
 
     if(manga.details.mangaid){
       const { details, chapters, sources } = manga
+
+      const fullCover = `http://mcd.iosphe.re/r/${params.mangaid}/1/full/a/`
+      const fullFrontCover = `http://mcd.iosphe.re/t/${params.mangaid}/1/front/a/`
+      const coverCardStyle = {
+        backgroundImage: `url(${fullFrontCover}), url(${details.cover})`,
+      }
+
       return (
         <section className={s.root}>
           <Helmet
             title={details.title ? `SB - ${details.title}` : 'SB'}
             />
-
-          <div className={s.coverContainer}>
-            {manga.fullCoverAvailable ? (
-              <img
-                draggable={false}
-                src={`http://mcd.iosphe.re/r/${params.mangaid}/1/full/a/`}
-                referrerPolicy="no-referrer"
-                className={toClass([s.cover, s.fullCover])}
-                onLoad={this.handleFullCoverLoad}
-                onError={this.handleFullCoverFailure}
-                />
-            ) : (
-              <img
-                draggable={false}
-                src={details.cover}
-                referrerPolicy="no-referrer"
-                className={s.cover}
-                />
-            )}
+          <Card shadow={3} className={s.backgroundContainer}>
+            <img
+              draggable={false}
+              src={fullCover}
+              referrerPolicy="no-referrer"
+              className={s.backgroundCover}
+              />
             {actionButton}
-          </div>
+          </Card>
           <Card className={s.card} shadow={3}>
             {actionButton}
-            <CardTitle className={s.titleContainer}>
-              <span className={s.title}>{details.title}</span>
-              <span className={s.subtitle}>{details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}</span>
-            </CardTitle>
+            <div className={s.cardHeader}>
+              <Card
+                shadow={3}
+                className={s.coverCard}
+                style={coverCardStyle}
+                referrerPolicy="no-referrer"
+                />
+              <CardTitle className={s.titleContainer}>
+                <span className={s.title}>{details.title}</span>
+                <span className={s.subtitle}>{details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}</span>
+              </CardTitle>
+            </div>
             {!isFavoritesItem && details.genres && details.summary && (
               <CardText>
                 <div className={s.detailsContainer}>
