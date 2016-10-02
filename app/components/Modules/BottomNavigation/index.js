@@ -1,17 +1,17 @@
 import React, { PropTypes } from 'react'
 import { browserHistory } from 'react-router'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
+import toClass from 'utils/toClass'
 
 import ActionHome from 'material-ui/svg-icons/action/home'
 import ActionFavorite from 'material-ui/svg-icons/action/favorite'
 
-import { BottomNavigation as BotNav, BottomNavigationItem } from 'material-ui/BottomNavigation'
-import Paper from 'material-ui/Paper'
+import { Card } from 'react-mdl/lib/Card'
+import IconButton from 'react-mdl/lib/IconButton'
 
-/* component styles */
 import s from './styles.scss'
 
-const handleTouchTap = (path) => () => browserHistory.push(path)
+const handleClick = (path) => () => browserHistory.push(path)
 
 const items = [
   {
@@ -26,29 +26,28 @@ const items = [
   },
 ]
 
-function selectedIndex(location) {
-  const result = items
-  .filter(({path}) => path == location.pathname)
+export const BottomNavigation = ({location}) => {
+  let selectedIndex = items.filter(({path}) => path == location.pathname)[0]
+  selectedIndex = !!selectedIndex && selectedIndex.path
 
-  return result.length > 0
-  ? items.indexOf(result[0])
-  : undefined
-}
-
-export const BottomNavigation = ({location}) => (
-  <Paper zDepth={3} className={s.root}>
-    <BotNav selectedIndex={selectedIndex(location)}>
+  return (
+    <Card shadow={3} className={s.root}>
       {items.map(({label, path, icon}) => (
-        <BottomNavigationItem
-          key={path}
-          label={label}
-          icon={icon}
-          onTouchTap={handleTouchTap(path)}
-          />
+        <div
+          className={toClass(s.navItem, selectedIndex == path && s.active)}
+          onClick={handleClick(path)}
+          >
+          <IconButton
+            key={path}
+            name={icon}
+            className={s.iconButton}
+            />
+          {label}
+        </div>
       ))}
-    </BotNav>
-  </Paper>
-)
+    </Card>
+  )
+}
 
 BottomNavigation.propTypes = {
   location: PropTypes.object,
