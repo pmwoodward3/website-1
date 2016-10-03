@@ -250,7 +250,7 @@ export class Chapter extends Component {
               >
               <div
                 ref="pageContainer"
-                className={toClass([s.pageContainer, isTouchAvailable && s.touchAvailable])}
+                className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable)}
                 >
                 <Card className={s.paper} shadow={2}>
                   <img
@@ -266,7 +266,7 @@ export class Chapter extends Component {
             </Hammer>
           ) : (
             <div
-              className={toClass([s.pageContainer, isTouchAvailable && s.touchAvailable])}
+              className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable)}
               >
               <Loading/>
             </div>

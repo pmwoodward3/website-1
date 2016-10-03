@@ -4,8 +4,6 @@ import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import { uniq } from 'ramda'
 import { MANGA_ITEM_CARD_WIDTH } from 'constants'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import theme from 'components/Root/theme'
 
 import * as headerActions from 'redux/actions/header'
 import * as homeActions from 'redux/actions/home'
@@ -39,20 +37,12 @@ export class Home extends Component {
     closeSection: PropTypes.func.isRequired,
     setSectionRowLength: PropTypes.func.isRequired,
   };
-  static childContextTypes = {
-    muiTheme: PropTypes.object.isRequired,
-  };
 
   constructor(props){
     super(props)
     this.updateLists = this.updateLists.bind(this)
     this.handleExpand = this.handleExpand.bind(this)
     this.setSectionRowLength = this.setSectionRowLength.bind(this)
-  }
-  getChildContext(){
-    return ({
-      muiTheme: getMuiTheme(theme),
-    })
   }
   componentDidMount() {
     this.setSectionRowLength()

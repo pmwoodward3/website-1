@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import theme from 'components/Root/theme'
 
 import * as headerActions from 'redux/actions/header'
 import { favorites as favoritesSelector } from 'redux/selectors/favorites'
@@ -11,22 +9,14 @@ import { favorites as favoritesSelector } from 'redux/selectors/favorites'
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { Card, CardTitle, CardText } from 'react-mdl/lib/Card'
 
 export class Favorites extends Component {
   static propTypes = {
     favorites: PropTypes.object.isRequired,
     changeHeader: PropTypes.func.isRequired,
   };
-  static childContextTypes = {
-    muiTheme: PropTypes.object.isRequired,
-  };
 
-  getChildContext(){
-    return ({
-      muiTheme: getMuiTheme(theme),
-    })
-  }
   componentDidMount(){
     this.props.changeHeader({
       title: 'Favorites',
@@ -42,7 +32,7 @@ export class Favorites extends Component {
         <div className={s.section}>
           {(favorites.isLoaded && favorites.items.length < 1) && (
             <Card
-              zDepth={2}
+              shadow={2}
               className={s.welcome}
               >
               <CardTitle>Woops</CardTitle>

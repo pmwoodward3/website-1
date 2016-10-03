@@ -1,14 +1,15 @@
-import {
-  indigo500, indigo700,
-  pinkA200,
-  grey100, grey300, grey400, grey500,
-  white, darkBlack, fullBlack,
-} from 'material-ui/styles/colors'
-import {fade} from 'material-ui/utils/colorManipulator'
-import spacing from 'material-ui/styles/spacing'
+const indigo500 = '#4054b2'
+const indigo700 = '#31429d'
+const grey100 = '#f5f5f5'
+const grey300 = '#e0e0e0'
+const grey400 = '#bdbdbd'
+const grey500 = '#9e9e9e'
+const pinkA200 = '#fc4482'
+const darkBlack = '#212121'
+const fullBlack = '#000'
+const white = '#fff'
 
 export default {
-  spacing,
   fontFamily: 'Roboto, sans-serif',
   palette: {
     primary1Color: indigo500,
@@ -21,9 +22,9 @@ export default {
     alternateTextColor: white,
     canvasColor: white,
     borderColor: grey300,
-    disabledColor: fade(darkBlack, 0.3),
+    disabledColor: darkBlack,
     pickerHeaderColor: indigo500,
-    clockCircleColor: fade(darkBlack, 0.07),
+    clockCircleColor: darkBlack,
     shadowColor: fullBlack,
   },
 }

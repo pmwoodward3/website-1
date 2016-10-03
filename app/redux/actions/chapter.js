@@ -6,7 +6,7 @@ export const getChapter = (mangaid, chapternum, source=MAIN_SOURCE) => ({
   url: `manga/${mangaid}/${chapternum}`,
   data: {
     source,
-  }
+  },
 })
 
 export const nextChapterPage = () => ({

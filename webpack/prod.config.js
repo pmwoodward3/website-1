@@ -22,7 +22,6 @@ module.exports = {
       'react-router',
       'react-router-google-analytics',
       'react-tagsinput',
-      'react-tap-event-plugin',
       'react-virtualized',
       'redux',
       'redux-batched-subscribe',

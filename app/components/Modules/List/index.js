@@ -23,11 +23,11 @@ export const List = ({
   return (
     <div
       style={rootStyle}
-      className={toClass([
+      className={toClass(
         s.root,
         expanded && s.expanded,
-        className,
-      ])}
+        className
+      )}
       {...props}
       >
       {slice}

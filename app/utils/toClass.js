@@ -1,3 +1,3 @@
-export default (arr) => arr
+export default (...arr) => arr
 .filter(x => !!x)
 .join('\ ')

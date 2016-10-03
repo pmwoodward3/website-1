@@ -40,7 +40,8 @@
   margin: 0.7em 0;
   flex: 1;
   flex-shrink: 0;
-  width: auto;
+  width: auto !important;
+  min-height: 0 !important;
 }
 
 .sectionTitle {

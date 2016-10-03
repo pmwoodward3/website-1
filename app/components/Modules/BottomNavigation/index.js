@@ -3,9 +3,6 @@ import { browserHistory } from 'react-router'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import toClass from 'utils/toClass'
 
-import ActionHome from 'material-ui/svg-icons/action/home'
-import ActionFavorite from 'material-ui/svg-icons/action/favorite'
-
 import { Card } from 'react-mdl/lib/Card'
 import IconButton from 'react-mdl/lib/IconButton'
 
@@ -17,12 +14,12 @@ const items = [
   {
     label: 'Home',
     path: '/home',
-    icon: <ActionHome/>,
+    icon: 'home',
   },
   {
     label: 'Favorites',
     path: '/favorites',
-    icon: <ActionFavorite/>,
+    icon: 'favorite',
   },
 ]
 
@@ -34,6 +31,7 @@ export const BottomNavigation = ({location}) => {
     <Card shadow={3} className={s.root}>
       {items.map(({label, path, icon}) => (
         <div
+          key={path}
           className={toClass(s.navItem, selectedIndex == path && s.active)}
           onClick={handleClick(path)}
           >

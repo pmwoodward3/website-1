@@ -23,7 +23,6 @@ import {
   ListItemContent,
   ListItemAction,
 } from 'react-mdl/lib/List'
-import Check from 'material-ui/svg-icons/navigation/Check'
 
 import {
   Card,
@@ -152,9 +151,9 @@ export class Manga extends Component {
       const { details, chapters, sources } = manga
 
       const fullCover = `http://mcd.iosphe.re/r/${params.mangaid}/1/full/a/`
-      const fullFrontCover = `http://mcd.iosphe.re/t/${params.mangaid}/1/front/a/`
+      const fullFrontCover = (chapter) => `http://mcd.iosphe.re/t/${details.mangaid}/${chapter}/front/a/`
       const coverCardStyle = {
-        backgroundImage: `url(${fullFrontCover}), url(${details.cover})`,
+        backgroundImage: `url(${fullFrontCover(1)}), url(${fullFrontCover(0)}), url(${details.cover})`,
       }
 
       return (
@@ -166,7 +165,6 @@ export class Manga extends Component {
             <img
               draggable={false}
               src={fullCover}
-              referrerPolicy="no-referrer"
               className={s.backgroundCover}
               />
             {actionButton}
@@ -185,33 +183,35 @@ export class Manga extends Component {
                 <span className={s.subtitle}>{details.artist && details.rating && details.year && `${details.artist} - ${details.year} - ${Math.round(details.rating * 100) / 100}/10`}</span>
               </CardTitle>
             </div>
-            {!isFavoritesItem && details.genres && details.summary && (
-              <CardText>
-                <div className={s.detailsContainer}>
-                  <strong>Genres </strong>
-                  <div className={s.genreSection}>
-                    {details.genres.map((genre) => (
-                      <Chip
-                        key={genre}
-                        className={s.genreChip}
-                        >
-                        {genre}
-                      </Chip>
-                    ))}
+            <CardText>
+              <div className={s.detailsContainer}>
+                {details.genres && (
+                  <div>
+                    <strong>Genres</strong>
+                    <div className={s.genreSection}>
+                      {details.genres.map((genre) => (
+                        <Chip
+                          key={genre}
+                          className={s.genreChip}
+                          >
+                          {genre}
+                        </Chip>
+                      ))}
+                    </div>
                   </div>
-                  <strong>Summary </strong>
-                  <p>{details.summary}</p>
-                </div>
-              </CardText>
-            )}
+                )}
+                {details.summary && (
+                  <div>
+                    <strong>Summary </strong>
+                    <p>{details.summary}</p>
+                  </div>
+                )}
+              </div>
+            </CardText>
             <div className={s.detailsContainer}>
               {(sources && sources.length > 0) && (
                 <CardText className={s.chapterSection}>
-                  {!isFavoritesItem && (
-                    <div className={s.chapterHeader}>
-                      <strong>Chapters</strong>
-                    </div>
-                  )}
+                  <strong>Chapters</strong>
 
                   {chapters && chapters.length > 0 && (
                     <List className={s.chapterList}>
@@ -259,7 +259,7 @@ export class Manga extends Component {
                                                 {`Page ${progress.pagenum}`}
                                               </span>
                                             )}
-                                            {chapternum < progress.chapternum && <Check/>}
+                                            {chapternum < progress.chapternum && <Icon name="check"/>}
                                           </ListItemAction>
                                         </ListItem>
                                       </Link>

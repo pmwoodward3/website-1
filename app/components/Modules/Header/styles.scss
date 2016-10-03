@@ -1,4 +1,5 @@
 @import "values";
+@import "colors";
 
 .root {
   position: fixed;
@@ -17,6 +18,10 @@
   width: 100% !important;
   background-color: transparent !important;
   z-index: 10000 !important;
+
+  & > div {
+    background-color: $accent1Color !important;
+  }
 }
 
 //.mdl-layout__inner-container

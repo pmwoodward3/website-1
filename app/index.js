@@ -23,16 +23,6 @@ export const store = configureStore(initialState)
 import { loadStorage } from 'utils/localforage'
 loadStorage(store.dispatch)
 
-//Listen for connection events
-import connection from 'utils/connection'
-connection(store.dispatch)
-
-//Disable ripple effect
-import EnhancedButton from 'material-ui/internal/EnhancedButton'
-
-EnhancedButton.defaultProps.disableTouchRipple = true
-EnhancedButton.defaultProps.disableFocusRipple = true
-
 //Routing
 
 //Google analytics support for react router

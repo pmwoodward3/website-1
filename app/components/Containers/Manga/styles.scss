@@ -8,23 +8,43 @@
   align-items: center;
 }
 
-$coverHeight: 300px;
+$coverHeight: 250px;
+$mobileCoverHeight: 150px;
 
-.coverContainer {
-  height: $coverHeight;
-  width: 100%;
+.backgroundContainer {
+  $padding: 8px;
+
+  height: $coverHeight + $padding;
+  width: calc(100% + #{$padding});
   position: fixed;
+  overflow: visible;
+  border-radius: 0;
+  margin-top: -($padding / 2);
+  margin-left: -($padding / 2);
+
+  @media screen and (max-width: $maxCardWidth) {
+    height: $mobileCoverHeight;
+  }
 }
 
-.cover {
+.backgroundCover {
   height: 100%;
   width: 100%;
-  background: #BDBDBD;
-  object-fit: contain;
-}
-
-.fullCover {
+  filter: blur(5px);
   object-fit: cover;
+  background-color: $textColor;
+
+  &:before {
+    $padding: 10px;
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $textColor;
+  }
 }
 
 .card {
@@ -38,6 +58,7 @@ $coverHeight: 300px;
 
   @media screen and (max-width: $maxCardWidth) {
     border-radius: 0px;
+    margin-top: $mobileCoverHeight;
   }
 
   @media screen and (min-width: $maxCardWidth) {
@@ -47,6 +68,23 @@ $coverHeight: 300px;
     margin-right: $margin;
   }
 }
+
+.cardHeader {
+  display: flex;
+}
+
+.coverCard {
+  $height: 180px;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 0;
+  height: 180px;
+  width: $height * 0.65;
+  background-size: cover;
+  margin-left: 16px;
+  margin-top: -($height * 0.4);
+}
+
 
 .titleContainer {
   display: flex;
@@ -88,6 +126,10 @@ $actionButtonHeight: 56px;
     }
   }
 
+  @media screen and (max-width: $mobileBreakpoint) {
+    margin-right: 5%;
+  }
+
   @media screen and (min-width: $widthBreakpoint) {
     margin: 0 calc((100% - #{$maxCardWidth} - #{$actionButtonHeight} * 2) / 4);
     top: 0;
@@ -124,12 +166,7 @@ $actionButtonHeight: 56px;
 .chapterList {
   display: flex;
   flex-direction: column;
-}
-
-.chapterHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  margin-top: 0;
 }
 
 .avatar {

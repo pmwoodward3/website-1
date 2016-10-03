@@ -10,8 +10,6 @@ import toClass from 'utils/toClass'
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
 
-import AppBar from 'material-ui/AppBar'
-
 import Link from 'components/Modules/Link'
 import IconButton from 'react-mdl/lib/IconButton'
 import Icon from 'react-mdl/lib/Icon'
@@ -19,17 +17,13 @@ import Button from 'react-mdl/lib/Button'
 import Menu, { MenuItem } from 'react-mdl/lib/Menu'
 import { Layout, Navigation, Header as MdlHeader } from 'react-mdl/lib/Layout'
 import Textfield from 'react-mdl/lib/Textfield'
-import LinearProgress from 'material-ui/LinearProgress'
+import ProgressBar from 'react-mdl/lib/ProgressBar'
 import { Card } from 'react-mdl/lib/Card'
 
 /* component styles */
 import s from './styles.scss'
 
 class Header extends Component {
-  static contextTypes = {
-    muiTheme: PropTypes.object.isRequired,
-  };
-
   static propTypes = {
     loading: PropTypes.number.isRequired,
     search: PropTypes.object.isRequired,
@@ -94,13 +88,12 @@ class Header extends Component {
 
     return (
       <div className={s.root}>
-        <LinearProgress
-          mode="indeterminate"
+        <ProgressBar
           className={s.progress}
-          color={theme.palette.accent1Color}
           style={{
             display: loading ? 'block' : 'none',
           }}
+          indeterminate
           />
         <Layout fixedHeader className={s.layout}>
           <MdlHeader
@@ -170,15 +163,6 @@ class Header extends Component {
             </Navigation>
           </MdlHeader>
         </Layout>
-      </div>
-    )
-    return (
-      <div className={s.root}>
-        <AppBar
-          title={header.title}
-          className={toClass(s.appBar, search.showSearchField && s.showSearchField)}
-          zDepth={2}
-          />
       </div>
     )
   }

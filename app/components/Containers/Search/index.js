@@ -17,11 +17,10 @@ import searchSelector from 'redux/selectors/search'
 
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
-import Paper from 'material-ui/Paper'
-import Chip from 'material-ui/Chip'
+import { Card } from 'react-mdl/lib/Card'
+import Chip from 'react-mdl/lib/Chip'
 import Infinite from 'react-infinite'
 import TagsInput from 'react-tagsinput'
-import AutoComplete from 'material-ui/AutoComplete'
 
 export class Search extends Component {
   static propTypes = {
@@ -113,36 +112,38 @@ export class Search extends Component {
         <Helmet
           title={`SB - Search ${location.query.q}`}
           />
-        <div className={s.header}>
-          <Paper zDepth={1} className={s.genreSection}>
-            <h3 className={s.sectionTitle}>Genre Filter</h3>
-            <TagsInput
-              value={genreTags}
-              className={s.genreList}
-              renderInput={({ref, addTag}) => (
-                <AutoComplete
-                  id="add-genre"
-                  ref={ref}
-                  placeholder="Add genre"
-                  dataSource={GENRE_LIST}
-                  onNewRequest={addTag}
-                  filter={AutoComplete.caseInsensitiveFilter}
-                  />
-              )}
-              renderTag={({key, tag, onRemove, getTagDisplayValue}) => (
-                <Chip
-                  key={key}
-                  className={s.genreChip}
-                  onRequestDelete={() => onRemove(key)}
-                  >
-                  {getTagDisplayValue(tag)}
-                </Chip>
-              )}
-              onChange={(genres) => this.updateGenres(location.query.q, genres)}
-              onlyUnique
-              />
-          </Paper>
-        </div>
+        {
+        // <div className={s.header}>
+        //   <Paper zDepth={1} className={s.genreSection}>
+        //     <h3 className={s.sectionTitle}>Genre Filter</h3>
+        //     <TagsInput
+        //       value={genreTags}
+        //       className={s.genreList}
+        //       renderInput={({ref, addTag}) => (
+        //         <AutoComplete
+        //           id="add-genre"
+        //           ref={ref}
+        //           placeholder="Add genre"
+        //           dataSource={GENRE_LIST}
+        //           onNewRequest={addTag}
+        //           filter={AutoComplete.caseInsensitiveFilter}
+        //           />
+        //       )}
+        //       renderTag={({key, tag, onRemove, getTagDisplayValue}) => (
+        //         <Chip
+        //           key={key}
+        //           className={s.genreChip}
+        //           onRequestDelete={() => onRemove(key)}
+        //           >
+        //           {getTagDisplayValue(tag)}
+        //         </Chip>
+        //       )}
+        //       onChange={(genres) => this.updateGenres(location.query.q, genres)}
+        //       onlyUnique
+        //       />
+        //   </Paper>
+        // </div>
+        }
         <div className={s.container} ref="container">
           <Infinite
             elementHeight={MANGA_ITEM_CARD_HEIGHT}

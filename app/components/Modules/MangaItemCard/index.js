@@ -17,9 +17,6 @@ export class MangaItemCard extends Component {
     source: PropTypes.string,
     flex: PropTypes.bool,
   }
-  static contextTypes = {
-    muiTheme: PropTypes.object.isRequired,
-  }
 
   constructor(props) {
     super(props)

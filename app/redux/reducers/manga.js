@@ -6,7 +6,6 @@ const initialState = {
   details: {},
   sources: Immutable([]),
   chapters: Immutable([]),
-  fullCoverAvailable: true,
   source: MAIN_SOURCE,
   isLoading: true,
 }
@@ -21,12 +20,4 @@ export default createReducer({
     isLoading: false,
   }),
   ['GET_MANGA_FAILURE']: () => initialState,
-  ['FULL_COVER_LOAD_SUCCESS']: (state, { payload }) => (payload.mangaid == state.details.mangaid || state == initialState) ? ({
-    ...state,
-    fullCoverAvailable: true,
-  }) : state,
-  ['FULL_COVER_LOAD_FAILURE']: (state, { payload }) => (payload.mangaid == state.details.mangaid || state == initialState) ? ({
-    ...state,
-    fullCoverAvailable: false,
-  }) : state,
 }, initialState)
