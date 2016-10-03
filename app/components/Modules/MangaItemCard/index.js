@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { browserHistory } from 'react-router'
-import { Card, CardMedia, CardTitle } from 'material-ui/Card'
+import { Card, CardTitle, CardActions } from 'react-mdl/lib/Card'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import toClass from 'utils/toClass'
 
@@ -24,12 +24,6 @@ export class MangaItemCard extends Component {
   constructor(props) {
     super(props)
     this.handleTouchTap = this.handleTouchTap.bind(this)
-    this.handleCoverFailure = this.handleCoverFailure.bind(this)
-    this._renderOverlay = this._renderOverlay.bind(this)
-
-    this.state = {
-      fullCover: true,
-    }
   }
   handleTouchTap(){
     const {
@@ -53,9 +47,12 @@ export class MangaItemCard extends Component {
 
     browserHistory.push(url)
   }
-  _renderOverlay(){
+  render(){
     const {
+      mangaid,
       title,
+      cover,
+      flex,
       chapter,
       chapternum,
       pagenum,
@@ -77,33 +74,25 @@ export class MangaItemCard extends Component {
       subtitle = undefined
     }
 
-    return (
-      <CardTitle
-        title={title}
-        subtitle={subtitle}
-        className={s.title}
-        />
-    )
-  }
-  handleCoverFailure(){
-    this.setState({
-      fullCover: false,
-    })
-  }
-  render(){
-    const { mangaid, cover, flex } = this.props
+    const fullCover = (chapter) => `http://mcd.iosphe.re/t/${mangaid}/${chapter}/front/a/`
+    const cardStyle = {
+      backgroundImage: `url(${fullCover(1)}), url(${fullCover(0)}), url(${cover})`,
+    }
 
     return (
-      <Card className={toClass([s.root, flex && s.flex])} onTouchTap={this.handleTouchTap}>
-        <CardMedia overlay={this._renderOverlay()}>
-          <img
-            draggable={false}
-            src={this.state.fullCover ? `http://mcd.iosphe.re/t/${mangaid}/1/front/a/` : cover}
-            onError={this.handleCoverFailure}
-            referrerPolicy="no-referrer"
-            className={s.cover}
-            />
-        </CardMedia>
+      <Card
+        shadow={0}
+        className={toClass(s.root, flex && s.flex)} onClick={this.handleTouchTap}
+        style={cardStyle}
+        referrerPolicy="no-referrer"
+        >
+        <CardTitle expand />
+        {!!title && (
+          <CardActions className={s.overlay}>
+            <span className={s.title}>{title}</span>
+            {subtitle && <span className={s.subtitle}>{subtitle}</span>}
+          </CardActions>
+        )}
       </Card>
     )
   }
