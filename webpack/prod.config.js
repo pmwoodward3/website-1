@@ -14,8 +14,8 @@ module.exports = {
     vendor: [
       'debounce',
       'localforage',
-      'preact-compat',
-      'preact',
+      'react',
+      'react-dom',
       'react-helmet',
       'react-infinite',
       'react-redux',
@@ -34,10 +34,17 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.s?css$/,
+        test: /\.scss$/,
         loader: ExtractTextPlugin.extract({
           notExtractLoader: 'style-loader',
           loader: 'css?minimize&module&localIdentName=[hash:base64:5]!postcss-loader!sass',
+        }),
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({
+          notExtractLoader: 'style-loader',
+          loader: 'css?minimize',
         }),
       },
     ],
