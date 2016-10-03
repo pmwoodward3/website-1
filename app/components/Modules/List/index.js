@@ -10,7 +10,7 @@ const rootStyle = {
 }
 
 export const List = ({
-  children,
+  children=[],
   className,
   expanded,
   sectionRowLength,
@@ -36,7 +36,7 @@ export const List = ({
 }
 
 List.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   sectionRowLength: PropTypes.number,
   className: PropTypes.string,
   expanded: PropTypes.bool,

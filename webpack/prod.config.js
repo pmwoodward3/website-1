@@ -14,8 +14,8 @@ module.exports = {
     vendor: [
       'debounce',
       'localforage',
-      'react',
-      'react-dom',
+      'preact-compat',
+      'preact',
       'react-helmet',
       'react-infinite',
       'react-redux',

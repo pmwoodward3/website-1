@@ -36,10 +36,13 @@ const common = {
       components: path.join(__dirname, '../app/components/'),
       'redux/actions': path.join(__dirname, '../app/redux/actions'),
       'redux/selectors': path.join(__dirname, '../app/redux/selectors'),
-      constants: path.join(__dirname, '../app/constants/'),
-      utils: path.join(__dirname, '../app/utils/'),
-      test: path.join(__dirname, '../app/test/'),
-      statics: path.join(__dirname, '../app/statics/'),
+      'constants': path.join(__dirname, '../app/constants/'),
+      'utils': path.join(__dirname, '../app/utils/'),
+      'test': path.join(__dirname, '../app/test/'),
+      'statics': path.join(__dirname, '../app/statics/'),
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat',
+      'react-addons-shallow-compare': 'preact-shallow-compare',
     },
   },
 
@@ -59,7 +62,10 @@ const common = {
     }, {
       // Loader for js
       test: /\.js$/,
-      exclude: /node_modules/,
+      include: [
+        path.resolve('app'),
+        path.resolve('node_modules/preact-compat/src'),
+      ],
       loader: 'babel-loader',
     }, {
       // Loader for images (png)
