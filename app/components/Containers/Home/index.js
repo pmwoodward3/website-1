@@ -20,9 +20,8 @@ import popularSelector from 'redux/selectors/popular'
 import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import List from 'components/Modules/List'
-import Paper from 'material-ui/Paper'
-import FlatButton from 'material-ui/FlatButton'
-import { Card, CardTitle, CardText } from 'material-ui/Card'
+import Button from 'react-mdl/lib/Button'
+import { Card, CardTitle, CardText } from 'react-mdl/lib/Card'
 
 export class Home extends Component {
   static propTypes = {
@@ -76,7 +75,7 @@ export class Home extends Component {
     }
   }
   setSectionRowLength(){
-    const sectionList = document.getElementById('sectionList')
+    const sectionList = this.refs.sectionContainer
     const widths = [
       sectionList && sectionList.clientWidth,
       document.documentElement.clientWidth,
@@ -194,45 +193,46 @@ export class Home extends Component {
         <Helmet
           title="SB - Home"
           />
-        {(readingHistory.items.length < 1 && readingHistory.isLoaded && rawFavorites.isLoaded && rawFavorites.items.length < 1) && (
-          <Card
-            zDepth={2}
-            className={s.welcome}
-            >
-            <CardTitle>Welcome</CardTitle>
-            <CardText>Favorite mangas and start reading. Your reading history and personal recommendations will be shown here.</CardText>
-          </Card>
-        )}
-        {sections.map(({key, show, title, items, renderItem}) => show && (
-          <Paper
-            key={key}
-            zDepth={2}
-            className={s.section}
-            ref={key}
-            >
-            <h3 className={s.sectionTitle}>
-              {title}
-              {items.length > home.sectionRowLength && (
-                <FlatButton
-                  className={home.expandedSections[key] ? s.contractButton : s.expandButton}
-                  label={home.expandedSections[key] ? 'Less' : 'More'}
-                  onTouchTap={() => this.handleExpand(key)}
-                  primary
-                  />
-              )}
-            </h3>
-            <List
-              expanded={home.expandedSections[key]}
-              sectionRowLength={home.sectionRowLength}
-              id="sectionList"
+        <div ref="sectionContainer" className={s.sectionContainer}>
+          {(readingHistory.items.length < 1 && readingHistory.isLoaded && rawFavorites.isLoaded && rawFavorites.items.length < 1) && (
+            <Card
+              shadow={2}
+              className={s.welcome}
               >
-              {items.map((x) => renderItem({
-                ...x,
-                flex: items.length >= home.sectionRowLength,
-              }))}
-            </List>
-          </Paper>
-        ))}
+              <CardTitle>Welcome</CardTitle>
+              <CardText>Favorite mangas and start reading. Your reading history and personal recommendations will be shown here.</CardText>
+            </Card>
+          )}
+          {sections.map(({key, show, title, items, renderItem}) => show && (
+            <Card
+              key={key}
+              shadow={2}
+              className={s.section}
+              >
+              <h3 className={s.sectionTitle}>
+                {title}
+                {items.length > home.sectionRowLength && (
+                  <Button
+                    className={home.expandedSections[key] ? s.contractButton : s.expandButton}
+                    onClick={() => this.handleExpand(key)}
+                    primary
+                    >
+                    {home.expandedSections[key] ? 'Less' : 'More'}
+                  </Button>
+                )}
+              </h3>
+              <List
+                expanded={home.expandedSections[key]}
+                sectionRowLength={home.sectionRowLength}
+                >
+                {items.map((x) => renderItem({
+                  ...x,
+                  flex: items.length >= home.sectionRowLength && !home.expandedSections[key],
+                }))}
+              </List>
+            </Card>
+          ))}
+        </div>
       </section>
     )
   }

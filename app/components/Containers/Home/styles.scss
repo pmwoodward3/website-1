@@ -1,11 +1,46 @@
+@import "values";
+@import "colors";
+
 .root {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+//
+// $backgroundHeight: 150px;
+//
+// .backgroundContainer {
+//   height: $backgroundHeight;
+//   width: 100%;
+//   position: fixed;
+//   background-color: $primary1Color;
+//   border-radius: 0;
+//   overflow: visible;
+//
+//   @media screen and (max-width: $mobileBreakpoint) {
+//     height: 0px;
+//     background-color: transparent;
+//   }
+// }
+
+.sectionContainer {
+  // margin-top: $backgroundHeight * 0.3;
+  width: 100%;
+  max-width: $maxCardWidth;
+
+  @media screen and (max-width: $mobileBreakpoint) {
+    border-radius: none;
+    margin: 0 0.4em;
+  }
 }
 
 .section, .welcome {
-  margin: 0.7em;
   padding: 0.4em;
+  margin: 0.7em 0;
+  flex: 1;
   flex-shrink: 0;
+  width: auto;
 }
 
 .sectionTitle {
@@ -14,7 +49,6 @@
   align-items: center;
 
   padding: 0 0.5em;
-  margin-top: 0.3em;
-  margin-bottom: 0.1em;
+  margin: 0.1em 0;
   font-size: 1em;
 }
