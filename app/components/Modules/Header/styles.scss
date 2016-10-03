@@ -5,44 +5,9 @@
   width: 100%;
   top: 0;
   left: 0;
+  color: #fff !important;
+  height: $headerHeight;
   z-index: 1000 !important;
-
-  svg {
-    color: #fff !important;
-  }
-}
-
-.appBar {
-  height: $headerHeight !important;
-  display: flex !important;
-  align-items: center;
-
-  & > div {
-    margin-top: 0 !important;
-  }
-
-  & > h1, & > div:nth-last-child(2) {
-    height: $headerHeight !important;
-    line-height: $headerHeight !important;
-    font-size: 1.4em !important;
-  }
-}
-
-.showSearchField > div:nth-last-of-type(1){
-  flex: 10000 !important;
-}
-
-.searchSection {
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-}
-
-.searchField {
-  padding: 0 10px;
-  margin-right: 5px;
-  display: flex;
-  flex: 1;
 }
 
 .progress {
@@ -54,10 +19,41 @@
   z-index: 10000 !important;
 }
 
-.headerButton {
-  color: #fff !important;
+//.mdl-layout__inner-container
+.layout > div{
+  overflow-y: visible;
+  overflow-x: visible;
 }
 
-.menuItem {
+.header {
+  height: $headerHeight;
+
+  //.mdl-layout__header-row
+  & > div{
+    height: $headerHeight !important;
+    padding: 0 20px;
+    @media screen and (min-width: $mobileBreakpoint) {
+      padding: 0 80px;
+    }
+  }
+}
+
+.sourceMenuButton {
+  color: #fff !important;
+
+  &>i {
+    margin-right: 5px;
+  }
+}
+
+.sourceMenuItem {
   text-transform: capitalize;
+}
+
+.leftNavigation {
+  order: -1;
+  & > div {
+    padding: 0 !important;
+    padding-right: 10px !important;
+  }
 }

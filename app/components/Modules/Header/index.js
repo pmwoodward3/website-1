@@ -10,22 +10,17 @@ import toClass from 'utils/toClass'
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
 
-import IconButton from 'material-ui/IconButton'
-import FlatButton from 'material-ui/FlatButton'
-import ActionSearch from 'material-ui/svg-icons/action/search'
-import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back'
-import ActionHome from 'material-ui/svg-icons/action/home'
-import LinearProgress from 'material-ui/LinearProgress'
 import AppBar from 'material-ui/AppBar'
-import TextField from 'material-ui/TextField'
-import Paper from 'material-ui/Paper'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
-import ActionInput from 'material-ui/svg-icons/action/input'
-import ActionZoomOut from 'material-ui/svg-icons/action/zoom-out'
-import NavigationFullScreen from 'material-ui/svg-icons/navigation/fullscreen'
-import NavigationFullScreenExit from 'material-ui/svg-icons/navigation/fullscreen-exit'
+
 import Link from 'components/Modules/Link'
+import IconButton from 'react-mdl/lib/IconButton'
+import Icon from 'react-mdl/lib/Icon'
+import Button from 'react-mdl/lib/Button'
+import Menu, { MenuItem } from 'react-mdl/lib/Menu'
+import { Layout, Navigation, Header as MdlHeader } from 'react-mdl/lib/Layout'
+import Textfield from 'react-mdl/lib/Textfield'
+import LinearProgress from 'material-ui/LinearProgress'
+import { Card } from 'react-mdl/lib/Card'
 
 /* component styles */
 import s from './styles.scss'
@@ -57,7 +52,8 @@ class Header extends Component {
     this.zoomOut = this.zoomOut.bind(this)
     this.handleFullscreen = this.handleFullscreen.bind(this)
   }
-  handleSearchQueryChange(e, val){
+  handleSearchQueryChange(e){
+    const val = e.target.value
     this.props.changeSearchQuery(val)
     this.updateQueryLocation(val)
   }
@@ -101,85 +97,87 @@ class Header extends Component {
         <LinearProgress
           mode="indeterminate"
           className={s.progress}
-          color={this.context.muiTheme.flatButton.secondaryTextColor}
+          color={theme.palette.accent1Color}
           style={{
             display: loading ? 'block' : 'none',
           }}
           />
+        <Layout fixedHeader className={s.layout}>
+          <MdlHeader
+            title={header.title}
+            className={s.header}
+            >
+            <Navigation className={s.leftNavigation}>
+              <Link to={header.parentPath} disabled={header.parentPath == location.pathname}>
+                <IconButton
+                  name={header.parentPath == '/home' ? 'home' : 'arrow_back'}
+                  disabled={header.parentPath == location.pathname}
+                  />
+              </Link>
+            </Navigation>
+            <Navigation>
+              {search.showSearchField && (
+                <Textfield
+                  label=""
+                  placeholder="Search..."
+                  value={search.query}
+                  onChange={this.handleSearchQueryChange}
+                  autoFocus
+                  />
+              )}
+                {header.showZoomOutButton && (
+                  <IconButton
+                    name="zoom_out"
+                    onClick={this.zoomOut}
+                    />
+                )}
+                {header.showSourceButton ? (
+                  <div style={{position: 'relative'}}>
+                    <Button id="source-menu" className={s.sourceMenuButton}>
+                      <Icon name="input" />
+                      Source
+                    </Button>
+                    <Menu target="source-menu" align="right">
+                      {manga.sources.map(({sourceslug}) => (
+                        <MenuItem
+                          key={sourceslug}
+                          style={{
+                            color: sourceslug == manga.source ? theme.palette.accent1Color : '',
+                          }}
+                          className={s.sourceMenuItem}
+                          onClick={() => browserHistory.push(`/manga/${params.mangaid}?source=${sourceslug}`)}
+                          >{sourceslug}</MenuItem>
+                      ))}
+                    </Menu>
+                  </div>
+                ) : header.showFullScreenButton ? (
+                  <IconButton
+                    name={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                    onClick={this.handleFullscreen}
+                    />
+                ) : (
+                  <Link
+                    to="/search"
+                    disabled={search.showSearchField || offline}
+                    className={s.searchLink}
+                    >
+                    <IconButton
+                      name="search"
+                      disabled={search.showSearchField || offline}
+                      />
+                  </Link>
+                )}
+            </Navigation>
+          </MdlHeader>
+        </Layout>
+      </div>
+    )
+    return (
+      <div className={s.root}>
         <AppBar
           title={header.title}
-          className={toClass([s.appBar, search.showSearchField && s.showSearchField])}
+          className={toClass(s.appBar, search.showSearchField && s.showSearchField)}
           zDepth={2}
-          iconElementLeft={
-            <Link to={header.parentPath} disabled={header.parentPath == location.pathname}>
-              <IconButton disabled={header.parentPath == location.pathname}>
-                {header.parentPath == '/home' ? (
-                  <ActionHome/>
-                ) : (
-                  <NavigationArrowBack />
-                )}
-              </IconButton>
-            </Link>
-          }
-          iconElementRight={
-            <div className={s.searchSection}>
-              {search.showSearchField && (
-                <Paper zDepth={0} className={s.searchField}>
-                  <TextField
-                    id="searchField"
-                    placeholder="Type something..."
-                    value={search.query}
-                    onChange={this.handleSearchQueryChange}
-                    fullWidth
-                    autoFocus
-                    />
-                </Paper>
-              )}
-              {header.showZoomOutButton && (
-                <IconButton onTouchTap={this.zoomOut}>
-                  <ActionZoomOut/>
-                </IconButton>
-              )}
-              {header.showSourceButton ? (
-                <IconMenu
-                  iconButtonElement={
-                    <FlatButton
-                      label="Source"
-                      className={s.headerButton}
-                      icon={<ActionInput color="#fff"/>}
-                      />
-                  }
-                  targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                  anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                  >
-                  {manga.sources.map(({sourceslug}) => (
-                    <MenuItem
-                      key={sourceslug}
-                      primaryText={sourceslug}
-                      style={{
-                        color: sourceslug == manga.source ? theme.palette.accent1Color : '',
-                      }}
-                      onTouchTap={() => browserHistory.push(`/manga/${params.mangaid}?source=${sourceslug}`)}
-                      />
-                  ))}
-                </IconMenu>
-              ) : header.showFullScreenButton ? (
-                <IconButton onTouchTap={this.handleFullscreen}>
-                  {fullscreen ? (
-                    <NavigationFullScreenExit/>
-                  ) : (
-                    <NavigationFullScreen/>
-                  )}
-                </IconButton>
-              ) : (
-                <Link to="/search" disabled={offline}>
-                  <IconButton disabled={search.showSearchField || offline}>
-                    <ActionSearch/>
-                  </IconButton>
-                </Link>
-              )}
-            </div>
-          }
           />
       </div>
     )
