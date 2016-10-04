@@ -40,6 +40,17 @@
     @media screen and (min-width: $mobileBreakpoint) {
       padding: 0 80px;
     }
+
+    & > span {
+      width: auto;
+      flex: 100;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+      word-wrap: break-word;
+      white-space: nowrap;
+    }
   }
 }
 
