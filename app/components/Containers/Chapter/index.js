@@ -155,8 +155,10 @@ export class Chapter extends Component {
 
     setScale(1)
 
-    this.refs.pageContainer.scrollTop = 0
-    this.refs.pageContainer.scrollLeft = 0
+    if(this.refs.pageContainer){
+      this.refs.pageContainer.scrollTop = 0
+      this.refs.pageContainer.scrollLeft = 0
+    }
 
     if(chapter.items.length > 0 && !isNaN(chapternum) && !isNaN(pagenum) && !isNaN(mangaid)){
       addReadingHistory({
