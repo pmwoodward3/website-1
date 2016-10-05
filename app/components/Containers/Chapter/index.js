@@ -61,6 +61,7 @@ export class Chapter extends Component {
     this.handleFullScreenChange = this.handleFullScreenChange.bind(this)
     this.handleTap = this.handleTap.bind(this)
     this.handleSwipe = this.handleSwipe.bind(this)
+    this.handleKeyup = this.handleKeyup.bind(this)
   }
   componentDidMount(){
     const { params, changeHeader } = this.props
@@ -76,6 +77,8 @@ export class Chapter extends Component {
     }
 
     this.setHeaderTitle()
+
+    document.addEventListener('keyup', this.handleKeyup)
   }
   componentWillUpdate(newProps){
     const isNewManga = this.props.params.mangaid != newProps.params.mangaid
@@ -117,6 +120,8 @@ export class Chapter extends Component {
       })
       document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
+
+    document.removeEventListener('keyup', this.handleKeyup)
   }
   setHeaderTitle(props=this.props){
     props.changeHeader({
@@ -214,6 +219,13 @@ export class Chapter extends Component {
     if(e.velocityX > 0){
       this.handlePreviousPage()
     }else{
+      this.handleNextPage()
+    }
+  }
+  handleKeyup({code}){
+    if(code == 'ArrowLeft'){
+      this.handlePreviousPage()
+    }else if (code == 'ArrowRight') {
       this.handleNextPage()
     }
   }
