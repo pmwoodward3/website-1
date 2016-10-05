@@ -19,6 +19,7 @@ $cardHeaderBreakpoint: 550px;
   position: fixed;
   overflow: visible;
   border-radius: 0;
+  left: 0;
 
   @media screen and (min-width: $cardHeaderBreakpoint) {
     height: $coverHeight;
