@@ -184,7 +184,9 @@ export class Chapter extends Component {
   }
   handlePreviousPage(){
     const pagenum = parseInt(this.props.params.pagenum)
-    if(!isNaN(pagenum)) this.changePage(pagenum - 1)
+    if(pagenum > 1 && !isNaN(pagenum)){
+      this.changePage(pagenum - 1)
+    }
   }
   handleTap(e){
     const bb = e.target.getBoundingClientRect()
