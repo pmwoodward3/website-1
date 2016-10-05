@@ -7,25 +7,8 @@
   flex-direction: column;
   align-items: center;
 }
-//
-// $backgroundHeight: 150px;
-//
-// .backgroundContainer {
-//   height: $backgroundHeight;
-//   width: 100%;
-//   position: fixed;
-//   background-color: $primary1Color;
-//   border-radius: 0;
-//   overflow: visible;
-//
-//   @media screen and (max-width: $mobileBreakpoint) {
-//     height: 0px;
-//     background-color: transparent;
-//   }
-// }
 
 .sectionContainer {
-  // margin-top: $backgroundHeight * 0.3;
   width: 100%;
   max-width: $maxCardWidth;
 
