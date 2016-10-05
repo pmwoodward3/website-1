@@ -40,9 +40,9 @@ const common = {
       'utils': path.join(__dirname, '../app/utils/'),
       'test': path.join(__dirname, '../app/test/'),
       'statics': path.join(__dirname, '../app/statics/'),
-      'react': 'preact-compat',
-      'react-dom': 'preact-compat',
-      'react-addons-shallow-compare': 'preact-shallow-compare',
+      // 'react': 'preact-compat',
+      // 'react-dom': 'preact-compat',
+      // 'react-addons-shallow-compare': 'preact-shallow-compare',
     },
   },
 

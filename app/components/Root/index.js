@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import isTouchAvailable from 'utils/isTouchAvailable'
+import toClass from 'utils/toClass'
 import * as connectionActions from 'redux/actions/connection'
 
 import Header from 'components/Modules/Header'
@@ -10,7 +11,11 @@ import Snackbar from 'react-mdl/lib/Snackbar'
 
 import theme from './theme'
 
+//Global styles
 import './styles/app.scss'
+
+import s from './styles.scss'
+
 import 'react-mdl/extra/material.css'
 import 'react-mdl/extra/material.js'
 
@@ -21,8 +26,6 @@ const meta = [
   {name: 'theme-color', content: themeColor},
   {name: 'msapplication-navbutton-color', content: themeColor},
 ]
-
-const bottomNavHeight = '64px'
 
 class Root extends Component {
   static propTypes = {
@@ -61,27 +64,9 @@ class Root extends Component {
 
     const showBottomNav = /\/(home|favorites|search)/i.test(props.location.pathname)
 
-    const s = {
-      root: {
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-      },
-      childrenContainer: {
-        marginTop: bottomNavHeight,
-        marginBottom: showBottomNav ? bottomNavHeight : '0px',
-        display: 'flex',
-        flexDirection: 'column',
-      },
-      snackbar: {
-        marginBottom: showBottomNav ? bottomNavHeight : '0px',
-      },
-    }
-
     return (
       <section
-        className={isTouchAvailable ? 'touch' : 'no-touch'}
-        style={s.root}
+        className={toClass(s.root, isTouchAvailable ? 'touch' : 'no-touch')}
         >
         <Helmet
           title="SB"
@@ -91,13 +76,13 @@ class Root extends Component {
 
         <Header {...props}/>
 
-        <section style={s.childrenContainer}>
+        <section className={toClass(s.childrenContainer, showBottomNav && s.showBottomNav)}>
           {children && React.cloneElement(children, props)}
         </section>
 
         <Snackbar
           active={offline}
-          style={s.snackbar}
+          className={toClass(s.snackbar, showBottomNav && s.showBottomNav)}
           timeout={60 * 1000}
           onTimeout={() => false}
           >You are offline.</Snackbar>
