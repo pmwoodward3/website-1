@@ -78,7 +78,6 @@ export class MangaItemCard extends Component {
 
     return (
       <Card
-        shadow={0}
         className={toClass(s.root, flex && s.flex)} onClick={this.handleTouchTap}
         style={cardStyle}
         referrerPolicy="no-referrer"
