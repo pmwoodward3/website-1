@@ -99,4 +99,5 @@ export class MangaItemCard extends Component {
 export default onlyUpdateForKeys([
   'mangaid',
   'title',
+  'flex',
 ])(MangaItemCard)
