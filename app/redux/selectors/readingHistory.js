@@ -3,16 +3,34 @@ import { createSelector } from 'reselect'
 const mangaTableSelector = state => state.mangaTable.items
 const readingHistorySelector = state => state.readingHistory
 
+function getNextPage({chapternum, pagenum, totalPages, ...item}) {
+  if(!isNaN(parseInt(totalPages)) && pagenum >= totalPages){
+    chapternum += 1
+    pagenum = 1
+  }else{
+    pagenum += 1
+  }
+
+  return ({
+    chapternum,
+    pagenum,
+    ...item,
+  })
+}
+
 const readingHistory = createSelector(
   mangaTableSelector,
   readingHistorySelector,
   (table, readingHistory) => ({
     ...readingHistory,
     items: readingHistory.items
-    .map((item) => ({
-      ...table[item.mangaid],
-      ...item,
-    }))
+    .map((item) => {
+
+      return ({
+        ...table[item.mangaid],
+        ...getNextPage(item),
+      })
+    })
     .asMutable()
     .reverse(),
   })
@@ -26,5 +44,5 @@ state.readingHistory.items
 
 export const mangaProgress = createSelector(
   progressSelector,
-  (progress) => progress
+  (progress) => !!progress ? getNextPage(progress) : undefined,
 )

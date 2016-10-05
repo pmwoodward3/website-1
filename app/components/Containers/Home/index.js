@@ -132,10 +132,9 @@ export class Home extends Component {
         show: readingHistory.items.length > 0,
         title: 'Continue Reading',
         items: readingHistory.items,
-        renderItem: ({pagenum, ...item}) => (
+        renderItem: (item) => (
           <MangaItemCard
             key={`readingHistory-${item.mangaid}`}
-            pagenum={pagenum + 1}
             {...item}
             />
         ),

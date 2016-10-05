@@ -233,7 +233,7 @@ export class Manga extends Component {
                                     const roundedChapterNum = Math.round(chapternum * 100) / 100
                                     return (
                                       <Link
-                                        to={`/manga/${details.mangaid}/${chapternum}/${progress.chapternum == chapternum ? progress.pagenum + 1 : 1}?source=${manga.source}`}
+                                        to={`/manga/${details.mangaid}/${chapternum}/${progress.chapternum == chapternum ? progress.pagenum : 1}?source=${manga.source}`}
                                         key={chapternum}
                                         className={s.chapterItem}
                                         >

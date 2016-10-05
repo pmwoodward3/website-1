@@ -158,6 +158,7 @@ export class Chapter extends Component {
         mangaid,
         chapternum,
         pagenum,
+        totalPages: chapter.items.length,
         source: location.query.source,
       })
     }
