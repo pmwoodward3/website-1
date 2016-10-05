@@ -97,7 +97,7 @@ class Header extends Component {
           />
         <Layout fixedHeader className={s.layout}>
           <MdlHeader
-            title={header.title}
+            title={!search.showSearchField ? header.title : ''}
             className={s.header}
             >
             <Navigation className={s.leftNavigation}>
