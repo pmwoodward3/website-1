@@ -175,8 +175,11 @@ $actionButtonHeight: 56px;
 }
 
 .chapterItem {
-  cursor: pointer;
   text-decoration: none;
+
+  li {
+    cursor: pointer;
+  }
 }
 
 .chapterItemContainer {
