@@ -10,6 +10,7 @@
 
 $coverHeight: 250px;
 $mobileCoverHeight: 150px;
+$cardHeaderBreakpoint: 550px;
 
 .backgroundContainer {
   $padding: 8px;
@@ -30,9 +31,12 @@ $mobileCoverHeight: 150px;
 .backgroundCover {
   height: 100%;
   width: 100%;
-  filter: blur(5px);
   object-fit: cover;
   background-color: $textColor;
+
+  @media screen and (min-width: $cardHeaderBreakpoint) {
+    filter: blur(5px);
+  }
 
   &:before {
     $padding: 10px;
@@ -71,18 +75,29 @@ $mobileCoverHeight: 150px;
 
 .cardHeader {
   display: flex;
+  flex-direction: row;
+
+  @media screen and (max-width: $cardHeaderBreakpoint) {
+    flex-direction: column;
+  }
 }
 
 .coverCard {
   $height: 180px;
+  
   background-repeat: no-repeat;
   background-position: center;
   min-height: 0;
-  height: 180px;
-  width: $height * 0.65;
   background-size: cover;
   margin-left: 16px;
+  flex-shrink: 0;
+  height: $height;
+  width: $height * 0.65;
   margin-top: -($height * 0.4);
+
+  @media screen and (max-width: $cardHeaderBreakpoint) {
+    display: none;
+  }
 }
 
 
