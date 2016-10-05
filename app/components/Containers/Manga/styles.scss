@@ -107,7 +107,8 @@ $cardHeaderBreakpoint: 550px;
 $actionButtonHeight: 56px;
 
 .actionButtonContainer {
-  display: flex;
+  $display: flex;
+  display: $display;
   position: absolute;
   z-index: 10000;
   left: 0;
@@ -124,11 +125,11 @@ $actionButtonHeight: 56px;
   @media screen and (max-width: $widthBreakpoint) {
     margin-right: 10%;
     top: $offset;
-    visibility: hidden;
-  }
+    display: none;
 
-  &.mobile {
-    visibility: visible !important;
+    &.mobile {
+      display: $display;
+    }
   }
 
   @media screen and (max-width: $mobileBreakpoint) {
@@ -139,6 +140,10 @@ $actionButtonHeight: 56px;
     margin: 0 calc((100% - #{$maxCardWidth} - #{$actionButtonHeight} * 2) / 4);
     top: 0;
     bottom: $offset;
+
+    &.mobile {
+      display: none;
+    }
   }
 }
 
