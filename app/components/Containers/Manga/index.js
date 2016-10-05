@@ -6,6 +6,7 @@ import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
 import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import { MOCKS } from 'constants'
+import toClass from 'utils/toClass'
 
 import * as headerActions from 'redux/actions/header'
 import * as mangaActions from 'redux/actions/manga'
@@ -55,6 +56,7 @@ export class Manga extends Component {
     this.handleSourceChange = this.handleSourceChange.bind(this)
     this.handleMangaChange = this.handleMangaChange.bind(this)
     this.handleToFavoritesAction = this.handleToFavoritesAction.bind(this)
+    this._renderActionButton = this._renderActionButton.bind(this)
   }
   componentDidMount(){
     this.handleMangaChange()
@@ -121,12 +123,11 @@ export class Manga extends Component {
       })
     }
   }
+  _renderActionButton(mobile=false) {
+    const { isFavoritesItem } = this.props
 
-  render() {
-    const { manga, progress, isFavoritesItem, params } = this.props
-
-    const actionButton = (
-      <div className={s.actionButtonContainer}>
+    return (
+      <div className={toClass(s.actionButtonContainer, mobile && s.mobile)}>
         <FABButton
           onClick={this.handleToFavoritesAction}
           style={{
@@ -138,6 +139,10 @@ export class Manga extends Component {
         </FABButton>
       </div>
     )
+  }
+
+  render() {
+    const { manga, progress, params } = this.props
 
     const avatarStyle = (chapternum) => ({
       backgroundColor: chapternum == progress.chapternum ? theme.palette.accent1Color : theme.palette.primary3Color,
@@ -155,6 +160,9 @@ export class Manga extends Component {
       const coverCardStyle = {
         backgroundImage: `url(${fullFrontCover(1)}), url(${fullFrontCover(0)}), url(${details.cover})`,
       }
+      const backgroundCoverStyle = {
+        backgroundImage: `url(${fullCover}), url(${details.cover})`,
+      }
 
       return (
         <section className={s.root}>
@@ -162,15 +170,15 @@ export class Manga extends Component {
             title={details.title ? `SB - ${details.title}` : 'SB'}
             />
           <Card shadow={3} className={s.backgroundContainer}>
-            <img
-              draggable={false}
-              src={fullCover}
+            <div
               className={s.backgroundCover}
+              style={backgroundCoverStyle}
+              referrerPolicy="no-referrer"
               />
-            {actionButton}
+            {this._renderActionButton()}
           </Card>
           <Card className={s.card} shadow={3}>
-            {actionButton}
+            {this._renderActionButton(true)}
             <div className={s.cardHeader}>
               <Card
                 shadow={3}

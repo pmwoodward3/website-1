@@ -13,41 +13,28 @@ $mobileCoverHeight: 150px;
 $cardHeaderBreakpoint: 550px;
 
 .backgroundContainer {
-  $padding: 8px;
-
-  height: $coverHeight + $padding;
-  width: calc(100% + #{$padding});
+  min-height: 0;
+  height: $mobileCoverHeight;
+  width: 100%;
   position: fixed;
   overflow: visible;
   border-radius: 0;
-  margin-top: -($padding / 2);
-  margin-left: -($padding / 2);
 
-  @media screen and (max-width: $maxCardWidth) {
-    height: $mobileCoverHeight;
+  @media screen and (min-width: $cardHeaderBreakpoint) {
+    height: $coverHeight;
   }
 }
 
 .backgroundCover {
   height: 100%;
   width: 100%;
-  object-fit: cover;
   background-color: $textColor;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 
   @media screen and (min-width: $cardHeaderBreakpoint) {
     filter: blur(5px);
-  }
-
-  &:before {
-    $padding: 10px;
-    content: " ";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: $textColor;
   }
 }
 
@@ -84,7 +71,7 @@ $cardHeaderBreakpoint: 550px;
 
 .coverCard {
   $height: 180px;
-  
+
   background-repeat: no-repeat;
   background-position: center;
   min-height: 0;
@@ -136,9 +123,11 @@ $actionButtonHeight: 56px;
   @media screen and (max-width: $widthBreakpoint) {
     margin-right: 10%;
     top: $offset;
-    &:nth-child(2) {
-      display: none;
-    }
+    visibility: hidden;
+  }
+
+  &.mobile {
+    visibility: visible !important;
   }
 
   @media screen and (max-width: $mobileBreakpoint) {
@@ -149,9 +138,6 @@ $actionButtonHeight: 56px;
     margin: 0 calc((100% - #{$maxCardWidth} - #{$actionButtonHeight} * 2) / 4);
     top: 0;
     bottom: $offset;
-    &:nth-child(1) {
-      display: none;
-    }
   }
 }
 
