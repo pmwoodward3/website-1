@@ -5,8 +5,8 @@ export const DEV_URL = __PRODUCTION__
 : 'http://localhost:3000/dist/'
 
 export const API_URL = __PRODUCTION__
-? 'https://beam.noip.me:4002/api/'
-: 'https://beam.noip.me:4002/api/'
+? 'https://beam.noip.me/api/'
+: 'https://beam.noip.me/api/'
 
 const margin = 7
 
