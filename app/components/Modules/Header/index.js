@@ -83,7 +83,7 @@ class Header extends Component {
     } = this.props
 
     return (
-      <div className={toClass(s.root, header.hidden && isTouchAvailable && s.hidden)}>
+      <div className={toClass(s.root, header.hidden && isTouchAvailable && fullscreen && s.hidden)}>
         <ProgressBar
           className={s.progress}
           style={{
