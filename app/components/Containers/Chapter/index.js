@@ -40,6 +40,7 @@ export class Chapter extends Component {
     chapter: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
+    headerHidden: PropTypes.bool.isRequired,
     getChapter: PropTypes.func.isRequired,
     getList: PropTypes.func.isRequired,
     addReadingHistory: PropTypes.func.isRequired,
@@ -257,7 +258,7 @@ export class Chapter extends Component {
     }, 4000)
   }
   render() {
-    const { chapter, params } = this.props
+    const { chapter, params, headerHidden } = this.props
 
     const chapternum = parseInt(params.chapternum)
     const pagenum = parseInt(params.pagenum)
@@ -294,7 +295,7 @@ export class Chapter extends Component {
               >
               <div
                 ref="pageContainer"
-                className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable)}
+                className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable, headerHidden && isTouchAvailable && chapter.fullscreen && s.headerHidden)}
                 >
                 <Card className={s.paper} shadow={2}>
                   <img
@@ -331,11 +332,13 @@ const PureChapter = onlyUpdateForKeys([
   'chapter',
   'params',
   'location',
+  'headerHidden',
 ])(Chapter)
 
 export default connect(
   (state) => ({
     chapter: chapterSelector(state),
+    headerHidden: state.header.hidden,
   }),
   {
     ...chapterActionCreators,

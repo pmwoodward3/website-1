@@ -1,3 +1,3 @@
 const isTouchAvailable = 'ontouchstart' in window || navigator.maxTouchPoint
 
-export default isTouchAvailable
+export default !!isTouchAvailable

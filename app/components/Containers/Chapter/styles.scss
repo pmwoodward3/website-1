@@ -21,6 +21,9 @@
   &.touchAvailable {
     width: auto;
   }
+  &.headerHidden {
+    height: 100vh;
+  }
 }
 
 .paper {
