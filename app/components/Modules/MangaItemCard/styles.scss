@@ -3,18 +3,13 @@ $height: 140px;
 $color: #BDBDBD;
 
 .root {
+  font-size: 1em;
   width: $width;
   height: $height;
   min-height: $height;
   margin: 7px;
-  overflow: hidden;
   flex-shrink: 0;
-  cursor: pointer;
-  background-color: $color;
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  font-size: 1em;
+  text-decoration: none;
 
   &.flex {
     flex: 1;
@@ -22,6 +17,18 @@ $color: #BDBDBD;
     min-width: $width;
     max-width: $width + 30px;
   }
+}
+
+.card {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: $color;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .overlay {
