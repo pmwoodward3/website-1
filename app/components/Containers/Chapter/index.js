@@ -105,18 +105,11 @@ export class Chapter extends Component {
     if(isNewChapter ||isNewPage || isChapterLoaded){
       this.setHeaderTitle(newProps)
     }
-
-    if(this.props.chapter.scale !== newProps.chapter.scale){
-      newProps.changeHeader({
-        showZoomOutButton: newProps.chapter.scale > 1,
-      })
-    }
   }
   componentWillUnmount(){
     if (screenfull.enabled) {
       this.props.changeHeader({
         showFullScreenButton: false,
-        showZoomOutButton: false,
       })
       document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
@@ -202,7 +195,10 @@ export class Chapter extends Component {
     //If the scaling value is not 2 than manual correction has to be done to keep it centered.
     const newScale = this.props.chapter.scale * 2
 
-    if(newScale > 4) return
+    if(this.props.chapter.scale > 1){
+      this.props.setScale(1)
+      return
+    }
 
     this.props.setScale(newScale)
 
@@ -246,6 +242,7 @@ export class Chapter extends Component {
     const imgStyle = {
       height: `${chapter.scale * 100}%`,
       width: `${chapter.scale * 100}%`,
+      cursor: chapter.scale > 1 ? 'zoom-out' : 'zoom-in',
     }
 
     return (
@@ -261,7 +258,8 @@ export class Chapter extends Component {
             />}
           {isChapterLoaded && chapter.items[pagenum -1] ? (
             <Hammer
-              onTap={this.handleTap}
+              onTap={!isTouchAvailable ? this.handleTap : undefined}
+              onDoubleTap={isTouchAvailable ? this.handleTap : undefined}
               onSwipe={this.handleSwipe}
               options={hammerOptions}
               >

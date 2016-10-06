@@ -36,14 +36,12 @@ class Header extends Component {
     changeSearchQuery: PropTypes.func.isRequired,
     enterFullscreen: PropTypes.func.isRequired,
     exitFullscreen: PropTypes.func.isRequired,
-    setScale: PropTypes.func.isRequired,
   };
 
   constructor(props){
     super(props)
     this.handleSearchQueryChange = this.handleSearchQueryChange.bind(this)
     this.updateQueryLocation = debounce(this.updateQueryLocation, 500)
-    this.zoomOut = this.zoomOut.bind(this)
     this.handleFullscreen = this.handleFullscreen.bind(this)
   }
   handleSearchQueryChange(e){
@@ -67,9 +65,6 @@ class Header extends Component {
     }
 
     browserHistory.push(URL)
-  }
-  zoomOut(){
-    this.props.setScale(1)
   }
   handleFullscreen(){
     screenfull.toggle()
@@ -118,12 +113,6 @@ class Header extends Component {
                   autoFocus
                   />
               )}
-                {header.showZoomOutButton && (
-                  <IconButton
-                    name="zoom_out"
-                    onClick={this.zoomOut}
-                    />
-                )}
                 {header.showSourceButton ? (
                   <div style={{position: 'relative'}}>
                     <Button id="source-menu" className={s.sourceMenuButton}>

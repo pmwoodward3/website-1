@@ -6,7 +6,6 @@ const initialState = {
   showSearchField: true,
   showFullScreenButton: false,
   showSourceButton: false,
-  showZoomOutButton: false,
 }
 
 export default createReducer({
