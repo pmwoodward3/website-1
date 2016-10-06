@@ -156,9 +156,9 @@ export class Manga extends Component {
       const { details, chapters, sources } = manga
 
       const fullCover = `http://mcd.iosphe.re/r/${params.mangaid}/1/full/a/`
-      const fullFrontCover = (chapter) => `http://mcd.iosphe.re/t/${details.mangaid}/${chapter}/front/a/`
+      const fullFrontCover = `http://mcd.iosphe.re/t/${details.mangaid}/1/front/a/`
       const coverCardStyle = {
-        backgroundImage: `url(${fullFrontCover(1)}), url(${fullFrontCover(0)}), url(${details.cover})`,
+        backgroundImage: `url(${fullFrontCover}), url(${details.cover})`,
       }
       const backgroundCoverStyle = {
         backgroundImage: `url(${fullCover}), url(${details.cover})`,

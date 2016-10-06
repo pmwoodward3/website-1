@@ -71,9 +71,9 @@ export class MangaItemCard extends Component {
       subtitle = undefined
     }
 
-    const fullCover = (chapter) => `http://mcd.iosphe.re/t/${mangaid}/${chapter}/front/a/`
+    const fullCover = `http://mcd.iosphe.re/t/${mangaid}/1/front/a/`
     const cardStyle = {
-      backgroundImage: `url(${fullCover(1)}), url(${fullCover(0)}), url(${cover})`,
+      backgroundImage: `url(${fullCover}), url(${cover})`,
     }
 
     return (
