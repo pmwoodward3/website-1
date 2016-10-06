@@ -1,14 +1,21 @@
 @import "values";
 @import "colors";
 
+$headerTransition: all 0.2s;
+
 .root {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
   color: #fff !important;
   height: $headerHeight;
   z-index: 1000 !important;
+  transition: $headerTransition;
+  position: relative;
+
+  @media screen and (max-width: $mobileBreakpoint) {
+    &.hidden {
+      height: 0;
+      transform: translateY(-($headerHeight));
+    }
+  }
 }
 
 .progress {
@@ -25,12 +32,19 @@
 }
 
 //.mdl-layout__inner-container
-.layout > div{
-  overflow-y: visible;
-  overflow-x: visible;
+.layout {
+  height: $headerHeight !important;
+  & > div{
+    overflow-y: visible;
+    overflow-x: visible;
+  }
 }
 
 .header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
   min-height: $headerHeight !important;
   height: $headerHeight;
 

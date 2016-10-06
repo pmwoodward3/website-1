@@ -59,9 +59,11 @@ export class Chapter extends Component {
     this.handleChapterChange = this.handleChapterChange.bind(this)
     this.setHeaderTitle = this.setHeaderTitle.bind(this)
     this.handleFullScreenChange = this.handleFullScreenChange.bind(this)
-    this.handleTap = this.handleTap.bind(this)
+    this.handleZoomRequest = this.handleZoomRequest.bind(this)
     this.handleSwipe = this.handleSwipe.bind(this)
     this.handleKeyup = this.handleKeyup.bind(this)
+    this.handleTap = this.handleTap.bind(this)
+    this.hideHeader = this.hideHeader.bind(this)
   }
   componentDidMount(){
     const { params, changeHeader } = this.props
@@ -114,6 +116,10 @@ export class Chapter extends Component {
       document.removeEventListener(screenfull.raw.fullscreenchange, this.handleFullScreenChange)
     }
 
+    this.props.changeHeader({
+      hidden: false,
+    })
+
     document.removeEventListener('keyup', this.handleKeyup)
   }
   setHeaderTitle(props=this.props){
@@ -129,6 +135,7 @@ export class Chapter extends Component {
       params,
       location,
       manga,
+      changeHeader,
     } = props
 
     getChapter(params.mangaid, params.chapternum, location.query.source)
@@ -136,6 +143,11 @@ export class Chapter extends Component {
     if(!manga){
       getList([params.mangaid])
     }
+
+    changeHeader({
+      hidden: false,
+    })
+    this.hideHeader()
   }
   changePage(newPage, newChapternum){
     const { chapter, params, location, addReadingHistory, setScale } = this.props
@@ -188,7 +200,7 @@ export class Chapter extends Component {
       this.changePage(pagenum - 1)
     }
   }
-  handleTap(e){
+  handleZoomRequest(e){
     const bb = e.target.getBoundingClientRect()
     const container = this.refs.pageContainer
 
@@ -227,6 +239,19 @@ export class Chapter extends Component {
       this.handleNextPage()
     }
   }
+  handleTap(){
+    this.props.changeHeader({
+      hidden: false,
+    })
+    this.hideHeader()
+  }
+  hideHeader(){
+    setTimeout(() => {
+      this.props.changeHeader({
+        hidden: true,
+      })
+    }, 4000)
+  }
   render() {
     const { chapter, params } = this.props
 
@@ -258,8 +283,8 @@ export class Chapter extends Component {
             />}
           {isChapterLoaded && chapter.items[pagenum -1] ? (
             <Hammer
-              onTap={!isTouchAvailable ? this.handleTap : undefined}
-              onDoubleTap={isTouchAvailable ? this.handleTap : undefined}
+              onTap={!isTouchAvailable ? this.handleZoomRequest : this.handleTap}
+              onDoubleTap={isTouchAvailable ? this.handleZoomRequest : undefined}
               onSwipe={this.handleSwipe}
               options={hammerOptions}
               >

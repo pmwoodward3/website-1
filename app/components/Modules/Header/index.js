@@ -6,6 +6,7 @@ import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import screenfull from 'screenfull'
 import toClass from 'utils/toClass'
+import isTouchAvailable from 'utils/isTouchAvailable'
 
 import * as chapterActions from 'redux/actions/chapter'
 import * as searchActions from 'redux/actions/search'
@@ -82,7 +83,7 @@ class Header extends Component {
     } = this.props
 
     return (
-      <div className={s.root}>
+      <div className={toClass(s.root, header.hidden && isTouchAvailable && s.hidden)}>
         <ProgressBar
           className={s.progress}
           style={{
