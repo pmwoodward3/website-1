@@ -173,7 +173,6 @@ export class Manga extends Component {
             <div
               className={s.backgroundCover}
               style={backgroundCoverStyle}
-              referrerPolicy="no-referrer"
               />
             {this._renderActionButton()}
           </Card>
