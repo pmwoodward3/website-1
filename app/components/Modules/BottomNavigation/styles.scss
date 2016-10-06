@@ -27,6 +27,8 @@
   cursor: pointer;
   padding-bottom: 5px;
   color: $darkBlack;
+  text-decoration: none;
+  font-weight: normal;
 
   &.active {
     color: $accent1Color;

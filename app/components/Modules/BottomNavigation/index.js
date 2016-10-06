@@ -5,10 +5,9 @@ import toClass from 'utils/toClass'
 
 import { Card } from 'react-mdl/lib/Card'
 import IconButton from 'react-mdl/lib/IconButton'
+import Link from 'components/Modules/Link'
 
 import s from './styles.scss'
-
-const handleClick = (path) => () => browserHistory.push(path)
 
 const items = [
   {
@@ -30,10 +29,10 @@ export const BottomNavigation = ({location}) => {
   return (
     <Card shadow={3} className={s.root}>
       {items.map(({label, path, icon}) => (
-        <div
+        <Link
           key={path}
           className={toClass(s.navItem, selectedIndex == path && s.active)}
-          onClick={handleClick(path)}
+          to={path}
           >
           <IconButton
             key={path}
@@ -41,7 +40,7 @@ export const BottomNavigation = ({location}) => {
             className={s.iconButton}
             />
           {label}
-        </div>
+        </Link>
       ))}
     </Card>
   )
