@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react'
-import { browserHistory } from 'react-router'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import toClass from 'utils/toClass'
 
 import { Card } from 'react-mdl/lib/Card'
-import IconButton from 'react-mdl/lib/IconButton'
+import Icon from 'react-mdl/lib/Icon'
 import Link from 'components/Modules/Link'
 
 import s from './styles.scss'
@@ -34,8 +33,7 @@ export const BottomNavigation = ({location}) => {
           className={toClass(s.navItem, selectedIndex == path && s.active)}
           to={path}
           >
-          <IconButton
-            key={path}
+          <Icon
             name={icon}
             className={s.iconButton}
             />
