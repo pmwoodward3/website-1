@@ -1,12 +1,15 @@
 import React, { PropTypes } from 'react'
 import { browserHistory } from 'react-router'
 
-const go = (x) => () => browserHistory.push(x)
+const go = (x, disabled) => (e) => {
+  e.preventDefault()
+  if(!disabled) browserHistory.push(x)
+}
 
 export const Link = ({children, to, disabled, ...props}) => (
-  <div {...props} onClick={!disabled && go(to)}>
+  <a {...props} onClick={go(to, disabled)} href={to}>
     {children}
-  </div>
+  </a>
 )
 
 Link.propTypes = {
