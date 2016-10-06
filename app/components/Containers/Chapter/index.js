@@ -119,6 +119,10 @@ export class Chapter extends Component {
     this.props.changeHeader({
       hidden: false,
     })
+    if(this.hideHeaderTimeout){
+      clearTimeout(this.hideHeaderTimeout)
+      this.hideHeaderTimeout = undefined
+    }
 
     document.removeEventListener('keyup', this.handleKeyup)
   }
@@ -246,7 +250,7 @@ export class Chapter extends Component {
     this.hideHeader()
   }
   hideHeader(){
-    setTimeout(() => {
+    this.hideHeaderTimeout = setTimeout(() => {
       this.props.changeHeader({
         hidden: true,
       })
