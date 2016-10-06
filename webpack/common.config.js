@@ -95,12 +95,6 @@ const common = {
       __PRODUCTION__: process.env.NODE_ENV === 'production',
       __CLIENT__: true,
     }),
-
-    // Chunks for generate vendor bundle
-    new webpack.optimize.CommonsChunkPlugin({
-      minChunks: 2,
-      name: 'vendor',
-    }),
   ],
 
   postcss: () => [

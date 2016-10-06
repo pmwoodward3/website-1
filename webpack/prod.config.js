@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const CompressionPlugin = require ('compression-webpack-plugin')
 const OfflinePlugin = require('offline-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -11,24 +12,24 @@ module.exports = {
     main: [
       './app/index',
     ],
-    vendor: [
-      'debounce',
-      'localforage',
-      'react',
-      'react-dom',
-      'react-helmet',
-      'react-infinite',
-      'react-redux',
-      'react-router',
-      'react-router-google-analytics',
-      'react-tagsinput',
-      'react-virtualized',
-      'redux',
-      'redux-batched-subscribe',
-      'redux-thunk',
-      'reselect',
-      'seamless-immutable',
-    ],
+    // vendor: [
+    //   'debounce',
+    //   'localforage',
+    //   'react',
+    //   'react-dom',
+    //   'react-helmet',
+    //   'react-infinite',
+    //   'react-redux',
+    //   'react-router',
+    //   'react-router-google-analytics',
+    //   'react-tagsinput',
+    //   'react-virtualized',
+    //   'redux',
+    //   'redux-batched-subscribe',
+    //   'redux-thunk',
+    //   'reselect',
+    //   'seamless-immutable',
+    // ],
   },
 
   module: {
@@ -86,6 +87,10 @@ module.exports = {
       title: 'SB',
       description: 'Premier manga reading platform.',
       template: 'app/statics/index.ejs',
+    }),
+
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'async',
     }),
 
     // new CompressionPlugin ({
