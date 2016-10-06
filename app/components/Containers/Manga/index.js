@@ -169,18 +169,18 @@ export class Manga extends Component {
           <Helmet
             title={details.title ? `SB - ${details.title}` : 'SB'}
             />
-          <Card shadow={3} className={s.backgroundContainer}>
+          <Card shadow={0} className={s.backgroundContainer}>
             <div
               className={s.backgroundCover}
               style={backgroundCoverStyle}
               />
             {this._renderActionButton()}
           </Card>
-          <Card className={s.card} shadow={3}>
+          <Card className={s.card} shadow={0}>
             {this._renderActionButton(true)}
             <div className={s.cardHeader}>
               <Card
-                shadow={3}
+                shadow={0}
                 className={s.coverCard}
                 style={coverCardStyle}
                 referrerPolicy="no-referrer"

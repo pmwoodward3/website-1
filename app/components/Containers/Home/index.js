@@ -185,7 +185,7 @@ export class Home extends Component {
         <div ref="sectionContainer" className={s.sectionContainer}>
           {(readingHistory.items.length < 1 && readingHistory.isLoaded && rawFavorites.isLoaded && rawFavorites.items.length < 1) && (
             <Card
-              shadow={2}
+              shadow={0}
               className={s.welcome}
               >
               <CardTitle>Welcome</CardTitle>
@@ -195,7 +195,7 @@ export class Home extends Component {
           {sections.map(({key, show, title, items, renderItem}) => show && (
             <Card
               key={key}
-              shadow={2}
+              shadow={0}
               className={s.section}
               >
               <h3 className={s.sectionTitle}>

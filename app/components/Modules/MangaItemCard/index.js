@@ -80,6 +80,7 @@ export class MangaItemCard extends Component {
       <Card
         className={toClass(s.root, flex && s.flex)} onClick={this.handleTouchTap}
         style={cardStyle}
+        shadow={0}
         >
         <CardTitle expand />
         {!!title && (

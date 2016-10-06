@@ -297,7 +297,7 @@ export class Chapter extends Component {
                 ref="pageContainer"
                 className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable, headerHidden && isTouchAvailable && chapter.fullscreen && s.headerHidden)}
                 >
-                <Card className={s.paper} shadow={2}>
+                <Card className={s.paper} shadow={0}>
                   <img
                     draggable={false}
                     className={s.img}
