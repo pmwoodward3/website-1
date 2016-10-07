@@ -189,7 +189,7 @@ export class Home extends Component {
               className={s.welcome}
               >
               <CardTitle>Welcome</CardTitle>
-              <CardText>Favorite mangas and start reading. Your reading history and personal recommendations will be shown here.</CardText>
+              <CardText>Your reading history and personal recommendations will be shown here.</CardText>
             </Card>
           )}
           {sections.map(({key, show, title, items, renderItem}) => show && (
