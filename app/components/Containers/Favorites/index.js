@@ -32,7 +32,7 @@ export class Favorites extends Component {
         <div className={s.section}>
           {(favorites.isLoaded && favorites.items.length < 1) && (
             <Card
-              shadow={2}
+              shadow={0}
               className={s.welcome}
               >
               <CardTitle>Woops</CardTitle>
