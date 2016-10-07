@@ -48,6 +48,10 @@ module.exports = {
           loader: 'css?minimize',
         }),
       },
+      {
+        test: /robots\.txt$/,
+        loader: 'static-loader',
+      },
     ],
   },
 

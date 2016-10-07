@@ -12,6 +12,8 @@ import 'statics/manifest.json'
 if(__PRODUCTION__){
   //Register AppCache and ServiceWorker
   require('offline-plugin/runtime').install()
+
+  require('statics/robots.txt?output=robots.txt')
 }
 
 const initialState = {}
