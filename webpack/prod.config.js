@@ -87,6 +87,14 @@ module.exports = {
       title: 'SB',
       description: 'Premier manga reading platform.',
       template: 'app/statics/index.ejs',
+      minify: {
+        removeOptionalTags: true,
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        collapseWhitespace: true,
+      },
     }),
 
     new ScriptExtHtmlWebpackPlugin({
