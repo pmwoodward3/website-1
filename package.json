@@ -141,7 +141,7 @@
     "sinon-chai": "2.8.0",
     "style-loader": "0.13.1",
     "superagent": "^2.2.0",
-    "superagent-bluebird-promise": "3.0.2",
+    "superagent-es6-promise": "^1.0.0",
     "superagent-jsonp": "0.1.1",
     "swipe-js-iso": "^2.0.3",
     "url-loader": "0.5.7",
