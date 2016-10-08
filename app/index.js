@@ -13,8 +13,10 @@ if(__PRODUCTION__){
   //Register AppCache and ServiceWorker
   require('offline-plugin/runtime').install()
 
-  require('statics/robots.txt?output=robots.txt')
-  require('statics/sitemap.xml?output=sitemap.xml')
+  //Static files
+  require('static!statics/robots.txt?output=robots.txt')
+  require('static!statics/sitemap.xml?output=sitemap.xml')
+  require('static!statics/Caddyfile?output=Caddyfile')
 }
 
 const initialState = {}

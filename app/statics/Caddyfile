@@ -1,0 +1,19 @@
+root /root/sausagebrain.ml
+gzip
+ext .html
+
+rewrite {
+  if {path} starts_with /home
+  if {path} starts_with /favorites
+  if {path} starts_with /search
+  if {path} starts_with /manga
+  if_op or
+  to /index.html
+}
+
+header / {
+  Strict-Transport-Security "max-age=31536000;"
+  X-XSS-Protection "1; mode=block"
+  X-Content-Type-Options "nosniff"
+  X-Frame-Options "DENY"
+}

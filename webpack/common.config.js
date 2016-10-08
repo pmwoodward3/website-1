@@ -64,7 +64,7 @@ const common = {
       test: /\.js$/,
       include: [
         path.resolve('app'),
-        path.resolve('node_modules/preact-compat/src'),
+        // path.resolve('node_modules/preact-compat/src'),
       ],
       loader: 'babel-loader',
     }, {
@@ -82,9 +82,6 @@ const common = {
     }, {
       test: /manifest\.json$/,
       loader: 'w3c-manifest?name=[name].[ext]&icon=[name].[ext]&legacyAppleSupport=true',
-    }, {
-      test: /\.(txt|xml)$/,
-      loader: 'static-loader',
     }],
   },
 
