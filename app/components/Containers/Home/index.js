@@ -182,6 +182,9 @@ export class Home extends Component {
         <Helmet
           title="Home"
           titleTemplate={TITLE_TEMPLATE}
+          meta={[
+            {name: 'description', content: 'Your personal reading history, recommendations and updates.'},
+          ]}
           />
         <div ref="sectionContainer" className={s.sectionContainer}>
           {(readingHistory.items.length < 1 && readingHistory.isLoaded && rawFavorites.isLoaded && rawFavorites.items.length < 1) && (

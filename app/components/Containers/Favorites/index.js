@@ -32,6 +32,9 @@ export class Favorites extends Component {
         <Helmet
           title="Favorites"
           titleTemplate={TITLE_TEMPLATE}
+          meta={[
+            {name: 'description', content: 'Your favorites.'},
+          ]}
           />
         <div className={s.section}>
           {(favorites.isLoaded && favorites.items.length < 1) && (
