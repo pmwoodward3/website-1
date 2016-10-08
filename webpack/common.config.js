@@ -82,6 +82,9 @@ const common = {
     }, {
       test: /manifest\.json$/,
       loader: 'w3c-manifest?name=[name].[ext]&icon=[name].[ext]&legacyAppleSupport=true',
+    }, {
+      test: /\.(txt|xml)$/,
+      loader: 'static-loader',
     }],
   },
 

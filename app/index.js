@@ -14,6 +14,7 @@ if(__PRODUCTION__){
   require('offline-plugin/runtime').install()
 
   require('statics/robots.txt?output=robots.txt')
+  require('statics/sitemap.xml?output=sitemap.xml')
 }
 
 const initialState = {}
