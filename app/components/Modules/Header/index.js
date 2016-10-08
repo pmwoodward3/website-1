@@ -93,7 +93,7 @@ class Header extends Component {
           />
         <Layout fixedHeader className={s.layout}>
           <MdlHeader
-            title={!search.showSearchField ? header.title : ''}
+            title={!search.showSearchField ? header.title : ' '}
             className={s.header}
             >
             <Navigation className={s.leftNavigation}>
@@ -114,42 +114,42 @@ class Header extends Component {
                   autoFocus
                   />
               )}
-                {header.showSourceButton ? (
-                  <div style={{position: 'relative'}}>
-                    <Button id="source-menu" className={s.sourceMenuButton}>
-                      <Icon name="input" />
-                      Source
-                    </Button>
-                    <Menu target="source-menu" align="right">
-                      {manga.sources.map(({sourceslug}) => (
-                        <MenuItem
-                          key={sourceslug}
-                          style={{
-                            color: sourceslug == manga.source ? theme.palette.accent1Color : '',
-                          }}
-                          className={s.sourceMenuItem}
-                          onClick={() => browserHistory.push(`/manga/${params.mangaid}?source=${sourceslug}`)}
-                          >{sourceslug}</MenuItem>
-                      ))}
-                    </Menu>
-                  </div>
-                ) : header.showFullScreenButton ? (
+              {header.showSourceButton ? (
+                <div style={{position: 'relative'}}>
+                  <Button id="source-menu" className={s.sourceMenuButton}>
+                    <Icon name="input" />
+                    Source
+                  </Button>
+                  <Menu target="source-menu" align="right">
+                    {manga.sources.map(({sourceslug}) => (
+                      <MenuItem
+                        key={sourceslug}
+                        style={{
+                          color: sourceslug == manga.source ? theme.palette.accent1Color : '',
+                        }}
+                        className={s.sourceMenuItem}
+                        onClick={() => browserHistory.push(`/manga/${params.mangaid}?source=${sourceslug}`)}
+                        >{sourceslug}</MenuItem>
+                    ))}
+                  </Menu>
+                </div>
+              ) : header.showFullScreenButton ? (
+                <IconButton
+                  name={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                  onClick={this.handleFullscreen}
+                  />
+              ) : (
+                <Link
+                  to="/search"
+                  disabled={search.showSearchField || offline}
+                  className={s.searchLink}
+                  >
                   <IconButton
-                    name={fullscreen ? 'fullscreen_exit' : 'fullscreen'}
-                    onClick={this.handleFullscreen}
-                    />
-                ) : (
-                  <Link
-                    to="/search"
+                    name="search"
                     disabled={search.showSearchField || offline}
-                    className={s.searchLink}
-                    >
-                    <IconButton
-                      name="search"
-                      disabled={search.showSearchField || offline}
-                      />
-                  </Link>
-                )}
+                    />
+                </Link>
+              )}
             </Navigation>
           </MdlHeader>
         </Layout>
