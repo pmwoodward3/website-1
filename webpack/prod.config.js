@@ -115,7 +115,7 @@ module.exports = {
       relativePaths: false,
       updateStrategy: 'all',
       externals: [],
-      excludes: ['**/*.gz'],
+      excludes: ['**/*.gz', 'Caddyfile', 'robots.txt', 'sitemap.xml'],
       ServiceWorker: {
         output: 'offline-worker.js',
         navigateFallbackURL: '/',
