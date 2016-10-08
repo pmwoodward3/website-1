@@ -34,3 +34,8 @@ export const setOffset = (payload) => ({
   type: 'SET_OFFSET_CHAPTER',
   payload,
 })
+
+export const loadPage = (payload) => ({
+  type: 'LOAD_PAGE_CHAPTER',
+  payload, //pagenum
+})

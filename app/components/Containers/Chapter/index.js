@@ -50,6 +50,7 @@ export class Chapter extends Component {
     setOffset: PropTypes.func.isRequired,
     enterFullscreen: PropTypes.func.isRequired,
     exitFullscreen: PropTypes.func.isRequired,
+    loadPage: PropTypes.func.isRequired,
   };
 
   constructor(props){
@@ -66,6 +67,7 @@ export class Chapter extends Component {
     this.handleKeyup = this.handleKeyup.bind(this)
     this.handleTap = this.handleTap.bind(this)
     this.hideHeader = this.hideHeader.bind(this)
+    this.handleImgLoad = this.handleImgLoad.bind(this)
   }
   componentDidMount(){
     const { params, changeHeader } = this.props
@@ -258,6 +260,11 @@ export class Chapter extends Component {
       })
     }, 4000)
   }
+  handleImgLoad(){
+    const { params, loadPage } = this.props
+    const pagenum = parseInt(params.pagenum)
+    if(!isNaN(pagenum)) loadPage(pagenum)
+  }
   render() {
     const { chapter, params, headerHidden } = this.props
 
@@ -268,6 +275,10 @@ export class Chapter extends Component {
 
     const hammerOptions = {
       touchAction: chapter.scale > 1 ? 'auto' : 'compute',
+    }
+
+    const paperStyle = {
+      visibility: chapter.loadedPage == pagenum ? 'visible' : 'hidden',
     }
 
     const imgStyle = {
@@ -283,12 +294,13 @@ export class Chapter extends Component {
           titleTemplate={TITLE_TEMPLATE}
           />
         <div className={s.container} ref="container">
+          <Loading />
           {!isTouchAvailable && <ControlBtn
             pagenum={pagenum}
             direction="back"
             onClick={this.handlePreviousPage}
             />}
-          {isChapterLoaded && chapter.items[pagenum -1] ? (
+          {isChapterLoaded && chapter.items[pagenum -1] && (
             <Hammer
               onTap={!isTouchAvailable ? this.handleZoomRequest : this.handleTap}
               onDoubleTap={isTouchAvailable ? this.handleZoomRequest : undefined}
@@ -299,24 +311,21 @@ export class Chapter extends Component {
                 ref="pageContainer"
                 className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable, headerHidden && isTouchAvailable && chapter.fullscreen && s.headerHidden)}
                 >
-                <Card className={s.paper} shadow={0}>
+                <Card
+                  className={s.paper}
+                  style={paperStyle}
+                  shadow={0}
+                  >
                   <img
-                    draggable={false}
                     className={s.img}
                     style={imgStyle}
                     src={chapter.items[pagenum - 1].url}
-                    referrerPolicy="no-referrer"
+                    onLoad={this.handleImgLoad}
                     ref="img"
                     />
                 </Card>
               </div>
             </Hammer>
-          ) : (
-            <div
-              className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable)}
-              >
-              <Loading/>
-            </div>
           )}
           {!isTouchAvailable && <ControlBtn
             pagenum={pagenum}

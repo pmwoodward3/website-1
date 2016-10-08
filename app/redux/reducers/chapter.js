@@ -9,6 +9,7 @@ const initialState = {
   },
   scale: 1,
   items: Immutable([]),
+  loadedPage: false,
 }
 
 export default createReducer({
@@ -37,5 +38,9 @@ export default createReducer({
   ['SET_SCALE_CHAPTER']: (state, {payload}) => ({
     ...state,
     scale: payload,
+  }),
+  ['LOAD_PAGE_CHAPTER']: (state, {payload}) => ({
+    ...state,
+    loadedPage: payload,
   }),
 }, initialState)
