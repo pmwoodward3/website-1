@@ -72,4 +72,4 @@ export const MOCKS = {
   function: () => {},
 }
 
-export const TITLE_TEMPLATE = '%s - Shiba'
+export const TITLE_TEMPLATE = '%s | Shiba'
