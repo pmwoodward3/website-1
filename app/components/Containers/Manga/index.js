@@ -169,9 +169,9 @@ export class Manga extends Component {
           <Helmet
             title={details.title || 'Manga'}
             titleTemplate={TITLE_TEMPLATE}
-            meta={!!details.summary ? [
-              {name: 'description', content: details.summary},
-            ] : ''}
+            meta={[
+              {name: 'description', content: details.summary || ''},
+            ]}
             />
           <Card shadow={0} className={s.backgroundContainer}>
             <div
