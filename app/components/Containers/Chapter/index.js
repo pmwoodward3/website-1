@@ -5,6 +5,7 @@ import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import screenfull from 'screenfull'
 import isTouchAvailable from 'utils/isTouchAvailable'
 import toClass from 'utils/toClass'
+import { TITLE_TEMPLATE } from 'constants'
 
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
@@ -278,7 +279,8 @@ export class Chapter extends Component {
     return (
       <section className={s.section}>
         <Helmet
-          title={`Shiba - Ch. ${chapternum} - P. ${pagenum}`}
+          title={`Page ${pagenum} - Chapter ${chapternum}`}
+          titleTemplate={TITLE_TEMPLATE}
           />
         <div className={s.container} ref="container">
           {!isTouchAvailable && <ControlBtn

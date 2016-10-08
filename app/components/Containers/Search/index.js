@@ -8,6 +8,7 @@ import {
   MANGA_ITEM_CARD_WIDTH,
   GENRE_LIST,
   MOCKS,
+  TITLE_TEMPLATE,
 } from 'constants'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 
@@ -110,7 +111,8 @@ export class Search extends Component {
     return (
       <section className={s.root}>
         <Helmet
-          title={`Shiba - Search ${location.query.q}`}
+          title={`Search ${location.query.q || ''}`}
+          titleTemplate={TITLE_TEMPLATE}
           />
         {
         // <div className={s.header}>

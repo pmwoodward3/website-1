@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import { uniq } from 'ramda'
-import { MANGA_ITEM_CARD_WIDTH } from 'constants'
+import { MANGA_ITEM_CARD_WIDTH, TITLE_TEMPLATE } from 'constants'
 
 import * as headerActions from 'redux/actions/header'
 import * as homeActions from 'redux/actions/home'
@@ -180,7 +180,8 @@ export class Home extends Component {
     return (
       <section className={s.root} ref="root">
         <Helmet
-          title="Shiba - Home"
+          title="Home"
+          titleTemplate={TITLE_TEMPLATE}
           />
         <div ref="sectionContainer" className={s.sectionContainer}>
           {(readingHistory.items.length < 1 && readingHistory.isLoaded && rawFavorites.isLoaded && rawFavorites.items.length < 1) && (

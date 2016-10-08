@@ -5,7 +5,7 @@ import Helmet from 'react-helmet'
 import { VirtualScroll, WindowScroller, AutoSizer } from 'react-virtualized'
 import theme from 'components/Root/theme'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
-import { MOCKS } from 'constants'
+import { MOCKS, TITLE_TEMPLATE } from 'constants'
 import toClass from 'utils/toClass'
 
 import * as headerActions from 'redux/actions/header'
@@ -167,7 +167,11 @@ export class Manga extends Component {
       return (
         <section className={s.root}>
           <Helmet
-            title={details.title ? `Shiba - ${details.title}` : 'Shiba'}
+            title={details.title || 'Manga'}
+            titleTemplate={TITLE_TEMPLATE}
+            meta={!!details.summary && [
+              {name: 'description', content: details.summary},
+            ]}
             />
           <Card shadow={0} className={s.backgroundContainer}>
             <div

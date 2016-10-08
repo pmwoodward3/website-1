@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
+import { TITLE_TEMPLATE } from 'constants'
 
 import * as headerActions from 'redux/actions/header'
 import { favorites as favoritesSelector } from 'redux/selectors/favorites'
@@ -28,7 +29,10 @@ export class Favorites extends Component {
 
     return (
       <section className={s.root}>
-        <Helmet title="Shiba - Favorites"/>
+        <Helmet
+          title="Favorites"
+          titleTemplate={TITLE_TEMPLATE}
+          />
         <div className={s.section}>
           {(favorites.isLoaded && favorites.items.length < 1) && (
             <Card
