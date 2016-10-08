@@ -278,7 +278,7 @@ export class Chapter extends Component {
     }
 
     const paperStyle = {
-      visibility: chapter.loadedPage == pagenum ? 'visible' : 'hidden',
+      opacity: chapter.loadedPage == pagenum ? 1 : 0,
     }
 
     const imgStyle = {
@@ -295,7 +295,7 @@ export class Chapter extends Component {
           />
         <div className={s.container} ref="container">
           <Loading />
-          {!isTouchAvailable && <ControlBtn
+          {isChapterLoaded && !isTouchAvailable && <ControlBtn
             pagenum={pagenum}
             direction="back"
             onClick={this.handlePreviousPage}
@@ -327,7 +327,7 @@ export class Chapter extends Component {
               </div>
             </Hammer>
           )}
-          {!isTouchAvailable && <ControlBtn
+          {isChapterLoaded && !isTouchAvailable && <ControlBtn
             pagenum={pagenum}
             direction="forward"
             onClick={this.handleNextPage}

@@ -11,10 +11,12 @@
   width: 100%;
 }
 
+$pageWidth: 75%;
+
 .pageContainer{
   overflow: auto;
   height: 100%;
-  width: 75%;
+  width: $pageWidth;
   max-width: $maxCardWidth;
   height: calc(100vh - #{$headerHeight});
 
@@ -30,6 +32,7 @@
   margin: 7px;
   width: auto;
   overflow: visible;
+  transition: opacity 0.1s;
 }
 
 .img {
