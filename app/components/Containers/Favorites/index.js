@@ -28,7 +28,7 @@ export class Favorites extends Component {
 
     return (
       <section className={s.root}>
-        <Helmet title="SB - Favorites"/>
+        <Helmet title="Shiba - Favorites"/>
         <div className={s.section}>
           {(favorites.isLoaded && favorites.items.length < 1) && (
             <Card

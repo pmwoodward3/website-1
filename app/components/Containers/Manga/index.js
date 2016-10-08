@@ -167,7 +167,7 @@ export class Manga extends Component {
       return (
         <section className={s.root}>
           <Helmet
-            title={details.title ? `SB - ${details.title}` : 'SB'}
+            title={details.title ? `Shiba - ${details.title}` : 'Shiba'}
             />
           <Card shadow={0} className={s.backgroundContainer}>
             <div

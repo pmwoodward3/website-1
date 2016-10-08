@@ -1,6 +1,6 @@
 {
-  "name":"SausageBrain",
-  "short_name":"SB",
+  "name":"ShibaManga",
+  "short_name":"Shiba",
   "description":"Premier manga reading platform.",
   "start_url":"/",
   "display":"standalone",

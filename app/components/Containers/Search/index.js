@@ -110,7 +110,7 @@ export class Search extends Component {
     return (
       <section className={s.root}>
         <Helmet
-          title={`SB - Search ${location.query.q}`}
+          title={`Shiba - Search ${location.query.q}`}
           />
         {
         // <div className={s.header}>

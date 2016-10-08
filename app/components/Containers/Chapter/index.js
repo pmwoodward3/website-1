@@ -278,7 +278,7 @@ export class Chapter extends Component {
     return (
       <section className={s.section}>
         <Helmet
-          title={`SB - Ch. ${chapternum} - P. ${pagenum}`}
+          title={`Shiba - Ch. ${chapternum} - P. ${pagenum}`}
           />
         <div className={s.container} ref="container">
           {!isTouchAvailable && <ControlBtn

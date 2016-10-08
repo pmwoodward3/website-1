@@ -1,5 +1,5 @@
-sausagebrain.ml {
-  root /root/sausagebrain.ml
+shibaman.ga {
+  root /root/shibaman.ga
   gzip
   ext .html
 
@@ -20,6 +20,6 @@ sausagebrain.ml {
   }
 }
 
-www.sausagebrain.ml {
-  redir https://sausagebrain.ml{uri}
+www.shibaman.ga {
+  redir https://shibaman.ga{uri}
 }

@@ -180,7 +180,7 @@ export class Home extends Component {
     return (
       <section className={s.root} ref="root">
         <Helmet
-          title="SB - Home"
+          title="Shiba - Home"
           />
         <div ref="sectionContainer" className={s.sectionContainer}>
           {(readingHistory.items.length < 1 && readingHistory.isLoaded && rawFavorites.isLoaded && rawFavorites.items.length < 1) && (

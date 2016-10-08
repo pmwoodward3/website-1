@@ -1,7 +1,7 @@
 import { createReducer } from '../utils/createReducer'
 
 const initialState = {
-  title: 'SausageBrain',
+  title: 'ShibaManga',
   parentPath: '/home',
   showSearchField: true,
   showFullScreenButton: false,

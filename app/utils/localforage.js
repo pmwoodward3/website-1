@@ -4,7 +4,7 @@ import { uniq } from 'ramda'
 
 //Setup up browser storage
 localforage.config({
-  name: 'SausageBrain',
+  name: 'ShibaManga',
   description: 'User data',
   storeName: 'state',
 })

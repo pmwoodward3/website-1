@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sausagebrain.ml/</loc>
+    <loc>https://shibaman.ga/</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://sausagebrain.ml/home</loc>
+    <loc>https://shibaman.ga/home</loc>
     <changefreq>weekly</changefreq>
     <priority>1</priority>
   </url>
   <url>
-    <loc>https://sausagebrain.ml/favorites</loc>
+    <loc>https://shibaman.ga/favorites</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://sausagebrain.ml/search?q=full%20metal</loc>
+    <loc>https://shibaman.ga/search?q=full%20metal</loc>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://sausagebrain.ml/manga/88</loc>
+    <loc>https://shibaman.ga/manga/88</loc>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://sausagebrain.ml/manga/88/1</loc>
+    <loc>https://shibaman.ga/manga/88/1</loc>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
