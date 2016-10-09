@@ -180,8 +180,7 @@ export class Home extends Component {
     return (
       <section className={s.root} ref="root">
         <Helmet
-          title="Home"
-          titleTemplate={TITLE_TEMPLATE}
+          title="Shiba Manga"
           meta={[
             {name: 'description', content: 'Your personal reading history, recommendations and updates.'},
           ]}

@@ -84,7 +84,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      title: 'Shiba',
+      title: 'Shiba Manga',
       description: 'Premier manga reading platform.',
       template: 'app/statics/index.ejs',
       minify: {
