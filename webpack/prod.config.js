@@ -85,7 +85,7 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       title: 'Shiba Manga',
-      description: 'Premier manga reading platform.',
+      description: 'Shiba Manga is the leading Free manga platform with the largest manga collection, a great mobile freindly website and unique features like continue reading, favorites and more.',
       template: 'app/statics/index.ejs',
       minify: {
         removeOptionalTags: true,

@@ -182,7 +182,7 @@ export class Home extends Component {
         <Helmet
           title="Shiba Manga"
           meta={[
-            {name: 'description', content: 'Your personal reading history, recommendations and updates.'},
+            {name: 'description', content: 'Shiba Manga is the leading Free manga platform with the largest manga collection, a great mobile freindly website and unique features like continue reading, favorites and more.'},
           ]}
           />
         <div ref="sectionContainer" className={s.sectionContainer}>
