@@ -10,14 +10,6 @@
     <priority>1</priority>
   </url>
   <url>
-    <loc>https://shibaman.ga/favorites</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://shibaman.ga/search?q=full%20metal</loc>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://shibaman.ga/manga/88</loc>
     <changefreq>monthly</changefreq>
   </url>
