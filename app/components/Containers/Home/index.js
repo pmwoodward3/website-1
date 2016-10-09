@@ -177,12 +177,14 @@ export class Home extends Component {
       },
     ]
 
+    const description = 'Shiba Manga is the leading Free manga platform with the largest manga collection, a great mobile freindly website and unique features like continue reading, favorites, personal recommendations and more.'
+
     return (
       <section className={s.root} ref="root">
         <Helmet
           title="Shiba Manga"
           meta={[
-            {name: 'description', content: 'Shiba Manga is the leading Free manga platform with the largest manga collection, a great mobile freindly website and unique features like continue reading, favorites and more.'},
+            {name: 'description', content: description},
           ]}
           />
         <div ref="sectionContainer" className={s.sectionContainer}>
@@ -191,8 +193,8 @@ export class Home extends Component {
               shadow={0}
               className={s.welcome}
               >
-              <CardTitle>Welcome</CardTitle>
-              <CardText>Your reading history and personal recommendations will be shown here.</CardText>
+              <CardTitle>Welcome to Shiba Manga</CardTitle>
+              <CardText>{description}</CardText>
             </Card>
           )}
           {sections.map(({key, show, title, items, renderItem}) => show && (
