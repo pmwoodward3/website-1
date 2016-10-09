@@ -193,7 +193,7 @@ export class Home extends Component {
               shadow={0}
               className={s.welcome}
               >
-              <CardTitle>Welcome to Shiba Manga</CardTitle>
+              <CardTitle>Welcome to Shiba Manga * BETA</CardTitle>
               <CardText>{description}</CardText>
             </Card>
           )}
