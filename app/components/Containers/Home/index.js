@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import Helmet from 'react-helmet'
 import onlyUpdateForKeys from 'recompose/onlyUpdateForKeys'
 import { uniq } from 'ramda'
-import { MANGA_ITEM_CARD_WIDTH, TITLE_TEMPLATE } from 'constants'
+import { MANGA_ITEM_CARD_WIDTH } from 'constants'
+import throttle from 'utils/throttle'
 
 import * as headerActions from 'redux/actions/header'
 import * as homeActions from 'redux/actions/home'
@@ -43,6 +44,7 @@ export class Home extends Component {
     this.updateLists = this.updateLists.bind(this)
     this.handleExpand = this.handleExpand.bind(this)
     this.setSectionRowLength = this.setSectionRowLength.bind(this)
+    this.handleResize = throttle(this.setSectionRowLength, 1000)
   }
   componentDidMount() {
     this.setSectionRowLength()
@@ -53,6 +55,8 @@ export class Home extends Component {
     })
 
     this.updateLists()
+
+    window.addEventListener('resize', this.handleResize)
   }
   componentWillUpdate(newProps){
     const rawFavoritesHasChanged = this.props.rawFavorites.items.length !== newProps.rawFavorites.items.length
@@ -63,6 +67,9 @@ export class Home extends Component {
     if(rawFavoritesHasChanged || readingHistoryHasChanged || hasGoneOnline || sectionRowLengthHasChanged){
       this.updateLists(newProps)
     }
+  }
+  componentWillUnmount(){
+    window.removeEventListener('resize', this.handleResize)
   }
   setSectionRowLength(){
     const sectionList = this.refs.sectionContainer
