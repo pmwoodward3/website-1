@@ -8,6 +8,7 @@ const initialState = {
   chapters: Immutable([]),
   source: MAIN_SOURCE,
   isLoading: true,
+  isFailure: false,
 }
 
 export default createReducer({
@@ -18,6 +19,10 @@ export default createReducer({
     sources: Immutable(payload.sources),
     chapters: Immutable(payload.chapters),
     isLoading: false,
+    isFailure: false,
   }),
-  ['GET_MANGA_FAILURE']: () => initialState,
+  ['GET_MANGA_FAILURE']: () => ({
+    ...initialState,
+    isFailure: true,
+  }),
 }, initialState)

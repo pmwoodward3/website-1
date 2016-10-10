@@ -24,6 +24,7 @@ import {
   ListItemContent,
   ListItemAction,
 } from 'react-mdl/lib/List'
+import Error from 'components/Modules/Error'
 
 import {
   Card,
@@ -290,6 +291,8 @@ export class Manga extends Component {
           </Card>
         </section>
       )
+    }else if(manga.isFailure){
+      return <Error title="Manga not found"/>
     }else{
       return <Loading/>
     }
