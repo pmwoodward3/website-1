@@ -5,6 +5,7 @@ import Favorites from 'components/Containers/Favorites'
 import Search from 'components/Containers/Search'
 import Manga from 'components/Containers/Manga'
 import Chapter from 'components/Containers/Chapter'
+import Error from 'components/Modules/Error'
 
 export default {
   path: '/',
@@ -32,6 +33,10 @@ export default {
     {
       path: '/manga/:mangaid/:chapternum/:pagenum',
       component: Chapter,
+    },
+    {
+      path: '*',
+      component: Error,
     },
   ],
 }

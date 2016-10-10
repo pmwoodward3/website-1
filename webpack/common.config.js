@@ -46,6 +46,10 @@ const common = {
     },
   },
 
+  url: {
+    dataUrlLimit: 1024,
+  },
+
   module: {
     loaders: [{
       // Loader for fonts (ttf)
@@ -78,6 +82,9 @@ const common = {
     }, {
       // Loader for images (gif)
       test: /\.gif$/,
+      loader: 'file?name=[name].[ext]',
+    }, {
+      test: /\.svg$/,
       loader: 'file?name=[name].[ext]',
     }, {
       test: /manifest\.json$/,

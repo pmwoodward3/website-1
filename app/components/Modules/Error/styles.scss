@@ -1,0 +1,36 @@
+@import "values";
+
+.root {
+  position: absolute;
+  display: flex;
+  flex: 1;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sad {
+  $h: 50vw;
+  $m: 300px;
+  height: $h;
+  width: $h;
+  max-height: $m;
+  max-width: $m;
+  opacity: 0.1;
+}
+
+.title {
+  font-size: 3.5em;
+
+  @media screen and (max-width: $mobileBreakpoint) {
+    font-size: 3em;
+  }
+
+  @media screen and (max-width: $mobileBreakpoint / 2) {
+    font-size: 2em;
+  }
+}
