@@ -9,6 +9,7 @@ import { TITLE_TEMPLATE } from 'constants'
 
 import Helmet from 'react-helmet'
 import Loading from 'components/Modules/Loading'
+import Error from 'components/Modules/Error'
 
 import FABButton from 'react-mdl/lib/FABButton'
 import Icon from 'react-mdl/lib/Icon'
@@ -287,54 +288,62 @@ export class Chapter extends Component {
       cursor: chapter.scale > 1 ? 'zoom-out' : 'zoom-in',
     }
 
-    return (
-      <section className={s.section}>
-        <Helmet
-          title={`Page ${pagenum} - Chapter ${chapternum}`}
-          titleTemplate={TITLE_TEMPLATE}
-          />
-        <div className={s.container} ref="container">
-          <Loading />
-          {isChapterLoaded && !isTouchAvailable && <ControlBtn
-            pagenum={pagenum}
-            direction="back"
-            onClick={this.handlePreviousPage}
-            />}
-          {isChapterLoaded && chapter.items[pagenum -1] && (
-            <Hammer
-              onTap={!isTouchAvailable ? this.handleZoomRequest : this.handleTap}
-              onDoubleTap={isTouchAvailable ? this.handleZoomRequest : undefined}
-              onSwipe={this.handleSwipe}
-              options={hammerOptions}
-              >
-              <div
-                ref="pageContainer"
-                className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable, headerHidden && isTouchAvailable && chapter.fullscreen && s.headerHidden)}
+    if(!chapter.isFailure){
+      return (
+        <section className={s.section}>
+          <Helmet
+            title={`Page ${pagenum} - Chapter ${chapternum}`}
+            titleTemplate={TITLE_TEMPLATE}
+            />
+          <div className={s.container} ref="container">
+            <Loading />
+            {isChapterLoaded && !isTouchAvailable && (
+              <ControlBtn
+                pagenum={pagenum}
+                direction="back"
+                onClick={this.handlePreviousPage}
+                />
+            )}
+            {isChapterLoaded && chapter.items[pagenum -1] && (
+              <Hammer
+                onTap={!isTouchAvailable ? this.handleZoomRequest : this.handleTap}
+                onDoubleTap={isTouchAvailable ? this.handleZoomRequest : undefined}
+                onSwipe={this.handleSwipe}
+                options={hammerOptions}
                 >
-                <Card
-                  className={s.paper}
-                  style={paperStyle}
-                  shadow={0}
+                <div
+                  ref="pageContainer"
+                  className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable, headerHidden && isTouchAvailable && chapter.fullscreen && s.headerHidden)}
                   >
-                  <img
-                    className={s.img}
-                    style={imgStyle}
-                    src={chapter.items[pagenum - 1].url}
-                    onLoad={this.handleImgLoad}
-                    ref="img"
-                    />
-                </Card>
-              </div>
-            </Hammer>
-          )}
-          {isChapterLoaded && !isTouchAvailable && <ControlBtn
-            pagenum={pagenum}
-            direction="forward"
-            onClick={this.handleNextPage}
-            />}
-        </div>
-      </section>
-    )
+                  <Card
+                    className={s.paper}
+                    style={paperStyle}
+                    shadow={0}
+                    >
+                    <img
+                      className={s.img}
+                      style={imgStyle}
+                      src={chapter.items[pagenum - 1].url}
+                      onLoad={this.handleImgLoad}
+                      ref="img"
+                      />
+                  </Card>
+                </div>
+              </Hammer>
+            )}
+            {isChapterLoaded && !isTouchAvailable && (
+              <ControlBtn
+                pagenum={pagenum}
+                direction="forward"
+                onClick={this.handleNextPage}
+                />
+            )}
+          </div>
+        </section>
+      )
+    }else{
+      return <Error title="Chapter not Found"/>
+    }
   }
 }
 

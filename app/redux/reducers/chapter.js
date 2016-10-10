@@ -10,6 +10,7 @@ const initialState = {
   scale: 1,
   items: Immutable([]),
   loadedPage: false,
+  isFailure: false,
 }
 
 export default createReducer({
@@ -22,7 +23,10 @@ export default createReducer({
     fullscreen: false,
     items: Immutable(payload.pages),
   }),
-  ['GET_CHAPTER_FAILURE']: () => initialState,
+  ['GET_CHAPTER_FAILURE']: () => ({
+    ...initialState,
+    isFailure: true,
+  }),
   ['ENTER_FULLSCREEN_CHAPTER']: (state) => ({
     ...state,
     fullscreen: true,
