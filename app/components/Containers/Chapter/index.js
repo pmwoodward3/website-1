@@ -290,7 +290,7 @@ export class Chapter extends Component {
 
     if(!chapter.isFailure){
       return (
-        <section className={s.section}>
+        <section className={s.root}>
           <Helmet
             title={`Page ${pagenum} - Chapter ${chapternum}`}
             titleTemplate={TITLE_TEMPLATE}
@@ -305,15 +305,15 @@ export class Chapter extends Component {
                 />
             )}
             {isChapterLoaded && chapter.items[pagenum -1] && (
-              <Hammer
-                onTap={!isTouchAvailable ? this.handleZoomRequest : this.handleTap}
-                onDoubleTap={isTouchAvailable ? this.handleZoomRequest : undefined}
-                onSwipe={this.handleSwipe}
-                options={hammerOptions}
+              <div
+                ref="pageContainer"
+                className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable, headerHidden && isTouchAvailable && chapter.fullscreen && s.headerHidden)}
                 >
-                <div
-                  ref="pageContainer"
-                  className={toClass(s.pageContainer, isTouchAvailable && s.touchAvailable, headerHidden && isTouchAvailable && chapter.fullscreen && s.headerHidden)}
+                <Hammer
+                  onTap={!isTouchAvailable ? this.handleZoomRequest : this.handleTap}
+                  onDoubleTap={isTouchAvailable ? this.handleZoomRequest : undefined}
+                  onSwipe={this.handleSwipe}
+                  options={hammerOptions}
                   >
                   <Card
                     className={s.paper}
@@ -328,8 +328,8 @@ export class Chapter extends Component {
                       ref="img"
                       />
                   </Card>
-                </div>
-              </Hammer>
+                </Hammer>
+              </div>
             )}
             {isChapterLoaded && !isTouchAvailable && (
               <ControlBtn
