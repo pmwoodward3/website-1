@@ -17,7 +17,7 @@ $pageWidth: 75%;
   overflow: auto;
   height: 100%;
   width: $pageWidth;
-  max-width: $maxCardWidth;
+  max-width: $maxCardWidth * 1.2;
   height: calc(100vh - #{$headerHeight});
 
   &.touchAvailable {

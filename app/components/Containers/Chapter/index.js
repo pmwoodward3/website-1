@@ -218,6 +218,7 @@ export class Chapter extends Component {
 
     if(this.props.chapter.scale > 1){
       this.props.setScale(1)
+      container.scrollLeft = 0
       return
     }
 
@@ -229,8 +230,8 @@ export class Chapter extends Component {
       y: e.center.y - bb.top + container.scrollTop,
     }
 
-    container.scrollTop = pos.y
     container.scrollLeft = pos.x
+    container.scrollTop = pos.y
   }
   handleSwipe(e){
     if(this.props.chapter.scale !== 1) return
