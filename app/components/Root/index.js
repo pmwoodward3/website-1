@@ -69,8 +69,6 @@ class Root extends Component {
         className={toClass(s.root, isTouchAvailable ? 'touch' : 'no-touch')}
         >
         <Helmet
-          title="Shiba"
-          description="Premier manga reading platform."
           meta={meta}
           />
 

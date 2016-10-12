@@ -1,4 +1,5 @@
 .root {
+  font-size: 1rem;
   position: relative;
   display: flex;
   flex: 1;
@@ -11,7 +12,7 @@
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 0.7em;
 
   h1 {
     font-size: 1.5em;
@@ -20,10 +21,10 @@
 
 .genreSection {
   width: 100%;
-  margin: 5px;
+  margin: 0.2em;
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  padding: 0.7em;
   flex-wrap: wrap;
 }
 
@@ -40,7 +41,7 @@
 
 .genreChip {
   text-transform: capitalize;
-  margin: 5px!important;
+  margin: 5px !important;
   height: 32px;
 }
 

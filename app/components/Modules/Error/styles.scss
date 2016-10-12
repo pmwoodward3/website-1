@@ -1,6 +1,7 @@
 @import "values";
 
 .root {
+  font-size: 1rem;
   position: absolute;
   display: flex;
   flex: 1;
@@ -15,7 +16,7 @@
 
 .sad {
   $h: 50vw;
-  $m: 300px;
+  $m: 10em;
   height: $h;
   width: $h;
   max-height: $m;

@@ -1,6 +1,6 @@
 @import "values";
 
-.section {
+.root {
   display: flex;
   flex-direction: column;
 }
@@ -29,7 +29,7 @@ $pageWidth: 75%;
 }
 
 .paper {
-  margin: 7px;
+  margin: 0.5em;
   width: auto;
   overflow: visible;
   transition: opacity 0.1s;
@@ -47,7 +47,7 @@ $pageWidth: 75%;
   justify-content: center;
   align-items: center;
   align-content: center;
-  margin: 0 7px;
+  margin: 0 0.5em;
 }
 
 .headerTitle {

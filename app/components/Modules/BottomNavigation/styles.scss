@@ -2,6 +2,7 @@
 @import "colors";
 
 .root {
+  font-size: 1rem;
   min-height: $bottomNavHeight !important;
   height: $bottomNavHeight;
   position: fixed !important;
@@ -17,14 +18,12 @@
 
 .navItem {
   display: flex;
-  width: 80px;
+  width: 4.5em;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 15px;
-  line-height: 0.8em;
+  padding: 0 1.1em;
   font-size: 0.9em;
-  cursor: pointer;
   color: $darkBlack;
   text-decoration: none;
   font-weight: normal;
@@ -42,5 +41,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2px;
 }

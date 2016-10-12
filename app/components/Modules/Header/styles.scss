@@ -4,6 +4,7 @@
 $headerTransition: all 0.2s;
 
 .root {
+  font-size: 1rem;
   color: #fff !important;
   height: $headerHeight;
   z-index: 1000 !important;
@@ -35,8 +36,7 @@ $headerTransition: all 0.2s;
 .layout {
   height: $headerHeight !important;
   & > div{
-    overflow-y: visible;
-    overflow-x: visible;
+    overflow: visible;
   }
 }
 
@@ -51,9 +51,9 @@ $headerTransition: all 0.2s;
   //.mdl-layout__header-row
   & > div{
     height: $headerHeight !important;
-    padding: 0 20px;
+    padding: 0 1.2em;
     @media screen and (min-width: $mobileBreakpoint) {
-      padding: 0 80px;
+      padding: 0 3em;
     }
 
     & > span {
@@ -73,7 +73,7 @@ $headerTransition: all 0.2s;
   color: #fff !important;
 
   &>i {
-    margin-right: 5px;
+    margin-right: 0.2em;
   }
 }
 

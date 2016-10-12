@@ -2,6 +2,7 @@
 @import "values";
 
 .root {
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -40,20 +41,19 @@ $cardHeaderBreakpoint: 550px;
 }
 
 .card {
-  $margin: 20px;
-
   width: 100%;
-  margin: $margin 0;
   margin-top: $coverHeight * 0.3;
-  padding: 10px;
+  padding: 0.7em;
   overflow: visible;
 
   @media screen and (max-width: $maxCardWidth) {
-    border-radius: 0px;
+    border-radius: 0;
     margin-top: $mobileCoverHeight;
   }
 
   @media screen and (min-width: $maxCardWidth) {
+    $margin: 1.2em;
+
     width: $maxCardWidth;
     padding: $margin;
     margin-left: $margin;
@@ -153,8 +153,7 @@ $actionButtonHeight: 56px;
   justify-content: center;
 }
 .genreSection {
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -163,6 +162,13 @@ $actionButtonHeight: 56px;
 .genreChip {
   margin: 4px !important;
   text-transform: capitalize;
+
+  &:first-of-type {
+    margin-left: 0 !important;
+  }
+  &:last-of-type {
+    margin-right: 0 !important;
+  }
 }
 
 .chapterSection {
@@ -174,10 +180,6 @@ $actionButtonHeight: 56px;
   display: flex;
   flex-direction: column;
   margin-top: 0;
-}
-
-.avatar {
-  font-size: 10px;
 }
 
 .chapterItem {
@@ -203,16 +205,4 @@ $actionButtonHeight: 56px;
 
 .chapterItemProgressPage {
   font-size: 0.9em;
-}
-
-.recommendationsSection {
-  padding: 10px;
-}
-
-.recommendationsTitle {
-  padding: 0 10px;
-}
-
-.detailsContainer {
-  padding: 5px;
 }
