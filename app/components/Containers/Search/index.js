@@ -22,6 +22,8 @@ import { Card } from 'react-mdl/lib/Card'
 import Chip from 'react-mdl/lib/Chip'
 import Infinite from 'react-infinite'
 import TagsInput from 'react-tagsinput'
+import Loading from 'components/Modules/Loading'
+import Error from 'components/Modules/Error'
 
 export class Search extends Component {
   static propTypes = {
@@ -115,55 +117,63 @@ export class Search extends Component {
           titleTemplate={TITLE_TEMPLATE}
           />
         {
-        // <div className={s.header}>
-        //   <Paper zDepth={1} className={s.genreSection}>
-        //     <h3 className={s.sectionTitle}>Genre Filter</h3>
-        //     <TagsInput
-        //       value={genreTags}
-        //       className={s.genreList}
-        //       renderInput={({ref, addTag}) => (
-        //         <AutoComplete
-        //           id="add-genre"
-        //           ref={ref}
-        //           placeholder="Add genre"
-        //           dataSource={GENRE_LIST}
-        //           onNewRequest={addTag}
-        //           filter={AutoComplete.caseInsensitiveFilter}
-        //           />
-        //       )}
-        //       renderTag={({key, tag, onRemove, getTagDisplayValue}) => (
-        //         <Chip
-        //           key={key}
-        //           className={s.genreChip}
-        //           onRequestDelete={() => onRemove(key)}
-        //           >
-        //           {getTagDisplayValue(tag)}
-        //         </Chip>
-        //       )}
-        //       onChange={(genres) => this.updateGenres(location.query.q, genres)}
-        //       onlyUnique
-        //       />
-        //   </Paper>
-        // </div>
+          // <div className={s.header}>
+          //   <Paper zDepth={1} className={s.genreSection}>
+          //     <h3 className={s.sectionTitle}>Genre Filter</h3>
+          //     <TagsInput
+          //       value={genreTags}
+          //       className={s.genreList}
+          //       renderInput={({ref, addTag}) => (
+          //         <AutoComplete
+          //           id="add-genre"
+          //           ref={ref}
+          //           placeholder="Add genre"
+          //           dataSource={GENRE_LIST}
+          //           onNewRequest={addTag}
+          //           filter={AutoComplete.caseInsensitiveFilter}
+          //           />
+          //       )}
+          //       renderTag={({key, tag, onRemove, getTagDisplayValue}) => (
+          //         <Chip
+          //           key={key}
+          //           className={s.genreChip}
+          //           onRequestDelete={() => onRemove(key)}
+          //           >
+          //           {getTagDisplayValue(tag)}
+          //         </Chip>
+          //       )}
+          //       onChange={(genres) => this.updateGenres(location.query.q, genres)}
+          //       onlyUnique
+          //       />
+          //   </Paper>
+          // </div>
         }
         <div className={s.container} ref="container">
-          <Infinite
-            elementHeight={MANGA_ITEM_CARD_HEIGHT}
-            infiniteLoadBeginEdgeOffset={MANGA_ITEM_CARD_HEIGHT * 2}
-            onInfiniteLoad={this.handleInfiniteLoad}
-            preloadAdditionalHeight={MANGA_ITEM_CARD_HEIGHT * 4}
-            useWindowAsScrollContainer
-            >
-            {
-              search.rows.map((colums, index) => (
+          {search.isLoading ? (
+            <Loading className={s.loading}/>
+          ) : search.rows[0].length > 0 ? (
+            <Infinite
+              elementHeight={MANGA_ITEM_CARD_HEIGHT}
+              infiniteLoadBeginEdgeOffset={MANGA_ITEM_CARD_HEIGHT * 2}
+              onInfiniteLoad={this.handleInfiniteLoad}
+              preloadAdditionalHeight={MANGA_ITEM_CARD_HEIGHT * 4}
+              useWindowAsScrollContainer
+              >
+              {search.rows.map((colums, index) => (
                 <div className={s.row} key={`row-${index}`}>
                   {colums.map((item) => (
                     <MangaItemCard key={item.mangaid} {...item}/>
                   ))}
                 </div>
-              ))
-            }
-          </Infinite>
+              ))}
+            </Infinite>
+          ) : (
+            <Error
+              title="Nothing found"
+              className={s.error}
+              setTitle={false}
+              />
+          )}
         </div>
       </section>
     )
