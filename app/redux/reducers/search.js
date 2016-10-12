@@ -25,7 +25,7 @@ export default createReducer({
   ['SEARCH_ITEMS_FAILURE']: () => initialState,
 
   ['CHANGE_SEARCH_QUERY']: (state, { payload }) => payload !== state.query ? ({
-    ...initialState,
+    ...state,
     query: payload,
     showSearchField: true,
   }) : state,
