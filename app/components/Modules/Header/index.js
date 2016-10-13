@@ -53,7 +53,15 @@ class Header extends Component {
   updateQueryLocation(query, genres){
     let { q, g } = this.props.location.query
 
-    let URL = `/search?q=${query || q}`
+    let URL = '/search?'
+
+    query = query || q
+    query = query.trim()
+
+    if(query){
+      URL = `${URL}q=${query}`
+    }
+
 
     if(genres){
       genres = genres.join('\ ')

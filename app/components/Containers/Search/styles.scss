@@ -66,6 +66,25 @@
   flex-direction: row;
 }
 
-.error, .loading {
+.error, .loading, .startContainer {
   top: -($headerHeight) !important;
+}
+
+.startContainer {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  height: 100vh;
+  left: 0;
+  width: 100%;
+  position: absolute;
+
+  i {
+    opacity: 0.1;
+    font-size: 10em;
+  }
+
+  h1{
+    font-size: 3.5em;
+  }
 }

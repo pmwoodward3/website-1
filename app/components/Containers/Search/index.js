@@ -20,6 +20,7 @@ import s from './styles.scss'
 import MangaItemCard from 'components/Modules/MangaItemCard'
 import { Card } from 'react-mdl/lib/Card'
 import Chip from 'react-mdl/lib/Chip'
+import Icon from 'react-mdl/lib/Icon'
 import Infinite from 'react-infinite'
 import TagsInput from 'react-tagsinput'
 import Loading from 'components/Modules/Loading'
@@ -75,7 +76,7 @@ export class Search extends Component {
   }
   handleSearch(props=this.props){
     const { q, g } = props.location.query
-    if(q && q.length > 0){
+    if(q && q){
       props.searchItems(q, 1, this.rowColums, g)
     }
   }
@@ -97,7 +98,14 @@ export class Search extends Component {
 
     genres = genres ? genres.join('\ ') : g
 
-    let URL = `/search?q=${query || q}`
+    let URL = `/search?`
+
+    query = query || q
+    query = query.trim()
+
+    if(query){
+      URL = `${URL}q=${query}`
+    }
 
     if(genres){
       URL = `${URL}&g=${genres}`
@@ -151,6 +159,11 @@ export class Search extends Component {
         <div className={s.container} ref="container">
           {search.isLoading ? (
             <Loading className={s.loading}/>
+          ) : search.query.trim().length < 1 || search.rows.length < 1 ? (
+            <div className={s.startContainer}>
+              <Icon name="search"/>
+              <h1>Just type something...</h1>
+            </div>
           ) : search.rows[0].length > 0 ? (
             <Infinite
               elementHeight={MANGA_ITEM_CARD_HEIGHT}

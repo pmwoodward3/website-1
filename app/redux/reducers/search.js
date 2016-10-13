@@ -6,7 +6,7 @@ const initialState = {
   totalPages: 0,
   rows: Immutable([]),
   showSearchField: false,
-  isLoading: true,
+  isLoading: false,
 }
 
 const toFormat = (payload) =>
