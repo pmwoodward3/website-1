@@ -23,3 +23,5 @@ shibaman.ga {
 www.shibaman.ga {
   redir https://shibaman.ga{uri}
 }
+
+proxy /api http://localhost:8000
